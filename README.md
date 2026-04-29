@@ -78,26 +78,6 @@ python extract_pdf_figures_tables.py --pdf 文献/some-paper.pdf
 python extract_pdf_figures_tables.py --pdf-dir 文献 --output-dir pdf_figures_tables_output
 ```
 
-### `extract_pdf_formula_regions.py`
-
-- 作用
-  - 根据 `(1)`、`(1.1)`、`(A1)` 这类公式编号定位并裁剪公式图片
-- 读取什么
-  - 单个 `PDF` 或整个 `PDF` 目录
-- 使用什么
-  - `PyMuPDF`
-  - 复用 `extract_pdf_figures_tables.py` 的版面检测、列判断和图片裁剪逻辑
-  - 用公式编号行做锚点，再向左/向上合并邻近公式块
-- 输出什么
-  - `pdf_formula_regions_output/*/manifest.json`
-  - `pdf_formula_regions_output/*/formula_crops/*.png`
-  - `pdf_formula_regions_output/run_summary.json`
-- 如何运行
-
-```bash
-python extract_pdf_formula_regions.py --pdf test.pdf
-python extract_pdf_formula_regions.py --pdf-dir 文献 --output-dir pdf_formula_regions_output --overwrite
-```
 
 ### `extract_pdf_formula_regions_v2.py`
 
