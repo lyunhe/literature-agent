@@ -1,6 +1,8 @@
 import os
 import json
 import yaml
+import base64
+from .paths import resolve_library_path
 
 # Load config
 _env_path = os.path.join(os.path.dirname(__file__), "..", "env.yaml")
@@ -196,3 +198,79 @@ def llm_request(
             params["tools"] = tools
             params["tool_choice"] = tool_choice
         return openai_client.chat.completions.create(**params)
+
+
+def analyze_pdf(
+    pdf_path: str,
+    prompt: str,
+    model: str = model,
+    max_output_tokens: int = max_tokens,
+) -> str:
+    """Send a local PDF to a Responses-compatible model for analysis."""
+    if model.startswith("claude-"):
+        raise ValueError("PDF analysis currently uses OpenAI-compatible Responses API, not Claude routing.")
+    resolved_pdf = resolve_library_path(pdf_path)
+    if not resolved_pdf:
+        raise FileNotFoundError(f"PDF not found: {pdf_path}")
+    pdf_path = str(resolved_pdf)
+
+    with open(pdf_path, "rb") as f:
+        encoded_pdf = base64.b64encode(f.read()).decode("ascii")
+
+    resp = openai_client.responses.create(
+        model=model,
+        input=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "input_file",
+                        "filename": os.path.basename(pdf_path),
+                        "file_data": f"data:application/pdf;base64,{encoded_pdf}",
+                    },
+                    {
+                        "type": "input_text",
+                        "text": prompt,
+                    },
+                ],
+            }
+        ],
+        max_output_tokens=max_output_tokens,
+    )
+    return resp.output_text
+
+
+def analyze_pdfs(
+    pdf_paths: list[str],
+    prompt: str,
+    model: str = model,
+    max_output_tokens: int = max_tokens,
+) -> str:
+    """Send one or more local PDFs to a Responses-compatible model."""
+    if model.startswith("claude-"):
+        raise ValueError("PDF analysis currently uses OpenAI-compatible Responses API, not Claude routing.")
+
+    content = []
+    for pdf_path in pdf_paths:
+        resolved_pdf = resolve_library_path(pdf_path)
+        if not resolved_pdf:
+            raise FileNotFoundError(f"PDF not found: {pdf_path}")
+        pdf_path = str(resolved_pdf)
+        with open(pdf_path, "rb") as f:
+            encoded_pdf = base64.b64encode(f.read()).decode("ascii")
+        content.append({
+            "type": "input_file",
+            "filename": os.path.basename(pdf_path),
+            "file_data": f"data:application/pdf;base64,{encoded_pdf}",
+        })
+    content.append({
+        "type": "input_text",
+        "text": prompt,
+    })
+
+    resp = openai_client.responses.create(
+        model=model,
+        input=[{"role": "user", "content": content}],
+        max_output_tokens=max_output_tokens,
+    )
+    return resp.output_text

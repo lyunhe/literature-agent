@@ -2,14 +2,23 @@
 SQLite-backed local literature library.
 Stores paper metadata; PDFs are saved as files under library/pdfs/.
 """
+from __future__ import annotations
+
 import sqlite3, os, json
-from .config import DB_PATH, LIBRARY_DIR, LIBRARY_PDF_DIR
+from .paths import (
+    DB_PATH,
+    LIBRARY_DIR,
+    LIBRARY_PDF_DIR,
+    display_path,
+    ensure_library_dirs,
+    normalize_library_path,
+    pdf_candidates,
+)
 
 
 def init_db():
     """Create library directory and papers table if they don't exist."""
-    os.makedirs(LIBRARY_DIR, exist_ok=True)
-    os.makedirs(LIBRARY_PDF_DIR, exist_ok=True)
+    ensure_library_dirs()
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS papers (
@@ -37,11 +46,15 @@ def init_db():
 
 
 def _connect():
-    return sqlite3.connect(DB_PATH)
+    return sqlite3.connect(str(DB_PATH))
 
 
 def _format_row(row: tuple, cols: list) -> dict:
-    return dict(zip(cols, row))
+    item = dict(zip(cols, row))
+    if item.get("pdf_path"):
+        item["pdf_path"] = normalize_library_path(item["pdf_path"])
+        item["pdf_abs_path"] = display_path(item["pdf_path"])
+    return item
 
 
 def add_paper(paper: dict) -> str:
@@ -63,7 +76,7 @@ def add_paper(paper: dict) -> str:
             "doi":      paper.get("doi"),
             "ieee_id":  paper.get("ieee_id"),
             "source":   paper.get("source", "unknown"),
-            "pdf_path": paper.get("pdf_path"),
+            "pdf_path": normalize_library_path(paper.get("pdf_path")),
             "year":     paper.get("year"),
         })
         conn.commit()
@@ -130,8 +143,31 @@ def get_paper(identifier: str, source: str = "arxiv") -> dict | None:
 
 
 def update_pdf_path(paper_id: int, pdf_path: str) -> str:
+    pdf_path = normalize_library_path(pdf_path)
     conn = _connect()
     conn.execute("UPDATE papers SET pdf_path=? WHERE id=?", (pdf_path, paper_id))
     conn.commit()
     conn.close()
     return pdf_path
+
+
+def normalize_pdf_paths() -> dict:
+    """Rewrite stored PDF paths into portable library-relative form."""
+    conn = _connect()
+    rows = conn.execute("SELECT id, arxiv_id, pdf_path FROM papers").fetchall()
+    changed = 0
+    filled = 0
+    for paper_id, arxiv_id, pdf_path in rows:
+        normalized = normalize_library_path(pdf_path)
+        if not normalized:
+            for candidate in pdf_candidates(arxiv_id=arxiv_id):
+                if candidate.exists():
+                    normalized = normalize_library_path(candidate)
+                    filled += 1
+                    break
+        if normalized and normalized != pdf_path:
+            conn.execute("UPDATE papers SET pdf_path=? WHERE id=?", (normalized, paper_id))
+            changed += 1
+    conn.commit()
+    conn.close()
+    return {"checked": len(rows), "changed": changed, "filled_missing": filled}

@@ -1,10 +1,14 @@
-import os
 import yaml
+from .paths import DB_PATH, LIBRARY_DIR, LIBRARY_PDF_DIR
+import os
 
-# Load API keys and config from env.yaml
+# Load API keys and config from local env.yaml when present.
 _env_path = os.path.join(os.path.dirname(__file__), "..", "env.yaml")
-with open(_env_path, encoding="utf-8") as f:
-    cfg = yaml.safe_load(f)
+if os.path.exists(_env_path):
+    with open(_env_path, encoding="utf-8") as f:
+        cfg = yaml.safe_load(f) or {}
+else:
+    cfg = {}
 
 # --- API Keys ---
 IEEE_API_KEY = cfg.get("api_keys", {}).get("ieee_xplore", "")
@@ -28,6 +32,6 @@ TIME_OUT     = cfg.get("llm", {}).get("time_out", 600)
 MAX_RETRIES  = cfg.get("llm", {}).get("max_retries", 5)
 
 # --- Library Paths ---
-LIBRARY_DIR = os.path.join(os.path.dirname(__file__), "..", "library")
-LIBRARY_PDF_DIR = os.path.join(LIBRARY_DIR, "pdfs")
-DB_PATH = os.path.join(LIBRARY_DIR, "library.db")
+LIBRARY_DIR = str(LIBRARY_DIR)
+LIBRARY_PDF_DIR = str(LIBRARY_PDF_DIR)
+DB_PATH = str(DB_PATH)

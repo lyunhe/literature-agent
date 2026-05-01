@@ -24,6 +24,31 @@ tools = [
                 "properties": {
                     "query": {"type": "string", "description": "Research query (can be Chinese or English)"},
                     "final_results": {"type": "integer", "description": "Number of top papers to return after scoring", "default": 10},
+                    "preferred_sources": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Optional source list such as ['openalex', 'arxiv', 'ieee']",
+                    },
+                },
+                "required": ["query"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "search_openalex",
+            "description": (
+                "Search OpenAlex for scholarly works by free text, with optional venue/author hints. "
+                "Useful for journal-oriented discovery, citation counts, DOI metadata, and high-quality venue screening."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Search query"},
+                    "max_results": {"type": "integer", "description": "Maximum number of papers to return", "default": 5},
+                    "venue": {"type": "string", "description": "Optional journal/conference name hint"},
+                    "author": {"type": "string", "description": "Optional author name hint"},
                 },
                 "required": ["query"],
             },
@@ -186,6 +211,17 @@ def search_ieee(query: str, max_results: int = 5) -> str:
     return json.dumps(results, ensure_ascii=False, indent=2)
 
 
+def search_openalex(query: str, max_results: int = 5, venue: str = "", author: str = "") -> str:
+    from .search import openalex_search
+    results = openalex_search.search(
+        query,
+        max_results=max_results,
+        venue=venue or None,
+        author=author or None,
+    )
+    return json.dumps(results, ensure_ascii=False, indent=2)
+
+
 def resolve_doi(doi: str) -> str:
     from .search import crossref_search
     result = crossref_search.resolve_doi(doi)
@@ -197,12 +233,14 @@ def resolve_doi(doi: str) -> str:
 def download_pdf(identifier: str, source: str = "arxiv", output_dir: str = "./library/pdfs") -> str:
     from .search import arxiv_search, crossref_search, ieee_search
     from .config import LIBRARY_PDF_DIR
+    from .paths import normalize_library_path
 
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
     if source == "arxiv":
-        return arxiv_search.download_pdf(identifier, output_dir)
+        result = arxiv_search.download_pdf(identifier, output_dir)
+        return normalize_library_path(result) or result
 
     if source == "doi":
         meta = crossref_search.resolve_doi(identifier)
@@ -210,7 +248,8 @@ def download_pdf(identifier: str, source: str = "arxiv", output_dir: str = "./li
             return meta
         # Try arXiv if ID is available
         if meta.get("arxiv_id"):
-            return arxiv_search.download_pdf(meta["arxiv_id"], output_dir)
+            result = arxiv_search.download_pdf(meta["arxiv_id"], output_dir)
+            return normalize_library_path(result) or result
         return json.dumps(meta, ensure_ascii=False, indent=2) + \
             "\n(No arXiv ID found — PDF not downloadable via DOI)"
 
@@ -218,7 +257,8 @@ def download_pdf(identifier: str, source: str = "arxiv", output_dir: str = "./li
         ieee_id = identifier
         filename = f"ieee_{ieee_id}.pdf"
         output_path = os.path.join(output_dir, filename)
-        return ieee_search.download_pdf(ieee_id, output_path)
+        result = ieee_search.download_pdf(ieee_id, output_path)
+        return normalize_library_path(result) or result
 
     return f"Error: unknown source '{source}'. Use 'arxiv', 'doi', or 'ieee'."
 
@@ -276,7 +316,12 @@ def search_library(keyword: str) -> str:
     return json.dumps(papers, ensure_ascii=False, indent=2)
 
 
-def advanced_search(query: str, final_results: int = 10) -> str:
+def clean_library_paths() -> str:
+    from . import db
+    return json.dumps(db.normalize_pdf_paths(), ensure_ascii=False, indent=2)
+
+
+def advanced_search(query: str, final_results: int = 10, preferred_sources: list[str] = None) -> str:
     """
     Multi-round search with LLM planning, scoring, and iterative refinement.
     Returns a structured report with search plans, round diagnostics, and top papers.
@@ -286,6 +331,7 @@ def advanced_search(query: str, final_results: int = 10) -> str:
     results = multi_round_search(
         user_query=query,
         final_results=final_results,
+        preferred_sources=preferred_sources,
     )
 
     return json.dumps(results, ensure_ascii=False, indent=2)

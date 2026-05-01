@@ -3,6 +3,8 @@ IEEE Xplore search via REST API.
 Requires IEEE API Key (institution subscription).
 PDF download is done via the arnumber-based stamp URL.
 """
+from __future__ import annotations
+
 import requests
 from backend.config import IEEE_API_KEY
 

@@ -2,12 +2,14 @@
 Advanced multi-round search strategies with LLM planning, relevance scoring,
 and iterative query refinement.
 """
+from __future__ import annotations
+
 import json
 import re
 from typing import Any
 
 from .llm_client import llm_request
-from .search import arxiv_search, ieee_search
+from .search import arxiv_search, ieee_search, openalex_search
 
 
 POWER_SYSTEM_GLOSSARY = {
@@ -108,7 +110,7 @@ def plan_search_strategy(
     """
     Ask the LLM to expand the topic into a structured search plan.
     """
-    preferred_sources = preferred_sources or ["arxiv", "ieee"]
+    preferred_sources = preferred_sources or ["openalex", "arxiv", "ieee"]
     glossary_text = _build_glossary_text()
     prompt = f"""You are planning a literature search workflow.
 
@@ -116,6 +118,7 @@ Research topic:
 {user_query}
 
 Available sources:
+- openalex: broad scholarly index for journal/venue/author/citation-oriented discovery; useful for high-quality journal filtering and DOI metadata
 - arxiv: broad preprints, strong for methods and recent ML/CS work
 - ieee: engineering venue search, useful for journal/conference papers if the API key is available
 
@@ -125,16 +128,38 @@ Domain terminology reference:
 Return ONLY a JSON object with this schema:
 {{
   "topic_summary": "1-3 sentence description of the topic and research intent",
+  "search_domains": [
+    {{
+      "name": "domain or venue tier, e.g. CAS一区 power systems journals",
+      "purpose": "why this domain should be searched",
+      "quality_signal": "journal tier / citation / society / relevance signal",
+      "suggested_sites": ["OpenAlex", "IEEE Xplore", "publisher site"]
+    }}
+  ],
   "expanded_topics": ["subtopic 1", "subtopic 2"],
   "core_keywords": ["keyword"],
   "method_keywords": ["method keyword"],
   "application_keywords": ["application keyword"],
-  "target_venues": ["journal or conference name"],
-  "target_authors": ["author name"],
+  "target_venues": [
+    {{
+      "name": "journal or conference name",
+      "reason": "why this venue is relevant",
+      "quality_hint": "CAS Q1 / IEEE Transactions / top conference / unknown"
+    }}
+  ],
+  "target_authors": [
+    {{
+      "name": "author name",
+      "reason": "why this author is relevant",
+      "query_hint": "author + method or domain term"
+    }}
+  ],
   "queries": [
     {{
       "query": "search query text",
-      "source": "arxiv or ieee",
+      "source": "openalex or arxiv or ieee",
+      "venue": "optional venue name",
+      "author": "optional author name",
       "rationale": "why this query is useful"
     }}
   ]
@@ -142,9 +167,11 @@ Return ONLY a JSON object with this schema:
 
 Requirements:
 1. Expand the user's topic before searching.
-2. Identify worthwhile journals or conferences when possible.
+2. Construct an initial screening domain before searching. If the user mentions high-quality journals,
+   include field-matched CAS一区 / JCR Q1 / top society journals as candidates, but mark them as quality hints
+   rather than verified rankings unless explicit data is provided.
 3. Identify likely influential authors when possible.
-4. Include a mix of broad and focused queries.
+4. Separate query terms by source: domain terms, method terms, application terms, venue terms, and author terms.
 5. Use only these sources: {preferred_sources}.
 6. Provide at most {max_queries} queries."""
 
@@ -155,7 +182,9 @@ Requirements:
             plan["queries"] = [
                 {
                     "query": str(item.get("query", "")).strip(),
-                    "source": str(item.get("source", "arxiv")).strip().lower(),
+                    "source": str(item.get("source", "openalex")).strip().lower(),
+                    "venue": str(item.get("venue", "")).strip(),
+                    "author": str(item.get("author", "")).strip(),
                     "rationale": str(item.get("rationale", "")).strip(),
                 }
                 for item in plan["queries"]
@@ -169,6 +198,7 @@ Requirements:
     fallback_queries = generate_query_variations(user_query, num_variations=min(3, max_queries))
     return {
         "topic_summary": user_query,
+        "search_domains": [],
         "expanded_topics": [],
         "core_keywords": [user_query],
         "method_keywords": [],
@@ -176,13 +206,21 @@ Requirements:
         "target_venues": [],
         "target_authors": [],
         "queries": [
-            {"query": q, "source": "arxiv", "rationale": "Fallback query variation"}
+            {"query": q, "source": "openalex", "venue": "", "author": "", "rationale": "Fallback query variation"}
             for q in fallback_queries
         ],
     }
 
 
-def _search_one_source(source: str, query: str, max_results: int) -> list[dict]:
+def _search_one_source(
+    source: str,
+    query: str,
+    max_results: int,
+    venue: str | None = None,
+    author: str | None = None,
+) -> list[dict]:
+    if source == "openalex":
+        return openalex_search.search(query, max_results=max_results, venue=venue, author=author)
     if source == "ieee":
         return ieee_search.search(query, max_results=max_results)
     return arxiv_search.search(query, max_results=max_results)
@@ -196,14 +234,23 @@ def _collect_papers_from_plan(plan: dict, per_query_limit: int = 8) -> tuple[lis
     for item in plan.get("queries", []):
         query = item.get("query", "")
         source = item.get("source", "arxiv")
+        venue = item.get("venue") or None
+        author = item.get("author") or None
         if not query:
             continue
 
-        print(f"[Search] {source}: {query[:100]}")
-        results = _search_one_source(source, query, max_results=per_query_limit)
+        detail = query
+        if venue:
+            detail += f" | venue: {venue}"
+        if author:
+            detail += f" | author: {author}"
+        print(f"[Search] {source}: {detail[:160]}")
+        results = _search_one_source(source, query, max_results=per_query_limit, venue=venue, author=author)
         diagnostics.append({
             "query": query,
             "source": source,
+            "venue": venue or "",
+            "author": author or "",
             "rationale": item.get("rationale", ""),
             "result_count": len(results),
         })
@@ -215,6 +262,8 @@ def _collect_papers_from_plan(plan: dict, per_query_limit: int = 8) -> tuple[lis
             enriched = dict(paper)
             enriched["search_query"] = query
             enriched["search_source"] = source
+            enriched["search_venue_hint"] = venue or ""
+            enriched["search_author_hint"] = author or ""
             key = _paper_key(enriched)
             if key in seen:
                 continue
@@ -282,6 +331,9 @@ Target Venues:
 
 Target Authors:
 {json.dumps(plan.get("target_authors", []), ensure_ascii=False)}
+
+Search Domains:
+{json.dumps(plan.get("search_domains", []), ensure_ascii=False)}
 
 Candidate Papers:
 {json.dumps(payload, ensure_ascii=False, indent=2)}
@@ -417,10 +469,12 @@ Requirements:
         if isinstance(refined, dict) and isinstance(refined.get("queries"), list):
             refined["queries"] = [
                 {
-                    "query": str(item.get("query", "")).strip(),
-                    "source": str(item.get("source", "arxiv")).strip().lower(),
-                    "rationale": str(item.get("rationale", "")).strip(),
-                }
+            "query": str(item.get("query", "")).strip(),
+            "source": str(item.get("source", "openalex")).strip().lower(),
+            "venue": str(item.get("venue", "")).strip(),
+            "author": str(item.get("author", "")).strip(),
+            "rationale": str(item.get("rationale", "")).strip(),
+        }
                 for item in refined["queries"]
                 if str(item.get("query", "")).strip()
             ][:max_queries]
@@ -439,7 +493,7 @@ Requirements:
     return {
         "refinement_summary": "Fallback refinement based on top-scored results.",
         "queries": [
-            {"query": term, "source": "arxiv", "rationale": "Fallback follow-up query"}
+            {"query": term, "source": "openalex", "venue": "", "author": "", "rationale": "Fallback follow-up query"}
             for term in heuristic_terms[:max_queries]
         ],
     }
@@ -451,6 +505,7 @@ def multi_round_search(
     first_round_queries: int = 6,
     second_round_queries: int = 4,
     final_results: int = 10,
+    preferred_sources: list[str] | None = None,
 ) -> dict:
     """
     Multi-round search loop:
@@ -460,7 +515,11 @@ def multi_round_search(
     4. Execute the refined search and rescore the merged candidates.
     """
     print("\n[Round 1] Planning search strategy...")
-    initial_plan = plan_search_strategy(user_query, max_queries=first_round_queries)
+    initial_plan = plan_search_strategy(
+        user_query,
+        max_queries=first_round_queries,
+        preferred_sources=preferred_sources,
+    )
 
     print("[Round 1] Collecting candidates...")
     round1_papers, round1_diagnostics = _collect_papers_from_plan(initial_plan, per_query_limit=per_query_limit)

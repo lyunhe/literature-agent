@@ -2,7 +2,9 @@
 arXiv search and PDF download.
 Uses the `arxiv` package — no API key required.
 """
-import os, json, arxiv
+from __future__ import annotations
+
+import os, json, arxiv, requests
 from backend.config import LIBRARY_PDF_DIR
 
 
@@ -53,14 +55,39 @@ def download_pdf(arxiv_id: str, output_dir: str = None) -> str:
     except StopIteration:
         return f"Error: arXiv ID '{arxiv_id}' not found."
     except Exception as e:
-        return f"Error fetching arXiv paper: {e}"
+        fallback = _download_pdf_direct(arxiv_id, output_dir)
+        if not fallback.startswith("Error"):
+            return fallback
+        return f"Error fetching arXiv paper: {e}; direct PDF fallback also failed: {fallback}"
 
     try:
         filename = f"{arxiv_id}.pdf"
         saved_path = paper.download_pdf(dirpath=output_dir, filename=filename)
         return os.path.abspath(saved_path)
     except Exception as e:
-        return f"Error downloading PDF: {e}"
+        fallback = _download_pdf_direct(arxiv_id, output_dir)
+        if not fallback.startswith("Error"):
+            return fallback
+        return f"Error downloading PDF: {e}; direct PDF fallback also failed: {fallback}"
+
+
+def _download_pdf_direct(arxiv_id: str, output_dir: str) -> str:
+    """Download directly from arxiv.org/pdf when the API metadata path is flaky."""
+    safe_id = str(arxiv_id).strip().removeprefix("arXiv:").split("/")[-1]
+    url = f"https://arxiv.org/pdf/{safe_id}.pdf"
+    filename = f"{safe_id}.pdf"
+    output_path = os.path.abspath(os.path.join(output_dir, filename))
+    try:
+        resp = requests.get(url, timeout=60)
+        resp.raise_for_status()
+        content_type = resp.headers.get("content-type", "")
+        if "pdf" not in content_type.lower() and not resp.content.startswith(b"%PDF"):
+            return f"Error: direct arXiv response was not a PDF ({content_type})"
+        with open(output_path, "wb") as f:
+            f.write(resp.content)
+        return output_path
+    except Exception as e:
+        return f"Error direct-downloading arXiv PDF: {e}"
 
 
 def get_info(arxiv_id: str) -> dict | str:

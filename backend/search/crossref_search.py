@@ -2,6 +2,8 @@
 CrossRef API — no auth required.
 Used to resolve DOI -> paper metadata, and optionally find arXiv ID.
 """
+from __future__ import annotations
+
 import requests
 
 
