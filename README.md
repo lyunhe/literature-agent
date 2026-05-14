@@ -24,6 +24,8 @@ literature-agent-main/
 │  └─ _bootstrap.py
 ├─ literature_download/        # 文献检索与 PDF 下载代码
 │  ├─ workflow.py              # 检索、去重、下载、保存检索结果
+│  ├─ topic_filter.py          # AND/OR/NOT 主题关键词过滤器
+│  ├─ paper_table.py           # 文献汇总表格与标题批量翻译
 │  ├─ arxiv_search.py
 │  ├─ openalex_search.py
 │  ├─ crossref_search.py
@@ -55,6 +57,10 @@ output/YYYYMMDD_HHMM_关键研究领域/
 output/YYYYMMDD_HHMM_关键研究领域/
 ├─ download/
 │  ├─ search_results.json      # 检索候选文献
+│  ├─ filter_config.json       # 主题过滤配置（如有）
+│  ├─ filtered_results.json    # 过滤明细（通过/排除）
+│  ├─ paper_table.json         # 文献汇总表（JSON）
+│  ├─ paper_table.csv          # 文献汇总表（CSV，Excel 可打开）
 │  ├─ selected_source_pdfs.json # 下载/本地库中的原始 PDF 路径
 │  └─ selected_pdfs.json       # 本次输出目录中的 PDF 路径
 ├─ pdfs/                       # 本次运行实际使用的 PDF 副本
@@ -116,6 +122,70 @@ DEEPSEEK_ENABLE_THINKING=true
 ```
 
 `.env` 已加入 `.gitignore`，不要提交真实密钥。
+
+## 主题过滤（AND/OR/NOT）
+
+支持对检索结果进行多主题关键词过滤，确保论文**同时包含多个主题**，并排除不相关方向。
+
+### 过滤逻辑
+
+- **组内 OR**：一个 `--filter-and` 内的多个关键词，命中任意一个即满足
+- **组间 AND**：多个 `--filter-and` 必须全部满足
+- **排除 NOT**：`--filter-not` 中的关键词命中即排除
+
+```powershell
+# 必须同时包含 "多模态/大模型" 和 "风电预测"，排除综述类
+.\.venv\Scripts\python.exe analysis_pipeline\unified_literature_pipeline.py "风电场功率预测" `
+  --filter-and "multimodal,LLM,large language model,foundation model,transformer,deep learning" `
+  --filter-and "wind power,wind farm,wind speed,wind energy,wind turbine" `
+  --filter-not "review,survey" `
+  --max-results 10 --max-papers 10
+```
+
+也可使用 JSON 配置文件：
+
+```powershell
+.\.venv\Scripts\python.exe analysis_pipeline\unified_literature_pipeline.py "风电场功率预测" `
+  --filter-config filters/wind_multimodal.json --max-results 10 --max-papers 10
+```
+
+JSON 配置格式（`filters/wind_multimodal.json`）：
+
+```json
+{
+  "groups": [
+    {"logic": "AND", "keywords": ["multimodal", "LLM", "transformer", "foundation model"]},
+    {"logic": "AND", "keywords": ["wind power", "wind farm", "wind speed", "wind turbine"]},
+    {"logic": "NOT", "keywords": ["review", "survey"]}
+  ]
+}
+```
+
+### 文献汇总表格
+
+每次运行自动在 `download/` 目录生成文献汇总表，包含所有通过过滤的论文：
+
+| 列名 | 说明 |
+|------|------|
+| 是否下载 | `true` / `false` |
+| 文献名 | 原始标题 |
+| 文献名中文翻译 | 由 LLM 批量翻译（使用 `DEEPSEEK_FLASH_MODEL`） |
+| 关键词 | 命中的过滤关键词 |
+| DOI/链接 | 论文 DOI 或 arXiv 链接 |
+
+输出文件：`paper_table.json`（程序读取）+ `paper_table.csv`（Excel 可直接打开）。
+
+### 模型分离
+
+- **复杂任务**（PDF 结构化、综述生成）→ `DEEPSEEK_MODEL`（默认 `deepseek-v4-pro`）
+- **简单任务**（标题翻译）→ `DEEPSEEK_FLASH_MODEL`（默认 `deepseek-v4-flash`）
+
+在 `.env` 中配置：
+
+```env
+DEEPSEEK_MODEL=deepseek-v4-pro
+DEEPSEEK_FLASH_MODEL=deepseek-v4-flash
+```
 
 ## 一键完整流程
 
@@ -194,8 +264,10 @@ http://127.0.0.1:5000
 
 ## 主要文件说明
 
-- `literature_download/workflow.py`：统一检索、扩展英文检索词、去重、下载 PDF、保存检索清单。
-- `analysis_pipeline/unified_literature_pipeline.py`：统一调度入口，串联下载、结构化和综述图生成；图表/公式为可选步骤。
+- `literature_download/workflow.py`：统一检索、扩展英文检索词、去重、下载 PDF、保存检索清单；集成主题过滤和表格生成。
+- `literature_download/topic_filter.py`：AND/OR/NOT 主题关键词过滤器，支持 CLI 参数和 JSON 配置文件。
+- `literature_download/paper_table.py`：文献汇总表格生成（JSON + CSV），标题批量翻译。
+- `analysis_pipeline/unified_literature_pipeline.py`：统一调度入口，串联下载、过滤、结构化和综述图生成；图表/公式为可选步骤。
 - `analysis_pipeline/multi_paper_structured_pipeline_v2.py`：PDF 正文抽取和 LLM 结构化主流程。
 - `analysis_pipeline/extract_pdf_figures_tables.py`：从 PDF 中提取图、表、caption 和截图。
 - `analysis_pipeline/extract_pdf_formula_regions_v2.py`：提取带编号公式区域截图。
