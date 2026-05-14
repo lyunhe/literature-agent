@@ -20,6 +20,7 @@ except ModuleNotFoundError:
 
 from backend import db
 from backend.paths import LIBRARY_PDF_DIR
+from literature_download.topic_filter import TopicFilter
 from literature_download.workflow import search_and_download
 
 
@@ -292,7 +293,37 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--extract-figures-tables", action="store_true", help="额外提取 PDF 图表截图和表格")
     parser.add_argument("--extract-formulas", action="store_true", help="额外提取公式截图并执行公式 OCR")
     parser.add_argument("--skip-formulas", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--filter-and", action="append", dest="filter_and_groups", default=None,
+        help="AND 主题组：逗号分隔关键词，论文必须包含组内至少一个词。可重复使用。",
+    )
+    parser.add_argument(
+        "--filter-or", action="append", dest="filter_or_groups", default=None,
+        help="OR 主题组：逗号分隔关键词，论文至少命中一组。可重复使用。",
+    )
+    parser.add_argument(
+        "--filter-not", action="append", dest="filter_not_groups", default=None,
+        help="NOT 主题组：逗号分隔关键词，命中即排除。可重复使用。",
+    )
+    parser.add_argument(
+        "--filter-config", type=Path, default=None,
+        help="JSON 过滤配置文件（优先级高于 --filter-* 参数）",
+    )
     return parser.parse_args()
+
+
+def _build_topic_filter(args: argparse.Namespace) -> TopicFilter | None:
+    """Construct TopicFilter from parsed CLI args or config file."""
+    if args.filter_config is not None:
+        return TopicFilter.from_config(args.filter_config)
+    has_cli = args.filter_and_groups or args.filter_or_groups or args.filter_not_groups
+    if not has_cli:
+        return None
+    return TopicFilter.from_cli_args(
+        and_groups=[g.split(",") for g in (args.filter_and_groups or [])],
+        or_groups=[g.split(",") for g in (args.filter_or_groups or [])],
+        not_groups=[g.split(",") for g in (args.filter_not_groups or [])],
+    )
 
 
 def main() -> None:
@@ -357,6 +388,7 @@ def main() -> None:
             max_results=args.max_results,
             max_papers=max_papers,
             output_dir=download_dir,
+            topic_filter=_build_topic_filter(args),
         )
 
     search_results, selected_pdfs = run_tracked_block(

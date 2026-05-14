@@ -10,6 +10,8 @@ import requests
 from backend import db
 from backend.paths import LIBRARY_PDF_DIR, normalize_library_path
 from literature_download import arxiv_search, ieee_search, openalex_search
+from literature_download.topic_filter import TopicFilter
+from literature_download.paper_table import build_paper_table, save_paper_table
 
 
 def ensure_dir(path: Path) -> Path:
@@ -166,6 +168,7 @@ def download_papers(papers: list[dict[str, Any]], max_papers: int | None) -> lis
         paper_for_db = dict(paper)
         if pdf_path:
             paper_for_db["pdf_path"] = normalize_library_path(pdf_path)
+            paper["_pdf_path"] = pdf_path
         db.add_paper(paper_for_db)
 
         if pdf_path:
@@ -192,10 +195,39 @@ def search_and_download(
     max_results: int,
     max_papers: int | None,
     output_dir: Path,
+    topic_filter: TopicFilter | None = None,
 ) -> tuple[list[dict[str, Any]], list[Path]]:
-    """Run search and download, writing search metadata into output_dir."""
+    """Run search, filter, download, and write outputs into output_dir."""
     search_results = search_literature(topic, sources, max_results)
     save_json(output_dir / "search_results.json", search_results)
-    selected_pdfs = download_papers(search_results, max_papers)
+
+    # Topic filter: between search and download
+    accepted = search_results
+    if topic_filter is not None:
+        accepted, rejected = topic_filter.filter_papers(search_results)
+        print(f"[过滤] 主题过滤：{len(accepted)} 篇通过，{len(rejected)} 篇被排除")
+        save_json(output_dir / "filter_config.json", topic_filter.to_dict())
+        save_json(
+            output_dir / "filtered_results.json",
+            {
+                "accepted": accepted,
+                "rejected": rejected,
+                "summary": topic_filter.filter_report(search_results),
+            },
+        )
+
+    selected_pdfs = download_papers(accepted, max_papers)
     save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
+
+    # Build downloaded PDF names for table matching
+    downloaded_names: set[str] = set()
+    for paper in accepted:
+        if paper.get("_pdf_path"):
+            downloaded_names.add(Path(str(paper["_pdf_path"])).name)
+
+    # Generate paper summary table
+    if accepted:
+        rows = build_paper_table(accepted, downloaded_names, topic_filter)
+        save_paper_table(rows, output_dir)
+
     return search_results, selected_pdfs
