@@ -119,6 +119,7 @@ python -m venv .venv
 DEEPSEEK_API_KEY=你的key
 DEEPSEEK_BASE_URL=https://api.deepseek.com
 DEEPSEEK_MODEL=deepseek-v4-pro
+DEEPSEEK_FLASH_MODEL=deepseek-v4-flash
 DEEPSEEK_REASONING_EFFORT=high
 DEEPSEEK_ENABLE_THINKING=true
 ```
