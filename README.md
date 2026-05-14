@@ -31,6 +31,8 @@ literature-agent-main/
 │  ├─ crossref_search.py
 │  └─ ieee_search.py
 ├─ backend/                    # LLM、数据库、本地文献库、图谱等支撑模块
+├─ docs/
+│  └─ prompts/                 # 全部 18 个 AI Prompt 文档 + 流程图
 ├─ library/
 │  ├─ pdfs/                    # 下载和待分析的 PDF
 │  └─ library.db               # SQLite 文献库
