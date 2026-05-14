@@ -1,0 +1,13 @@
+.venv/
+output/
+.env
+env.yaml
+__pycache__/
+*.pyc
+*.pyo
+library/pdfs/
+library/library.db
+.DS_Store
+.vscode/
+.claude/
+.codex
