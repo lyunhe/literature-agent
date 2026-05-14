@@ -31,6 +31,14 @@ flowchart TB
         F1["关键词 AND/OR/NOT<br/>TopicFilter<br/>(无 LLM 调用)"]
     end
 
+    subgraph PRESCREEN[下载前方向筛选与排序]
+        PS1["候选标题翻译<br/>translate_titles()<br/>模型: DEEPSEEK_FLASH_MODEL"]
+        PS2["AI 初步分方向<br/>标题/摘要/期刊元数据<br/>模型: DEEPSEEK_FLASH_MODEL"]
+        PS3["网页方向筛选<br/>用户点击保留/排除方向"]
+        PS4["相关度评分 + 期刊 CSV 加权<br/>70%相关度 + 30%期刊水平"]
+        PS1 --> PS2 --> PS3 --> PS4
+    end
+
     subgraph DOWNLOAD[下载与翻译模块]
         D1["文献下载<br/>download_papers()<br/>(无 LLM 调用)"]
         D2["10 批量标题翻译<br/>translate_titles()<br/>📄 docs/prompts/10<br/>模型: DEEPSEEK_FLASH_MODEL"]
@@ -84,13 +92,15 @@ flowchart TB
     T3 --> FILTER
     T4 --> AGENT
     T4 --> SEARCH
+    T4 --> PRESCREEN
     T4 --> D2
     T4 --> STRUCTURE
     T4 --> PLOT
     T4 --> GRAPH
 
     SEARCH --> FILTER
-    FILTER --> D1
+    FILTER --> PRESCREEN
+    PRESCREEN --> D1
     D1 --> D2
     D2 --> O2
 
@@ -119,6 +129,10 @@ flowchart TB
   ├─ [高级检索] → 查询生成 → 策略规划 → 评分 → 优化 → 检索结果 JSON
   │
   ├─ [主题过滤] → 关键词 AND/OR/NOT 筛选 → 过滤后论文列表
+  │
+  ├─ [下载前方向筛选] → 标题/摘要/期刊元数据分方向 → 用户保留/排除方向
+  │
+  ├─ [下载前排序] → 相关度 70% + 期刊 CSV 水平 30% → selected_candidates.json
   │
   ├─ [PDF 下载] → library/pdfs/
   │
@@ -150,6 +164,7 @@ flowchart TB
 | 08 | `08-pdf-relation-classify.txt` | 关系图 | OpenAI 响应API | user |
 | 09 | `09-llm-relation-classify.txt` | 关系图 | 默认 | system+user |
 | 10 | `10-batch-title-translation.txt` | 翻译 | **FLASH** | system+user |
+| 10A | `10A-download-prescreen.txt` | 预筛 | **FLASH** | system+user |
 | 11 | `11-single-paper-structure.txt` | 结构化 | 默认 | user |
 | 12 | `12-direction-discovery.txt` | 结构化 | 默认 | user |
 | 13 | `13-direction-schema.txt` | 结构化 | 默认 | user |

@@ -293,6 +293,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--extract-figures-tables", action="store_true", help="额外提取 PDF 图表截图和表格")
     parser.add_argument("--extract-formulas", action="store_true", help="额外提取公式截图并执行公式 OCR")
     parser.add_argument("--skip-formulas", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--screen-only", action="store_true", help="只生成下载前方向筛选结果，不下载 PDF")
+    parser.add_argument("--screening-state", type=Path, default=None, help="复用已有下载前方向筛选状态继续运行")
+    parser.add_argument("--selected-directions", default="", help="只保留指定方向 ID，逗号分隔，如 D1,D3")
+    parser.add_argument("--journal-levels", type=Path, default=PROJECT_ROOT / "journal_levels.csv", help="期刊分区评分 CSV")
+    parser.add_argument("--skip-ai-prescreen", action="store_true", help="跳过下载前 AI 方向筛选与排序，使用旧下载流程")
+    parser.add_argument("--parallel-papers", type=int, default=1, help="并发处理单篇全文结构化数量，默认 1")
     parser.add_argument(
         "--filter-and", action="append", dest="filter_and_groups", default=None,
         help="AND 主题组：逗号分隔关键词，论文必须包含组内至少一个词。可重复使用。",
@@ -324,6 +330,11 @@ def _build_topic_filter(args: argparse.Namespace) -> TopicFilter | None:
         or_groups=[g.split(",") for g in (args.filter_or_groups or [])],
         not_groups=[g.split(",") for g in (args.filter_not_groups or [])],
     )
+
+
+def _selected_direction_ids(raw: str) -> list[str] | None:
+    values = [part.strip() for part in (raw or "").split(",") if part.strip()]
+    return values or None
 
 
 def main() -> None:
@@ -389,6 +400,11 @@ def main() -> None:
             max_papers=max_papers,
             output_dir=download_dir,
             topic_filter=_build_topic_filter(args),
+            ai_prescreen=not args.skip_ai_prescreen,
+            screen_only=args.screen_only,
+            screening_state_path=args.screening_state,
+            selected_directions=_selected_direction_ids(args.selected_directions),
+            journal_levels_path=args.journal_levels,
         )
 
     search_results, selected_pdfs = run_tracked_block(
@@ -398,6 +414,14 @@ def main() -> None:
         logs_dir,
         prepare_papers,
     )
+
+    if args.screen_only:
+        report["status"] = "screening_completed"
+        report["completed_at"] = now_text()
+        report["screening_state"] = str((download_dir / "screening_state.json").resolve())
+        save_json(output_dir / "unified_run_report.json", report)
+        print(f"\n下载前方向筛选完成：{download_dir / 'screening_state.json'}")
+        return
 
     if not selected_pdfs:
         report["status"] = "failed"
@@ -435,6 +459,8 @@ def main() -> None:
         pipeline_args.append("--single-only")
     if args.overwrite:
         pipeline_args.append("--overwrite")
+    if args.parallel_papers and args.parallel_papers > 1:
+        pipeline_args.extend(["--parallel-papers", str(args.parallel_papers)])
 
     run_existing_script(
         "1. 正文结构化",

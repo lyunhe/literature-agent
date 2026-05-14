@@ -12,6 +12,13 @@ from backend.paths import LIBRARY_PDF_DIR, normalize_library_path
 from literature_download import arxiv_search, ieee_search, openalex_search
 from literature_download.topic_filter import TopicFilter
 from literature_download.paper_table import build_paper_table, save_paper_table
+from literature_download.prescreen import (
+    build_screening_state,
+    load_screening_state,
+    save_screening_state,
+    score_and_rank_candidates,
+    selected_for_download,
+)
 
 
 def ensure_dir(path: Path) -> Path:
@@ -144,7 +151,11 @@ def download_pdf_url(url: str, title: str, output_dir: Path) -> str | None:
     return str(output_path.resolve())
 
 
-def download_papers(papers: list[dict[str, Any]], max_papers: int | None) -> list[Path]:
+def download_papers(
+    papers: list[dict[str, Any]],
+    max_papers: int | None,
+    fallback_to_library: bool = True,
+) -> list[Path]:
     """Download PDFs into library/pdfs and save metadata into the SQLite library."""
     ensure_dir(LIBRARY_PDF_DIR)
     selected: list[Path] = []
@@ -182,6 +193,10 @@ def download_papers(papers: list[dict[str, Any]], max_papers: int | None) -> lis
         print(f"[下载完成] 本次选中文献 PDF：{len(selected)} 篇")
         return selected
 
+    if not fallback_to_library:
+        print("[下载提示] 未下载到所选候选的 PDF，且当前流程不回退到本地 PDF。")
+        return []
+
     print("[下载提示] 未下载到新 PDF，改用 library/pdfs 中已有 PDF。")
     local_pdfs = sorted(LIBRARY_PDF_DIR.glob("*.pdf"))
     if max_papers is not None:
@@ -196,8 +211,40 @@ def search_and_download(
     max_papers: int | None,
     output_dir: Path,
     topic_filter: TopicFilter | None = None,
+    *,
+    ai_prescreen: bool = True,
+    screen_only: bool = False,
+    screening_state_path: Path | None = None,
+    selected_directions: list[str] | None = None,
+    journal_levels_path: Path | None = None,
 ) -> tuple[list[dict[str, Any]], list[Path]]:
     """Run search, filter, download, and write outputs into output_dir."""
+    ensure_dir(output_dir)
+
+    if screening_state_path is not None:
+        state = load_screening_state(screening_state_path)
+        search_results = list(state.get("papers", []))
+        save_screening_state(state, output_dir)
+        ranked = score_and_rank_candidates(
+            topic=topic,
+            state=state,
+            selected_directions=selected_directions,
+            journal_levels_path=journal_levels_path,
+        )
+        save_json(output_dir / "scored_candidates.json", ranked)
+        selected_candidates = selected_for_download(ranked, max_papers)
+        save_json(output_dir / "selected_candidates.json", selected_candidates)
+        selected_pdfs = download_papers(selected_candidates, max_papers=None, fallback_to_library=False)
+        save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
+
+        downloaded_names: set[str] = set()
+        for paper in selected_candidates:
+            if paper.get("_pdf_path"):
+                downloaded_names.add(Path(str(paper["_pdf_path"])).name)
+        rows = build_paper_table(ranked, downloaded_names, topic_filter)
+        save_paper_table(rows, output_dir)
+        return search_results, selected_pdfs
+
     search_results = search_literature(topic, sources, max_results)
     save_json(output_dir / "search_results.json", search_results)
 
@@ -215,6 +262,35 @@ def search_and_download(
                 "summary": topic_filter.filter_report(search_results),
             },
         )
+
+    if ai_prescreen:
+        state = build_screening_state(topic, accepted, journal_levels_path)
+        save_screening_state(state, output_dir)
+        print(f"[预筛] 已生成候选方向：{output_dir / 'candidate_directions.json'}")
+        if screen_only:
+            save_json(output_dir / "selected_pdfs.json", [])
+            return search_results, []
+
+        ranked = score_and_rank_candidates(
+            topic=topic,
+            state=state,
+            selected_directions=selected_directions,
+            journal_levels_path=journal_levels_path,
+        )
+        save_json(output_dir / "scored_candidates.json", ranked)
+        selected_candidates = selected_for_download(ranked, max_papers)
+        save_json(output_dir / "selected_candidates.json", selected_candidates)
+        selected_pdfs = download_papers(selected_candidates, max_papers=None, fallback_to_library=False)
+        save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
+
+        downloaded_names: set[str] = set()
+        for paper in selected_candidates:
+            if paper.get("_pdf_path"):
+                downloaded_names.add(Path(str(paper["_pdf_path"])).name)
+        if ranked:
+            rows = build_paper_table(ranked, downloaded_names, topic_filter)
+            save_paper_table(rows, output_dir)
+        return search_results, selected_pdfs
 
     selected_pdfs = download_papers(accepted, max_papers)
     save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])

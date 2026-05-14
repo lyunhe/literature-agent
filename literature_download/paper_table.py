@@ -119,11 +119,16 @@ def build_paper_table(
 
     Returns:
         List of row dicts with keys:
-        downloaded, title, title_cn, keywords, doi_link
+        downloaded, rank, direction_id, final_score, relevance_score,
+        journal_level_score, journal_level, title, title_cn, keywords, doi_link
     """
     titles = [str(p.get("title") or "") for p in papers]
-    print(f"[表格] 正在批量翻译 {len(titles)} 个标题...")
-    title_cn_list = translate_titles(titles)
+    existing_cn = [str(p.get("title_cn") or "") for p in papers]
+    if papers and all(existing_cn):
+        title_cn_list = existing_cn
+    else:
+        print(f"[表格] 正在批量翻译 {len(titles)} 个标题...")
+        title_cn_list = translate_titles(titles)
 
     rows: list[dict[str, Any]] = []
     for i, paper in enumerate(papers):
@@ -140,6 +145,12 @@ def build_paper_table(
         rows.append(
             {
                 "downloaded": downloaded,
+                "rank": paper.get("rank", ""),
+                "direction_id": paper.get("direction_id", ""),
+                "final_score": paper.get("final_score", ""),
+                "relevance_score": paper.get("relevance_score", ""),
+                "journal_level_score": paper.get("journal_level_score", ""),
+                "journal_level": paper.get("journal_level", ""),
                 "title": title,
                 "title_cn": title_cn_list[i] if i < len(title_cn_list) else title,
                 "keywords": "; ".join(matched_kw) if matched_kw else "",
@@ -163,7 +174,19 @@ def save_paper_table(rows: list[dict[str, Any]], output_dir: Path) -> None:
 
     # CSV (UTF-8 BOM for Excel)
     csv_path = output_dir / "paper_table.csv"
-    fieldnames = ["downloaded", "title", "title_cn", "keywords", "doi_link"]
+    fieldnames = [
+        "downloaded",
+        "rank",
+        "direction_id",
+        "final_score",
+        "relevance_score",
+        "journal_level_score",
+        "journal_level",
+        "title",
+        "title_cn",
+        "keywords",
+        "doi_link",
+    ]
     with csv_path.open("w", encoding="utf-8-sig", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
         writer.writeheader()

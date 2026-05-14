@@ -7,6 +7,7 @@ import os
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
@@ -1208,10 +1209,12 @@ def discover_single_paper_structures(
     single_dir: Path,
     overwrite: bool,
     timer: TimeRecorder,
+    parallel_papers: int = 1,
 ) -> list[dict[str, Any]]:
     ensure_dir(single_dir)
-    singles: list[dict[str, Any]] = []
-    for paper_name, paper_text in txt_map.items():
+    items = list(txt_map.items())
+
+    def load_or_generate(paper_name: str, paper_text: str) -> tuple[str, dict[str, Any]]:
         output_path = single_dir / f"{safe_output_stem(paper_name)}.json"
         if output_path.exists() and not overwrite:
             single = json.loads(output_path.read_text(encoding="utf-8"))
@@ -1224,7 +1227,24 @@ def discover_single_paper_structures(
                     prompt=build_single_paper_prompt(paper_name, paper_text, topic),
                 )
                 save_json(output_path, single)
-        singles.append(single)
+        return paper_name, single
+
+    if parallel_papers <= 1 or len(items) <= 1:
+        return [load_or_generate(paper_name, paper_text)[1] for paper_name, paper_text in items]
+
+    singles_by_name: dict[str, dict[str, Any]] = {}
+    workers = max(1, min(parallel_papers, len(items)))
+    print(f"并发生成单篇自适应结构：{workers} 个任务")
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = [
+            executor.submit(load_or_generate, paper_name, paper_text)
+            for paper_name, paper_text in items
+        ]
+        for future in as_completed(futures):
+            paper_name, single = future.result()
+            singles_by_name[paper_name] = single
+
+    singles = [singles_by_name[paper_name] for paper_name, _ in items]
     return singles
 
 
@@ -1437,6 +1457,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--single-only", action="store_true", help="只生成单篇自适应结构化结果，不进入方向识别")
     parser.add_argument("--legacy-staged", action="store_true", help="使用 v2 分步后处理流程（方向识别 -> 模板 -> 规整 -> 比较）")
     parser.add_argument("--no-fallback-staged", action="store_true", help="v2.1 合并后处理失败时不自动回退到分步流程")
+    parser.add_argument("--parallel-papers", type=int, default=1, help="并发处理单篇全文结构化数量，默认 1")
     parser.add_argument("--overwrite", action="store_true", help="覆盖已有中间结果和输出结果")
     return parser.parse_args()
 
@@ -1482,6 +1503,7 @@ def main() -> None:
                 single_dir=single_dir,
                 overwrite=args.overwrite,
                 timer=timer,
+                parallel_papers=args.parallel_papers,
             )
 
         single_source_dir = args.single_structures_dir or single_dir
