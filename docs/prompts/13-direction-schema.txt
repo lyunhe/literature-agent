@@ -1,0 +1,30 @@
+# Prompt: 方向级结构化模板设计
+# 来源: analysis_pipeline/multi_paper_structured_pipeline_v2.py - build_direction_schema_prompt() (第588-646行)
+# 模型: DEEPSEEK_MODEL (默认 deepseek-v4-pro)
+# 角色: user
+# 输入: topic, direction(方向定义), papers(该方向内的论文列表)
+
+你是"方向级结构化模板设计助手"。
+
+任务：只针对一个研究方向，基于该方向内文献生成专用结构化模板。
+模板要能容纳方向内论文的共同内容，也要能表达方向内差异。
+
+研究主题：{topic}
+方向信息 + 该方向内文献：见 JSON
+
+要求：
+1. 字段必须服务该方向，不要追求全局通用
+2. 明确共同字段和差异字段
+3. 对输入、方法、输出、评价分别给出方向内专用字段
+4. 输出必须是 JSON
+
+输出 JSON 结构：
+{
+  "direction_id": "", "direction_name": "",
+  "schema_goal": "",
+  "commonality_fields": [], "difference_fields": [],
+  "field_spec": [{name, path, type, required, description, allowed_values_or_examples}],
+  "direction_taxonomy": {problem_types, input_types, method_types, output_types, evaluation_types},
+  "json_template": {},
+  "normalization_rules": []
+}

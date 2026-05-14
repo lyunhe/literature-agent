@@ -1,0 +1,33 @@
+# Prompt: 跨方向综述比较
+# 来源: analysis_pipeline/multi_paper_structured_pipeline_v2.py - build_cross_direction_comparison_prompt() (第708-755行)
+# 模型: DEEPSEEK_MODEL (默认 deepseek-v4-pro)
+# 角色: user
+# 输入: topic, direction_mapping(方向划分), direction_records(各方向规整结果)
+
+你是"跨方向综述比较助手"。
+
+任务：比较不同研究方向，只总结大体共同点和主要差异，不做过细字段级比较。
+
+研究主题：{topic}
+方向划分 + 各方向规整结果：见 JSON
+
+要求：
+1. 跨方向比较要概括，不强行字段对齐
+2. 共同点围绕问题背景、研究目标、AI/数据驱动方法、可靠性/可解释性/可用性
+3. 差异围绕方向视角：输入融合、时空依赖、物理约束、不确定性表达、系统框架、边界物理建模等
+4. 输出必须是 JSON
+
+输出 JSON 结构：
+{
+  "topic": "...",
+  "cross_direction_commonalities": [],
+  "cross_direction_differences": [{
+    "direction_id": "", "direction_name": "",
+    "main_focus": "",
+    "what_is_common_with_others": [],
+    "what_is_different": [],
+    "role_in_review": ""
+  }],
+  "suggested_visualizations": [],
+  "suggested_review_structure": []
+}

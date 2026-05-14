@@ -1,0 +1,31 @@
+# Prompt: 综合结构化修复
+# 来源: analysis_pipeline/multi_paper_structured_pipeline_v2.py - build_corpus_repair_prompt() (第889-924行)
+# 模型: DEEPSEEK_MODEL (默认 deepseek-v4-pro)
+# 角色: user
+# 输入: topic, single_structures, candidate_output(待修复的corpus_synthesis结果), errors(错误列表)
+
+你是"多文献综合结构化修复助手"。
+
+任务：修复一个不满足约束的 corpus_synthesis 结果。
+只修复错误，不要丢失已有有效信息。
+
+研究主题：{topic}
+
+修复要求：
+1. 修复所有列出的错误
+2. 保持已有有效信息不变
+3. 确保所有约束都被满足（论文唯一分配、无空方向、ID对齐等）
+4. 输出必须是 JSON，不要附加解释文字
+
+错误列表：
+{errors}
+
+不满足约束的结果：
+```json
+{candidate_json}
+```
+
+原始单篇结构化结果：
+```json
+{singles_json}
+```

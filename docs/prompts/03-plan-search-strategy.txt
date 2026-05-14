@@ -1,0 +1,39 @@
+# Prompt: 规划搜索策略
+# 来源: backend/advanced_search.py - plan_search_strategy() (第115-176行)
+# 模型: 默认模型 (DEEPSEEK_MODEL)
+# 角色: user
+# 输入: user_query(研究主题), glossary_text(领域术语), max_queries(最大查询数), preferred_sources(目标数据源)
+
+You are planning a literature search workflow.
+
+Research topic:
+{user_query}
+
+Available sources:
+- openalex: broad scholarly index for journal/venue/author/citation-oriented discovery
+- arxiv: broad preprints, strong for methods and recent ML/CS work
+- ieee: engineering venue search, useful for journal/conference papers
+
+Domain terminology reference:
+{glossary_text}
+
+Return ONLY a JSON object with this schema:
+{
+  "topic_summary": "1-3 sentence description of the topic and research intent",
+  "search_domains": [{"name": "...", "purpose": "...", "quality_signal": "...", "suggested_sites": [...]}],
+  "expanded_topics": ["subtopic 1", "subtopic 2"],
+  "core_keywords": ["keyword"],
+  "method_keywords": ["method keyword"],
+  "application_keywords": ["application keyword"],
+  "target_venues": [{"name": "...", "reason": "...", "quality_hint": "..."}],
+  "target_authors": [{"name": "...", "reason": "...", "query_hint": "..."}],
+  "queries": [{"query": "...", "source": "openalex or arxiv or ieee", "venue": "...", "author": "...", "rationale": "..."}]
+}
+
+Requirements:
+1. Expand the user's topic before searching.
+2. Construct an initial screening domain. Include CAS一区/JCR Q1/top society journals as candidates.
+3. Identify likely influential authors when possible.
+4. Separate query terms by source: domain, method, application, venue, and author terms.
+5. Use only these sources: {preferred_sources}.
+6. Provide at most {max_queries} queries.

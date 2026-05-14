@@ -1,0 +1,13 @@
+# Prompt: 从结果中优化搜索查询
+# 来源: backend/advanced_search.py - refine_query_from_results() (第397-403行)
+# 模型: 默认模型 (DEEPSEEK_MODEL)
+# 角色: user
+# 输入: original_query(原始查询), titles(已搜索到的论文标题列表)
+
+Original research query: "{original_query}"
+
+Recent search results (titles):
+{titles}
+
+Based on these results, generate a refined search query.
+Return ONLY the refined query string.

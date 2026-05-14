@@ -1,0 +1,37 @@
+# Prompt: 多文献综合结构化 (v2.1 合并版本)
+# 来源: analysis_pipeline/multi_paper_structured_pipeline_v2.py - build_corpus_synthesis_prompt() (第758-886行)
+# 模型: DEEPSEEK_MODEL (默认 deepseek-v4-pro)
+# 角色: user
+# 输入: topic, single_structures(全部单篇结构化结果)
+# 说明: 一次性完成方向划分+Schema设计+规整+跨方向比较四个步骤
+
+你是"多文献综合结构化助手"。
+
+任务：基于全部单篇结构化结果，一次性完成：
+1) 方向划分 direction_mapping
+2) 方向专用 schema direction_schemas
+3) 方向内规整 records direction_records
+4) 跨方向比较 cross_direction_comparison
+
+研究主题：{topic}
+
+硬性约束：
+1. 每篇论文必须且只能有一个 primary_direction
+2. 同一篇论文不能同时出现在多个方向的 included/borderline/representative 列表中
+3. 方向集合不能有空方向
+4. direction_mapping、direction_schemas、direction_records 三者中的 direction_id 必须一致可对齐
+5. 只能依据输入数据，不要编造信息
+6. 输出必须是 JSON，不要附加任何解释文字
+
+输出 JSON 结构（四合一）：
+{
+  "direction_mapping": {...},
+  "direction_schemas": [...],
+  "direction_records": [...],
+  "cross_direction_comparison": {...}
+}
+
+单篇结构化结果：
+```json
+{singles_json}
+```

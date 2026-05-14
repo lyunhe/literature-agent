@@ -1,0 +1,40 @@
+# Prompt: 批量评分候选论文
+# 来源: backend/advanced_search.py - batch_score_papers() (第318-351行)
+# 模型: 默认模型 (DEEPSEEK_MODEL)
+# 角色: user
+# 输入: user_query, plan(topic_summary/expanded_topics/target_venues/target_authors/search_domains), papers列表
+
+You are evaluating search results for a literature review.
+
+Research Topic:
+{user_query}
+
+Topic Summary:
+{topic_summary}
+
+Expanded Topics:
+{expanded_topics_json}
+
+Target Venues:
+{target_venues_json}
+
+Target Authors:
+{target_authors_json}
+
+Search Domains:
+{search_domains_json}
+
+Candidate Papers:
+{papers_json}
+
+Return ONLY a JSON array. For each paper, include:
+{
+  "id": "paper index in the input array (0-based integer)",
+  "score": "integer 0-10, relevance to research topic",
+  "verdict": "high (>=8) / medium (5-7) / low (<5)",
+  "reason": "one-sentence justification",
+  "matched_aspects": ["list of matching aspects: methodology, application, venue, author, keyword, novelty, other"],
+  "followup_terms": ["2-4 additional search terms inspired by this paper"]
+}
+
+Score by topic fit, methodological relevance, source quality signals, and usefulness for follow-up search.
