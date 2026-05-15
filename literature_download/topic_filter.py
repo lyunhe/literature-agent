@@ -18,7 +18,32 @@ class FilterGroup:
     keywords: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        self.keywords = [kw.strip() for kw in self.keywords if kw.strip()]
+        expanded: list[str] = []
+        for kw in self.keywords:
+            value = kw.strip()
+            if not value:
+                continue
+            expanded.append(value)
+            if value == "轨迹控制":
+                expanded.extend(
+                    [
+                        "trajectory control",
+                        "path control",
+                        "flight path control",
+                        "path following control",
+                        "tracking control",
+                        "flight control",
+                    ]
+                )
+            if value == "高空风能":
+                expanded.extend(["airborne wind energy", "high altitude wind energy", "kite power"])
+        seen: set[str] = set()
+        self.keywords = []
+        for kw in expanded:
+            key = kw.lower()
+            if key not in seen:
+                seen.add(key)
+                self.keywords.append(kw)
 
     def matches(self, text: str) -> bool:
         """Return True if any keyword is found in text (case-insensitive)."""

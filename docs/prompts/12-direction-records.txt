@@ -1,0 +1,96 @@
+# Prompt: 方向内文献规整与比较 records
+# 建议模型: DEEPSEEK_MODEL
+# 用途: 将同一方向内的 enriched_single_papers 规整成可比较记录，为综述和作图提供中间数据
+# 输入: topic, direction_info, assigned_papers, enriched_single_papers
+# 输出: direction_records JSON
+
+你是“方向内文献规整与比较助手”。
+
+任务：
+给定一个研究方向下的多篇富化单篇结构化结果，请生成该方向的可比较 records。你的输出不是自然语言综述，而是后续写作和作图使用的结构化比较数据。
+
+研究主题：
+{topic}
+
+当前方向：
+```json
+{direction_info_json}
+```
+
+方向内论文分组：
+```json
+{assigned_papers_json}
+```
+
+方向内富化单篇结果：
+```json
+{enriched_single_papers_json}
+```
+
+硬性要求：
+1. 只处理当前方向内论文。
+2. 不要重新分方向。
+3. 不要重复输出每篇论文的大段摘要。
+4. comparison_axes 必须服务当前方向，不能套通用模板。
+5. records 中每篇论文必须且只能出现一次。
+6. 每个 axis_values 的值应简洁，优先短语或短句。
+7. 不允许编造论文没有提供的信息；缺失时写 unknown 或 not_applicable。
+8. 输出必须是严格 JSON，不要附加解释文字。
+
+比较维度设计原则：
+1. 优先选择能体现方向内差异的维度。
+2. 至少覆盖研究对象、问题设定、输入、方法、输出、评价、局限性。
+3. 如果该方向涉及控制、优化、物理约束、不确定性或系统框架，应加入相应比较维度。
+4. comparison_axes 不宜过多，建议 6–10 个。
+
+输出 JSON 结构：
+{
+  "direction_id": "",
+  "direction_name_cn": "",
+  "direction_definition_cn": "一句话定义该方向",
+  "comparison_axes": [
+    {
+      "axis_id": "A1",
+      "axis_name_cn": "比较维度中文名",
+      "why_needed_cn": "为什么这个维度对该方向重要",
+      "allowed_values_or_examples": []
+    }
+  ],
+  "records": [
+    {
+      "paper_id": "",
+      "candidate_id": "",
+      "citation_cn": "作者等（年份）",
+      "role_in_direction": "baseline / method / application / comparison / background / boundary / exclude",
+      "axis_values": {
+        "比较维度中文名": "短语或短句"
+      },
+      "key_formulas_for_review": ["F1"],
+      "key_figures_tables_for_review": ["Fig. 1"],
+      "representative_reason_cn": "如果是代表文献，说明原因；否则写 not_applicable"
+    }
+  ],
+  "within_direction_summary": {
+    "common_problem_cn": "",
+    "common_research_task_cn": [],
+    "common_inputs_cn": [],
+    "common_methods_cn": [],
+    "common_outputs_cn": [],
+    "main_differences_cn": {
+      "problem_setting": [],
+      "inputs": [],
+      "methods": [],
+      "outputs": [],
+      "evaluation": []
+    },
+    "method_evolution_cn": [],
+    "representative_paper_ids": [],
+    "boundary_paper_ids": [],
+    "research_gaps_cn": []
+  },
+  "data_reuse_notes": {
+    "for_review_md": ["哪些字段应该被综述 prompt 优先使用"],
+    "for_plot_json": ["哪些字段适合作图"],
+    "avoid_repeating": ["后续不需要重复输出的内容"]
+  }
+}

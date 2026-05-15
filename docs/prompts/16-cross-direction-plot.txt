@@ -1,0 +1,87 @@
+# Prompt: 跨方向总综述 SVG 作图结构化
+# 建议模型: DEEPSEEK_MODEL
+# 用途: 基于总综述和各方向 records/plot_ready 生成跨方向总图 JSON
+# 输入: topic, corpus_literature_review_md, all direction_records, all single_direction plot_ready JSON
+# 输出: cross_direction_plot_ready JSON
+
+你是“跨方向综述总图结构化助手”。
+
+任务：
+请把整个研究主题的多方向综述整理成适合渲染 SVG 总图的 JSON。输出只服务作图，不要写自然语言综述。
+
+研究主题：
+{topic}
+
+总综述 Markdown：
+```markdown
+{corpus_literature_review_md}
+```
+
+所有方向 records：
+```json
+{all_direction_records_json}
+```
+
+所有单方向作图 JSON：
+```json
+{all_single_direction_plot_ready_json}
+```
+
+硬性要求：
+1. 输出必须是严格 JSON，不要附加解释文字。
+2. 所有作图文字使用中文。
+3. 禁止输出未解释的英文术语、英文缩写或裸变量符号。
+4. 如果必须出现符号或缩写，必须在同一条中立即解释，并放入 symbol_glossary_cn。
+5. 每个方向方框最多 4 条短句，每条尽量不超过 28 个汉字。
+6. 总图强调方向之间的关系，不要重复单方向图的所有细节。
+7. comparison_matrix 只保留最关键的 3–6 个跨方向比较维度。
+8. research_gap_blocks 应直接服务“下一步研究切入点”。
+9. 必须忠实于输入材料，不要编造。
+
+输出 JSON 结构：
+{
+  "topic": "",
+  "figure_title_cn": "",
+  "global_core_problem_cn": "一句话说明总主题核心问题",
+  "direction_blocks": [
+    {
+      "direction_id": "D1",
+      "direction_name_cn": "",
+      "main_problem_cn": "",
+      "method_keywords_cn": ["短词1", "短词2"],
+      "representative_papers_cn": ["作者等（年份）"],
+      "main_outputs_cn": ["短句1"],
+      "limitations_cn": ["短句1"]
+    }
+  ],
+  "cross_direction_comparison": [
+    {
+      "comparison_axis_cn": "输入信息 / 方法机制 / 物理约束 / 输出目标 / 评价方式 / 应用成熟度",
+      "direction_values": {
+        "D1": "短句",
+        "D2": "短句"
+      }
+    }
+  ],
+  "storyline_cn": ["短句1", "短句2", "短句3"],
+  "research_gap_blocks": [
+    {
+      "gap_name_cn": "",
+      "gap_description_cn": "",
+      "related_direction_ids": ["D1", "D2"],
+      "possible_entry_point_cn": ""
+    }
+  ],
+  "symbol_glossary_cn": [
+    {
+      "symbol": "",
+      "meaning_cn": ""
+    }
+  ],
+  "self_check": {
+    "all_text_cn_or_explained": true,
+    "box_length_ok": true,
+    "no_unexplained_symbol": true,
+    "notes": ""
+  }
+}

@@ -676,16 +676,27 @@ def next_job_dir(topic: str) -> tuple[str, Path]:
 
 
 def image_payload(job_id: str, job_dir: Path) -> list[dict[str, str]]:
+    images: list[dict[str, str]] = []
     review_dir = job_dir / "review_figures"
-    if not review_dir.exists():
-        return []
-    return [
-        {
-            "name": path.name,
-            "url": f"/runs/{job_id}/review_figures/{path.name}",
-        }
-        for path in sorted(review_dir.glob("*.svg"))
-    ]
+    if review_dir.exists():
+        images.extend(
+            {
+                "name": f"总图：{path.name}",
+                "url": f"/runs/{job_id}/review_figures/{path.name}",
+            }
+            for path in sorted(review_dir.glob("*.svg"))
+        )
+    directions_dir = job_dir / "analysis" / "directions"
+    if directions_dir.exists():
+        for path in sorted(directions_dir.glob("*/single_direction_overview.svg")):
+            direction_name = path.parent.name
+            images.append(
+                {
+                    "name": f"{direction_name}：single_direction_overview.svg",
+                    "url": f"/runs/{job_id}/direction_svg/{path.parent.name}/{path.name}",
+                }
+            )
+    return images
 
 
 def append_log(job: dict[str, Any], text: str) -> None:
@@ -895,6 +906,15 @@ def get_review_figure(job_id: str, filename: str):
         return "任务不存在", 404
     review_dir = Path(job["output_dir"]) / "review_figures"
     return send_from_directory(review_dir, filename)
+
+
+@app.get("/runs/<job_id>/direction_svg/<direction>/<filename>")
+def get_direction_figure(job_id: str, direction: str, filename: str):
+    job = jobs.get(job_id)
+    if not job:
+        return "任务不存在", 404
+    direction_dir = Path(job["output_dir"]) / "analysis" / "directions" / direction
+    return send_from_directory(direction_dir, filename)
 
 
 def parse_args() -> argparse.Namespace:

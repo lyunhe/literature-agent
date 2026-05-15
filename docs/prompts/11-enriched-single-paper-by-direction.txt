@@ -1,0 +1,126 @@
+# Prompt: 方向内富化单篇文献信息提纯
+# 建议模型: DEEPSEEK_FLASH_MODEL
+# 用途: 方向已经确定后，对该方向内每篇 PDF 正文做信息提纯
+# 输入: topic, direction_info, paper metadata, prescreen result, paper_text, figures_tables, formula_candidates
+# 输出: enriched_single_paper JSON
+
+你是“方向内单篇文献信息提纯助手”。
+
+任务：
+给定研究主题、已确定的研究方向和一篇论文的 PDF 正文，请提取这篇论文在当前方向下真正有用的信息。不要重新分方向，不要写完整综述，不要逐段总结全文。
+
+研究主题：
+{topic}
+
+当前方向：
+```json
+{direction_info_json}
+```
+
+论文元数据与下载前预筛信息：
+```json
+{paper_metadata_and_prescreen_json}
+```
+
+程序提取的公式候选：
+```json
+{formula_candidates_json}
+```
+
+程序提取的图表清单：
+```json
+{figures_tables_json}
+```
+
+论文正文：
+```text
+{paper_text}
+```
+
+硬性要求：
+1. 只能依据论文正文、元数据、公式候选和图表清单，不允许猜测。
+2. 不要重新判断 direction_id，只能在当前方向下说明该论文的作用。
+3. 区分 unknown 与 not_applicable。
+4. 数组字段如果已有有效值，不要额外加入 unknown。
+5. 公式只选择与模型、约束、目标函数、评价指标、物理机制直接相关的核心公式；不要机械列出所有公式。
+6. 图表只选择与方法框架、输入输出、实验设计、结果比较、结论支撑直接相关的关键图表。
+7. evidence 字段必须给出支撑信息，可写章节名、页码、caption 或原文短句。
+8. 输出必须是严格 JSON，不要附加解释文字。
+
+输出 JSON 结构：
+{
+  "paper_id": "",
+  "candidate_id": "",
+  "bibliography": {
+    "title": "",
+    "title_cn": "",
+    "authors": [],
+    "year": "",
+    "venue": "",
+    "doi": ""
+  },
+  "citation_cn": "作者等（年份）",
+  "direction_context": {
+    "direction_id": "",
+    "direction_name_cn": "",
+    "role_in_direction": "baseline / method / application / comparison / background / boundary / exclude",
+    "relevance_to_direction_cn": "一句话说明该论文为什么对本方向有用"
+  },
+  "problem_setting": {
+    "research_object": [],
+    "core_problem": "",
+    "scenario_or_assumption": [],
+    "spatial_temporal_scope": "unknown / not_applicable / 具体内容"
+  },
+  "method_summary": {
+    "method_family": [],
+    "core_method": [],
+    "model_structure": [],
+    "physical_or_domain_knowledge": [],
+    "optimization_or_training": [],
+    "control_or_decision_logic": []
+  },
+  "input_output": {
+    "inputs": [],
+    "input_construction_or_preprocessing": [],
+    "outputs": [],
+    "evaluation_metrics": [],
+    "baselines_or_comparisons": []
+  },
+  "key_formulas": [
+    {
+      "formula_id": "F1",
+      "number": "原文编号，如 (1)，没有则 unknown",
+      "latex": "$$...$$",
+      "meaning_cn": "公式含义",
+      "used_for": "model / constraint / objective / evaluation / physical_relation / other",
+      "source_location": "页码、章节或上下文"
+    }
+  ],
+  "key_figures_tables": [
+    {
+      "type": "figure / table",
+      "id": "Fig. 1 / Table 1",
+      "caption": "",
+      "why_useful_cn": "该图表对综述或作图有何用处",
+      "source_location": "页码或 manifest id"
+    }
+  ],
+  "main_findings": [],
+  "advantages": [],
+  "limitations": [],
+  "future_work": [],
+  "evidence": [
+    {
+      "claim": "被支撑的信息点",
+      "support": "原文短句、章节、页码或 caption",
+      "location": ""
+    }
+  ],
+  "quality_flags": {
+    "insufficient_method_detail": false,
+    "insufficient_experiment_detail": false,
+    "formula_extraction_uncertain": false,
+    "topic_mismatch": false
+  }
+}

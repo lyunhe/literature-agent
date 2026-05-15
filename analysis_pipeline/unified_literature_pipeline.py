@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import contextlib
+import csv
 import json
 import os
 import re
@@ -20,6 +20,26 @@ except ModuleNotFoundError:
 
 from backend import db
 from backend.paths import LIBRARY_PDF_DIR
+from analysis_pipeline.direction_pipeline import run_cross_direction_outputs, run_direction_pipeline
+from analysis_pipeline.direction_workspace import (
+    build_direction_workspace,
+    build_local_pdf_candidates,
+    build_virtual_single_direction_state,
+)
+from analysis_pipeline.pipeline_common import (
+    TimeRecorder,
+    build_client,
+    extract_text_from_pdf,
+    load_json,
+    resolve_llm_config,
+    safe_output_stem,
+)
+from literature_download.prescreen import (
+    build_screening_state,
+    save_screening_state,
+    score_and_rank_candidates,
+    selected_for_download,
+)
 from literature_download.topic_filter import TopicFilter
 from literature_download.workflow import search_and_download
 
@@ -98,7 +118,6 @@ def start_step(
     output_dir: Path,
     logs_dir: Path,
     name: str,
-    command: list[str] | None = None,
 ) -> tuple[dict[str, Any], Path]:
     index = len(report["steps"]) + 1
     log_path = make_step_log_path(logs_dir, index, name)
@@ -109,8 +128,6 @@ def start_step(
         "start_time": now_text(),
         "log_file": str(log_path.resolve()),
     }
-    if command is not None:
-        step["command"] = command
     report["current_step"] = step
     save_json(output_dir / "unified_run_report.json", report)
     save_json(logs_dir / "current_step.json", step)
@@ -125,14 +142,12 @@ def finish_step(
     *,
     status: str,
     started: float,
-    returncode: int | None = None,
     reason: str | None = None,
 ) -> None:
     step["status"] = status
     step["end_time"] = now_text()
     step["elapsed_seconds"] = round(time.time() - started, 3)
-    if returncode is not None:
-        step["returncode"] = returncode
+    step["returncode"] = 0 if status == "completed" else ""
     if reason:
         step["reason"] = reason
     report.pop("current_step", None)
@@ -150,7 +165,7 @@ def add_skipped_step(report: dict[str, Any], output_dir: Path, logs_dir: Path, n
         log.write(f"=== {name} ===\n")
         log.write(f"开始时间：{step['start_time']}\n")
         log.write(f"跳过原因：{reason}\n")
-    print(f"[跳过] {name}：{reason}")
+    print(f"[跳过] {name}: {reason}")
     finish_step(report, output_dir, logs_dir, step, status="skipped", started=started, reason=reason)
 
 
@@ -180,28 +195,28 @@ def run_tracked_block(
             save_json(output_dir / "unified_run_report.json", report)
             raise
         log.write(f"\n结束时间：{now_text()}\n")
-    finish_step(report, output_dir, logs_dir, step, status="completed", started=started, returncode=0)
+    finish_step(report, output_dir, logs_dir, step, status="completed", started=started)
     return result
 
 
-def run_command(
+def run_existing_script(
     name: str,
-    command: list[str],
+    script_name: str,
+    args: list[str],
     report: dict[str, Any],
     output_dir: Path,
     logs_dir: Path,
-) -> int:
+    required: bool = True,
+) -> bool:
+    script_path = PIPELINE_DIR / script_name
     started = time.time()
-    step, log_path = start_step(report, output_dir, logs_dir, name, command)
-    print(f"\n=== {name} ===")
-    print(" ".join(command))
-    started = time.time()
+    step, log_path = start_step(report, output_dir, logs_dir, name)
+    command = [sys.executable, str(script_path), *args]
     env = os.environ.copy()
     env.setdefault("PYTHONIOENCODING", "utf-8")
+    print(f"\n=== {name} ===")
     with log_path.open("a", encoding="utf-8") as log:
-        log.write(f"=== {name} ===\n")
-        log.write(f"开始时间：{step['start_time']}\n")
-        log.write("命令：\n" + " ".join(command) + "\n\n")
+        log.write("命令:\n" + " ".join(command) + "\n\n")
         process = subprocess.Popen(
             command,
             cwd=PROJECT_ROOT,
@@ -216,11 +231,7 @@ def run_command(
         for line in process.stdout:
             print(line, end="")
             log.write(line)
-            log.flush()
         returncode = process.wait()
-        log.write(f"\n结束时间：{now_text()}\n")
-        log.write(f"退出码：{returncode}\n")
-
     finish_step(
         report,
         output_dir,
@@ -228,33 +239,9 @@ def run_command(
         step,
         status="completed" if returncode == 0 else "failed",
         started=started,
-        returncode=returncode,
+        reason="" if returncode == 0 else f"退出码 {returncode}",
     )
-    return returncode
-
-
-def run_existing_script(
-    name: str,
-    script_name: str,
-    args: list[str],
-    report: dict[str, Any],
-    output_dir: Path,
-    logs_dir: Path,
-    required: bool = True,
-) -> bool:
-    script_path = PIPELINE_DIR / script_name
-    if not script_path.exists():
-        print(f"\n=== {name} ===")
-        print(f"跳过：未找到 {script_name}")
-        add_skipped_step(report, output_dir, logs_dir, name, f"本地未找到脚本：{script_name}")
-        return not required
-
-    returncode = run_command(name, [sys.executable, str(script_path), *args], report, output_dir, logs_dir)
     if returncode != 0 and required:
-        report["status"] = "failed"
-        report["failed_at"] = now_text()
-        report["failure"] = f"{name} 失败，退出码：{returncode}"
-        save_json(output_dir / "unified_run_report.json", report)
         raise RuntimeError(f"{name} 失败，退出码：{returncode}")
     return returncode == 0
 
@@ -272,54 +259,75 @@ def copy_pdfs_to_run(pdf_paths: list[Path], pdf_dir: Path) -> list[Path]:
     return copied
 
 
-def selected_pdf_args(pdf_paths: list[Path]) -> list[str]:
-    args: list[str] = []
-    for path in pdf_paths:
-        args.extend(["--file", path.name])
-    return args
+def convert_pdfs_to_txt(pdf_paths: list[Path], txt_dir: Path, overwrite: bool) -> list[Path]:
+    ensure_dir(txt_dir)
+    txt_paths: list[Path] = []
+    for pdf_path in pdf_paths:
+        txt_path = txt_dir / f"{safe_output_stem(pdf_path.stem)}.txt"
+        txt_paths.append(txt_path)
+        if txt_path.exists() and not overwrite:
+            print(f"[TXT] 复用已有文本：{txt_path.name}")
+            continue
+        print(f"[TXT] 正在提取：{pdf_path.name}")
+        text = extract_text_from_pdf(pdf_path, add_page_mark=True)
+        txt_path.write_text(text + "\n", encoding="utf-8")
+        print(f"[TXT] 已生成：{txt_path}")
+    return txt_paths
+
+
+def load_pdf_metadata_candidates(pdf_files: list[Path], metadata_path: Path | None) -> list[dict[str, Any]]:
+    if metadata_path is None:
+        return build_local_pdf_candidates(pdf_files)
+    payload = load_json(metadata_path)
+    rows = payload.get("papers", payload) if isinstance(payload, dict) else payload
+    if not isinstance(rows, list):
+        raise ValueError("--pdf-metadata-path 必须是数组或包含 papers 数组的 JSON")
+    candidates: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        item = dict(row)
+        item.setdefault("candidate_id", f"P{index + 1:03d}")
+        raw_pdf = item.get("_pdf_path") or item.get("pdf_path") or item.get("filename")
+        pdf_path = Path(str(raw_pdf)) if raw_pdf else (pdf_files[index] if index < len(pdf_files) else None)
+        if pdf_path is None or not pdf_path.exists():
+            raise FileNotFoundError(f"PDF 元数据缺少可匹配文件：{item.get('title') or item.get('candidate_id')}")
+        item["_pdf_path"] = str(pdf_path.resolve())
+        item.setdefault("source", "local_pdf")
+        item.setdefault("concepts", [])
+        item.setdefault("cited_by_count", 0)
+        candidates.append(item)
+    return candidates
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="统一文献检索、PDF结构化与综述可视化流程")
+    parser = argparse.ArgumentParser(description="统一文献检索、PDF 后处理与综述可视化流程 v3")
     parser.add_argument("topic", nargs="?", default=DEFAULT_TOPIC, help="简单研究主题提示词")
     parser.add_argument("--sources", default="openalex,arxiv", help="检索源，逗号分隔：openalex,arxiv,ieee")
     parser.add_argument("--max-results", type=int, default=5, help="每个查询词在每个来源最多返回多少条结果")
-    parser.add_argument("--max-papers", type=int, default=1, help="最多处理多少篇 PDF；测试建议保留 1")
+    parser.add_argument("--max-papers", type=int, default=1, help="最多处理多少篇 PDF")
     parser.add_argument("--all-papers", action="store_true", help="处理能下载或本地已有的全部 PDF")
-    parser.add_argument("--skip-search", action="store_true", help="跳过在线检索，直接使用 library/pdfs 中的 PDF")
-    parser.add_argument("--single-only", action="store_true", help="只生成单篇正文结构化结果，不进入方向识别和综述图")
+    parser.add_argument("--pdf-dir", type=Path, default=LIBRARY_PDF_DIR, help="PDF-only 模式使用的 PDF 目录")
+    parser.add_argument("--from-pdf-only", action="store_true", help="跳过在线检索，直接从 --pdf-dir 中的 PDF 开始")
+    parser.add_argument("--pdf-metadata-path", type=Path, default=None, help="PDF-only 模式可选元数据 JSON")
+    parser.add_argument("--skip-search", action="store_true", help="兼容旧参数：等同于 --from-pdf-only")
+    parser.add_argument("--single-direction-only", action="store_true", help="明确所有 PDF 属于同一方向，跳过 10A 分方向")
+    parser.add_argument("--single-only", action="store_true", help="兼容旧参数：等同于 --single-direction-only")
     parser.add_argument("--overwrite", action="store_true", help="覆盖已有中间结果")
     parser.add_argument("--output-dir", type=Path, default=None, help="统一流程输出目录")
     parser.add_argument("--extract-figures-tables", action="store_true", help="额外提取 PDF 图表截图和表格")
-    parser.add_argument("--extract-formulas", action="store_true", help="额外提取公式截图并执行公式 OCR")
-    parser.add_argument("--skip-formulas", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--screen-only", action="store_true", help="只生成下载前方向筛选结果，不下载 PDF")
+    parser.add_argument("--screen-only", action="store_true", help="只生成下载前方向筛选结果，不下载/分析 PDF")
     parser.add_argument("--screening-state", type=Path, default=None, help="复用已有下载前方向筛选状态继续运行")
     parser.add_argument("--selected-directions", default="", help="只保留指定方向 ID，逗号分隔，如 D1,D3")
     parser.add_argument("--journal-levels", type=Path, default=PROJECT_ROOT / "journal_levels.csv", help="期刊分区评分 CSV")
-    parser.add_argument("--skip-ai-prescreen", action="store_true", help="跳过下载前 AI 方向筛选与排序，使用旧下载流程")
-    parser.add_argument("--parallel-papers", type=int, default=1, help="并发处理单篇全文结构化数量，默认 1")
-    parser.add_argument(
-        "--filter-and", action="append", dest="filter_and_groups", default=None,
-        help="AND 主题组：逗号分隔关键词，论文必须包含组内至少一个词。可重复使用。",
-    )
-    parser.add_argument(
-        "--filter-or", action="append", dest="filter_or_groups", default=None,
-        help="OR 主题组：逗号分隔关键词，论文至少命中一组。可重复使用。",
-    )
-    parser.add_argument(
-        "--filter-not", action="append", dest="filter_not_groups", default=None,
-        help="NOT 主题组：逗号分隔关键词，命中即排除。可重复使用。",
-    )
-    parser.add_argument(
-        "--filter-config", type=Path, default=None,
-        help="JSON 过滤配置文件（优先级高于 --filter-* 参数）",
-    )
+    parser.add_argument("--skip-ai-prescreen", action="store_true", help="旧参数已禁用：新版流程需要 10A")
+    parser.add_argument("--parallel-papers", type=int, default=1, help="并发处理方向内单篇富化数量")
+    parser.add_argument("--filter-and", action="append", dest="filter_and_groups", default=None, help="AND 主题组：逗号分隔关键词。")
+    parser.add_argument("--filter-or", action="append", dest="filter_or_groups", default=None, help="OR 主题组：逗号分隔关键词。")
+    parser.add_argument("--filter-not", action="append", dest="filter_not_groups", default=None, help="NOT 主题组：逗号分隔关键词。")
+    parser.add_argument("--filter-config", type=Path, default=None, help="JSON 过滤配置文件。")
     return parser.parse_args()
 
 
 def _build_topic_filter(args: argparse.Namespace) -> TopicFilter | None:
-    """Construct TopicFilter from parsed CLI args or config file."""
     if args.filter_config is not None:
         return TopicFilter.from_config(args.filter_config)
     has_cli = args.filter_and_groups or args.filter_or_groups or args.filter_not_groups
@@ -340,27 +348,42 @@ def _selected_direction_ids(raw: str) -> list[str] | None:
 def main() -> None:
     args = parse_args()
     db.init_db()
+    args.from_pdf_only = bool(args.from_pdf_only or args.skip_search)
+    args.single_direction_only = bool(args.single_direction_only or args.single_only)
 
     stamp = time.strftime("%Y%m%d_%H%M")
-    output_dir = args.output_dir or PROJECT_ROOT / "output" / f"{stamp}_{safe_output_name(args.topic)}"
-    output_dir = ensure_dir(output_dir)
+    output_dir = ensure_dir(args.output_dir or PROJECT_ROOT / "output" / f"{stamp}_{safe_output_name(args.topic)}")
     download_dir = ensure_dir(output_dir / "download")
     logs_dir = ensure_dir(output_dir / "logs")
     run_pdf_dir = ensure_dir(output_dir / "pdfs")
     analysis_output_dir = ensure_dir(output_dir / "analysis")
     figures_output_dir = output_dir / "figures_tables"
-    formula_output_dir = output_dir / "formulas" / "regions"
-    ocr_output_dir = output_dir / "formulas" / "ocr"
     review_output_dir = output_dir / "review_figures"
 
     max_papers = None if args.all_papers else args.max_papers
     sources = [source.strip().lower() for source in args.sources.split(",") if source.strip()]
     topic_for_model = f"{args.topic}。请主要使用中文输出，保留必要英文术语。"
+    entry_mode = "pdf_only" if args.from_pdf_only else "search_to_pdf"
+    if args.single_direction_only:
+        entry_mode = "single_direction_only"
 
     report: dict[str, Any] = {
         "topic": args.topic,
         "topic_for_model": topic_for_model,
         "sources": sources,
+        "pipeline_version": "pdf_postprocess_v3",
+        "entry_mode": entry_mode,
+        "direction_source": "",
+        "deleted_legacy_flow": True,
+        "legacy_steps_skipped": [
+            "PDF 后二次方向划分",
+            "方向 schema 层",
+            "全集综合结构化",
+            "旧全量修复",
+            "旧综述图渲染",
+            "默认文献关系图",
+        ],
+        "repair_events": [],
         "status": "running",
         "started_at": now_text(),
         "output_dir": str(output_dir.resolve()),
@@ -370,7 +393,6 @@ def main() -> None:
             "logs": str(logs_dir.resolve()),
             "analysis": str(analysis_output_dir.resolve()),
             "figures_tables": str(figures_output_dir.resolve()),
-            "formulas": str((output_dir / "formulas").resolve()),
             "review_figures": str(review_output_dir.resolve()),
         },
         "steps": [],
@@ -379,20 +401,41 @@ def main() -> None:
     save_json(output_dir / "unified_run_report.json", report)
 
     def prepare_papers() -> tuple[list[dict[str, Any]], list[Path]]:
-        if args.skip_search:
-            selected_file = download_dir / "selected_pdfs.json"
-            if selected_file.exists():
-                pdfs = [Path(path).resolve() for path in json.loads(selected_file.read_text(encoding="utf-8"))]
-                print(f"[检索跳过] 复用已有选中文献清单：{selected_file}")
+        if args.from_pdf_only:
+            pdf_paths = sorted(args.pdf_dir.glob("*.pdf"))
+            if max_papers is not None:
+                pdf_paths = pdf_paths[:max_papers]
+            if not pdf_paths:
+                raise RuntimeError(f"PDF-only 模式未找到 PDF：{args.pdf_dir}")
+            candidates = load_pdf_metadata_candidates([path.resolve() for path in pdf_paths], args.pdf_metadata_path)
+            if args.single_direction_only:
+                state = build_virtual_single_direction_state(args.topic, candidates)
+                report["direction_source"] = "user_single_direction"
             else:
-                pdf_paths = sorted(LIBRARY_PDF_DIR.glob("*.pdf"))
-                if max_papers is not None:
-                    pdf_paths = pdf_paths[:max_papers]
-                pdfs = [path.resolve() for path in pdf_paths]
-                print(f"[检索跳过] 使用 library/pdfs 中的 PDF：{len(pdfs)} 篇")
-            return [], pdfs
+                state = build_screening_state(args.topic, candidates, args.journal_levels)
+                report["direction_source"] = "pdf_metadata_10A"
+            save_screening_state(state, download_dir)
+            save_json(analysis_output_dir / "pdf_metadata_direction_mapping.json", state)
+            if args.screen_only:
+                save_json(download_dir / "selected_candidates.json", [])
+                save_json(download_dir / "selected_pdfs.json", [])
+                return candidates, []
+            ranked = score_and_rank_candidates(
+                topic=args.topic,
+                state=state,
+                selected_directions=_selected_direction_ids(args.selected_directions),
+                journal_levels_path=args.journal_levels,
+            )
+            save_json(download_dir / "scored_candidates.json", ranked)
+            selected_candidates = selected_for_download(ranked, max_papers)
+            save_json(download_dir / "selected_candidates.json", selected_candidates)
+            pdfs = [Path(str(item.get("_pdf_path"))).resolve() for item in selected_candidates if item.get("_pdf_path")]
+            save_json(download_dir / "selected_pdfs.json", [str(path) for path in pdfs])
+            return candidates, pdfs
 
-        print(f"检索主题：{args.topic}")
+        if args.skip_ai_prescreen:
+            raise RuntimeError("新版流程需要 10A 作为唯一方向来源，不能使用 --skip-ai-prescreen。")
+        report["direction_source"] = "download_prescreen_10A"
         return search_and_download(
             topic=args.topic,
             sources=sources,
@@ -400,21 +443,14 @@ def main() -> None:
             max_papers=max_papers,
             output_dir=download_dir,
             topic_filter=_build_topic_filter(args),
-            ai_prescreen=not args.skip_ai_prescreen,
+            ai_prescreen=True,
             screen_only=args.screen_only,
             screening_state_path=args.screening_state,
             selected_directions=_selected_direction_ids(args.selected_directions),
             journal_levels_path=args.journal_levels,
         )
 
-    search_results, selected_pdfs = run_tracked_block(
-        "0. 文献检索与下载",
-        report,
-        output_dir,
-        logs_dir,
-        prepare_papers,
-    )
-
+    _, selected_pdfs = run_tracked_block("0. 文献检索/方向预筛/PDF 准备", report, output_dir, logs_dir, prepare_papers)
     if args.screen_only:
         report["status"] = "screening_completed"
         report["completed_at"] = now_text()
@@ -422,19 +458,13 @@ def main() -> None:
         save_json(output_dir / "unified_run_report.json", report)
         print(f"\n下载前方向筛选完成：{download_dir / 'screening_state.json'}")
         return
-
     if not selected_pdfs:
-        report["status"] = "failed"
-        report["failed_at"] = now_text()
-        report["failure"] = "没有可处理的 PDF"
-        save_json(output_dir / "unified_run_report.json", report)
         raise RuntimeError("没有可处理的 PDF。请检查检索结果、网络连接，或先放入 PDF 到 library/pdfs。")
 
     report["source_papers"] = [str(path) for path in selected_pdfs]
     save_json(download_dir / "selected_source_pdfs.json", report["source_papers"])
-
     selected_pdfs = run_tracked_block(
-        "0.1 PDF归档到本次输出目录",
+        "0.1 PDF 归档到本次输出目录",
         report,
         output_dir,
         logs_dir,
@@ -444,122 +474,100 @@ def main() -> None:
     save_json(download_dir / "selected_pdfs.json", report["papers"])
     save_json(output_dir / "unified_run_report.json", report)
 
-    print(f"[准备完成] 本次将分析 {len(selected_pdfs)} 篇 PDF。")
-    print(f"[输出目录] {output_dir}")
-
-    common_pdf_args = ["--pdf-dir", str(run_pdf_dir), *selected_pdf_args(selected_pdfs)]
-    pipeline_args = [
-        *common_pdf_args,
-        "--output-dir",
-        str(analysis_output_dir),
-        "--topic",
-        topic_for_model,
-    ]
-    if args.single_only:
-        pipeline_args.append("--single-only")
-    if args.overwrite:
-        pipeline_args.append("--overwrite")
-    if args.parallel_papers and args.parallel_papers > 1:
-        pipeline_args.extend(["--parallel-papers", str(args.parallel_papers)])
-
-    run_existing_script(
-        "1. 正文结构化",
-        "multi_paper_structured_pipeline_v2.py",
-        pipeline_args,
+    txt_dir = ensure_dir(analysis_output_dir / "txt_output")
+    txt_paths = run_tracked_block(
+        "1. PDF 正文提取",
         report,
         output_dir,
         logs_dir,
-        required=True,
+        lambda: convert_pdfs_to_txt(selected_pdfs, txt_dir, args.overwrite),
     )
+    report["txt_output"] = [str(path) for path in txt_paths]
+    save_json(output_dir / "unified_run_report.json", report)
 
     if args.extract_figures_tables:
         ensure_dir(figures_output_dir)
         for pdf_path in selected_pdfs:
-            figure_args = [
-                "--pdf",
-                str(pdf_path),
-                "--output-dir",
-                str(figures_output_dir),
-            ]
             run_existing_script(
                 f"2. 图表提取：{pdf_path.name}",
                 "extract_pdf_figures_tables.py",
-                figure_args,
+                ["--pdf", str(pdf_path), "--output-dir", str(figures_output_dir)],
                 report,
                 output_dir,
                 logs_dir,
                 required=True,
             )
     else:
-        add_skipped_step(
-            report,
-            output_dir,
-            logs_dir,
-            "2. 图表提取",
-            "默认一键流程不提取图表；如需提取请添加 --extract-figures-tables",
-        )
+        add_skipped_step(report, output_dir, logs_dir, "2. 图表提取", "默认不提取图表；如需提取请添加 --extract-figures-tables")
 
-    if not args.extract_formulas or args.skip_formulas:
-        add_skipped_step(
-            report,
-            output_dir,
-            logs_dir,
-            "3-4. 公式提取与 OCR",
-            "默认一键流程不提取公式；如需提取请添加 --extract-formulas",
-        )
-    else:
-        ensure_dir(formula_output_dir)
-        ensure_dir(ocr_output_dir)
-        for pdf_path in selected_pdfs:
-            formula_args = [
-                "--pdf",
-                str(pdf_path),
-                "--output-dir",
-                str(formula_output_dir),
-            ]
-            if args.overwrite:
-                formula_args.append("--overwrite")
-            run_existing_script(
-                f"3. 公式截图提取：{pdf_path.name}",
-                "extract_pdf_formula_regions_v2.py",
-                formula_args,
-                report,
-                output_dir,
-                logs_dir,
-                required=True,
+    screening_state = load_json(download_dir / "screening_state.json")
+    selected_candidates = load_json(download_dir / "selected_candidates.json")
+    direction_dirs = run_tracked_block(
+        "3. 构建方向工作区",
+        report,
+        output_dir,
+        logs_dir,
+        lambda: build_direction_workspace(
+            output_dir=output_dir,
+            screening_state=screening_state,
+            selected_candidates=selected_candidates,
+            pdf_dir=run_pdf_dir,
+            txt_dir=txt_dir,
+            figures_dir=figures_output_dir if args.extract_figures_tables else None,
+        ),
+    )
+    if not direction_dirs:
+        raise RuntimeError("方向工作区为空，请检查 selected_directions 或 10A 结果。")
+
+    config = resolve_llm_config()
+    client = build_client(config)
+    timer = TimeRecorder()
+
+    def run_all_directions() -> list[dict[str, Any]]:
+        results: list[dict[str, Any]] = []
+        for direction_dir in direction_dirs:
+            print(f"[方向处理] {direction_dir.name}")
+            results.append(
+                run_direction_pipeline(
+                    direction_dir=direction_dir,
+                    topic=topic_for_model,
+                    client=client,
+                    model=config.model,
+                    flash_model=config.flash_model,
+                    overwrite=args.overwrite,
+                    parallel_papers=args.parallel_papers,
+                    timer=timer,
+                )
             )
+        return results
 
-        ocr_args = ["--input-dir", str(formula_output_dir), "--output-dir", str(ocr_output_dir)]
-        if args.overwrite:
-            ocr_args.append("--overwrite")
-        run_existing_script(
-            "4. 公式 OCR",
-            "ocr_formula_images_pix2tex.py",
-            ocr_args,
-            report,
-            output_dir,
-            logs_dir,
-            required=True,
-        )
+    direction_results = run_tracked_block("4. 方向内富化、综述与单方向图", report, output_dir, logs_dir, run_all_directions)
+    report["directions"] = [
+        {key: value for key, value in item.items() if key not in {"plot_ready", "repair_events"}}
+        for item in direction_results
+    ]
+    for item in direction_results:
+        report["repair_events"].extend(item.get("repair_events", []))
+    save_json(output_dir / "unified_run_report.json", report)
 
-    if args.single_only:
-        add_skipped_step(
-            report,
-            output_dir,
-            logs_dir,
-            "5. 综述可视化图",
-            "single-only 模式不会生成 directions/comparisons",
-        )
-    else:
-        run_existing_script(
-            "5. 综述可视化图",
-            "generate_review_figures.py",
-            ["--input-dir", str(analysis_output_dir), "--output-dir", str(review_output_dir)],
-            report,
-            output_dir,
-            logs_dir,
-            required=True,
-        )
+    corpus_outputs, cross_repairs = run_tracked_block(
+        "5. 跨方向总综述与总图",
+        report,
+        output_dir,
+        logs_dir,
+        lambda: run_cross_direction_outputs(
+            output_dir=output_dir,
+            topic=topic_for_model,
+            direction_results=direction_results,
+            client=client,
+            model=config.model,
+            overwrite=args.overwrite,
+            timer=timer,
+        ),
+    )
+    report["corpus_outputs"] = corpus_outputs
+    report["repair_events"].extend(cross_repairs)
+    timer.save(output_dir / "time_records")
 
     report["status"] = "completed"
     report["completed_at"] = now_text()

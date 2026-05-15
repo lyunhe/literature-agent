@@ -15,6 +15,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from analysis_pipeline.prompt_loader import render_prompt
 from backend.llm_client import llm_request
 from literature_download.paper_table import translate_titles
 
@@ -184,6 +185,9 @@ def _paper_payload(papers: list[dict[str, Any]], abstract_limit: int = 1200) -> 
                 "year": paper.get("year"),
                 "venue": paper.get("venue", ""),
                 "source": paper.get("source", ""),
+                "doi": paper.get("doi", ""),
+                "url": paper.get("url", ""),
+                "oa_url": paper.get("oa_url", ""),
                 "concepts": paper.get("concepts", []),
                 "cited_by_count": paper.get("cited_by_count", 0),
             }
@@ -191,7 +195,9 @@ def _paper_payload(papers: list[dict[str, Any]], abstract_limit: int = 1200) -> 
     return payload
 
 
-def _fallback_directions(papers: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def _fallback_directions(
+    papers: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     ids = [str(paper["candidate_id"]) for paper in papers]
     directions = [
         {
@@ -206,60 +212,53 @@ def _fallback_directions(papers: list[dict[str, Any]]) -> tuple[list[dict[str, A
         {
             "candidate_id": str(paper["candidate_id"]),
             "direction_id": "D1",
+            "direction_role": "main",
+            "assignment_confidence": 0.5,
+            "method_or_object_summary_cn": "",
             "method_summary_cn": "",
             "assignment_reason_cn": "默认保留候选文献。",
         }
         for paper in papers
     ]
-    return directions, assignments
+    scores = [
+        {
+            "candidate_id": str(paper["candidate_id"]),
+            "relevance_score": 5.0,
+            "decision": "borderline",
+            "reason_cn": "AI 预筛失败后的默认分。",
+        }
+        for paper in papers
+    ]
+    fast_check = {
+        "all_papers_assigned_once": True,
+        "empty_directions": [],
+        "duplicated_paper_ids": [],
+        "unassigned_paper_ids": [],
+        "representative_notes_cn": "fallback",
+    }
+    return directions, assignments, scores, fast_check
 
 
-def infer_candidate_directions(topic: str, papers: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def infer_candidate_directions(
+    topic: str,
+    papers: list[dict[str, Any]],
+    input_mode: str = "search_metadata",
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     """Use the flash model to group metadata-only candidate papers into directions."""
     if not papers:
-        return [], []
+        return [], [], [], {}
 
     def build_prompt(abstract_limit: int, retry: bool = False) -> str:
         retry_hint = "上一次输出不是完整合法 JSON。请只返回一个完整 JSON 对象，不要 Markdown，不要解释。\n\n" if retry else ""
-        return f"""{retry_hint}你是下载前文献候选方向归纳助手。
-
-研究主题：
-{topic}
-
-请只依据候选论文的标题、中文标题、摘要、期刊/来源、年份和关键词，把论文归纳为若干研究方向。
-不要使用 PDF 正文，因为此时还没有下载 PDF。
-
-返回严格 JSON：
-{{
-  "directions": [
-    {{
-      "direction_id": "D1",
-      "direction_name_cn": "中文方向名",
-      "direction_name_en": "English direction name",
-      "direction_summary_cn": "一句话说明该方向",
-      "paper_ids": ["候选论文 candidate_id"]
-    }}
-  ],
-  "assignments": [
-    {{
-      "candidate_id": "候选论文 candidate_id",
-      "direction_id": "D1",
-      "method_summary_cn": "从标题和摘要判断出的主要方法/对象，不能编造",
-      "assignment_reason_cn": "一句话归类理由"
-    }}
-  ]
-}}
-
-约束：
-1. 每篇候选论文必须且只能分到一个方向。
-2. 不要输出空方向。
-3. direction_id 使用 D1、D2、D3 这种稳定编号。
-4. 方向数量保持精简，优先 2-6 个；候选很少时可只给 1 个。
-5. 只返回 JSON，不要解释。
-
-候选论文：
-{json.dumps(_paper_payload(papers, abstract_limit=abstract_limit), ensure_ascii=False, indent=2)}
-"""
+        prompt = render_prompt(
+            "download_prescreen",
+            topic=topic,
+            candidate_papers_json={
+                "input_mode": input_mode,
+                "papers": _paper_payload(papers, abstract_limit=abstract_limit),
+            },
+        )
+        return retry_hint + prompt
 
     last_error: Exception | None = None
     for attempt, abstract_limit in enumerate([900, 450], start=1):
@@ -275,7 +274,9 @@ def infer_candidate_directions(topic: str, papers: list[dict[str, Any]]) -> tupl
             payload = _extract_json(resp.choices[0].message.content)
             directions = payload.get("directions", []) if isinstance(payload, dict) else []
             assignments = payload.get("assignments", []) if isinstance(payload, dict) else []
-            validated = validate_directions(papers, directions, assignments)
+            relevance_scores = payload.get("relevance_scores", []) if isinstance(payload, dict) else []
+            fast_check = payload.get("fast_check", {}) if isinstance(payload, dict) else {}
+            validated = validate_directions(papers, directions, assignments, relevance_scores, fast_check)
             if validated:
                 return validated
             last_error = ValueError("LLM JSON passed parsing but failed direction validation.")
@@ -290,7 +291,9 @@ def validate_directions(
     papers: list[dict[str, Any]],
     directions: list[dict[str, Any]],
     assignments: list[dict[str, Any]],
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]] | None:
+    relevance_scores: list[dict[str, Any]] | None = None,
+    fast_check: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]] | None:
     paper_ids = {str(paper.get("candidate_id")) for paper in papers if paper.get("candidate_id")}
     if not paper_ids:
         return None
@@ -308,6 +311,9 @@ def validate_directions(
                 "direction_name_cn": str(direction.get("direction_name_cn") or direction.get("direction_name") or direction_id),
                 "direction_name_en": str(direction.get("direction_name_en") or ""),
                 "direction_summary_cn": str(direction.get("direction_summary_cn") or ""),
+                "display_keywords": direction.get("display_keywords", []),
+                "inclusion_rule_cn": str(direction.get("inclusion_rule_cn") or ""),
+                "exclusion_rule_cn": str(direction.get("exclusion_rule_cn") or ""),
                 "paper_ids": paper_list,
             }
         )
@@ -324,7 +330,14 @@ def validate_directions(
             {
                 "candidate_id": candidate_id,
                 "direction_id": direction_id,
-                "method_summary_cn": str(assignment.get("method_summary_cn") or ""),
+                "direction_role": str(assignment.get("direction_role") or "main"),
+                "assignment_confidence": safe_float(assignment.get("assignment_confidence"), 0.5),
+                "method_or_object_summary_cn": str(
+                    assignment.get("method_or_object_summary_cn") or assignment.get("method_summary_cn") or ""
+                ),
+                "method_summary_cn": str(
+                    assignment.get("method_or_object_summary_cn") or assignment.get("method_summary_cn") or ""
+                ),
                 "assignment_reason_cn": str(assignment.get("assignment_reason_cn") or ""),
             }
         )
@@ -345,7 +358,37 @@ def validate_directions(
             non_empty_dirs.append(direction)
     if not non_empty_dirs:
         return None
-    return non_empty_dirs, clean_assignments
+
+    score_by_id: dict[str, dict[str, Any]] = {}
+    for row in relevance_scores or []:
+        candidate_id = str(row.get("candidate_id") or "").strip()
+        if candidate_id in paper_ids:
+            score_by_id[candidate_id] = {
+                "candidate_id": candidate_id,
+                "relevance_score": clamp_score(row.get("relevance_score"), default=5.0),
+                "decision": str(row.get("decision") or "borderline"),
+                "reason_cn": str(row.get("reason_cn") or ""),
+            }
+    clean_scores = [
+        score_by_id.get(
+            candidate_id,
+            {
+                "candidate_id": candidate_id,
+                "relevance_score": 5.0,
+                "decision": "borderline",
+                "reason_cn": "10A 未返回该论文分数，使用默认分。",
+            },
+        )
+        for candidate_id in sorted(paper_ids)
+    ]
+    computed_fast_check = {
+        "all_papers_assigned_once": assigned == paper_ids,
+        "empty_directions": [],
+        "duplicated_paper_ids": [],
+        "unassigned_paper_ids": sorted(paper_ids - assigned),
+        "representative_notes_cn": str((fast_check or {}).get("representative_notes_cn") or ""),
+    }
+    return non_empty_dirs, clean_assignments, clean_scores, computed_fast_check
 
 
 def build_screening_state(
@@ -360,9 +403,10 @@ def build_screening_state(
     for index, paper in enumerate(papers_with_ids):
         paper["title_cn"] = title_cn[index] if index < len(title_cn) else paper.get("title", "")
 
-    directions, assignments = infer_candidate_directions(topic, papers_with_ids)
+    directions, assignments, relevance_scores, fast_check = infer_candidate_directions(topic, papers_with_ids)
     by_id = {str(paper["candidate_id"]): paper for paper in papers_with_ids}
     assignment_by_id = {str(item["candidate_id"]): item for item in assignments}
+    score_by_id = {str(item["candidate_id"]): item for item in relevance_scores}
 
     direction_cards: list[dict[str, Any]] = []
     for direction in directions:
@@ -380,8 +424,13 @@ def build_screening_state(
                     "venue": paper.get("venue", ""),
                     "year": paper.get("year"),
                     "source": paper.get("source", ""),
+                    "method_or_object_summary_cn": assignment.get("method_or_object_summary_cn", ""),
                     "method_summary_cn": assignment.get("method_summary_cn", ""),
                     "assignment_reason_cn": assignment.get("assignment_reason_cn", ""),
+                    "direction_role": assignment.get("direction_role", ""),
+                    "assignment_confidence": assignment.get("assignment_confidence", ""),
+                    "relevance_score": score_by_id.get(str(candidate_id), {}).get("relevance_score", ""),
+                    "decision": score_by_id.get(str(candidate_id), {}).get("decision", ""),
                 }
             )
         direction_cards.append({**direction, "papers": card_papers})
@@ -393,6 +442,8 @@ def build_screening_state(
         "papers": papers_with_ids,
         "directions": direction_cards,
         "assignments": assignments,
+        "relevance_scores": relevance_scores,
+        "fast_check": fast_check,
     }
 
 
@@ -498,7 +549,22 @@ def score_and_rank_candidates(
     if not papers:
         raise RuntimeError("方向筛选后没有候选论文。请至少保留一个方向。")
 
-    score_rows = score_relevance_batch(topic, papers)
+    state_scores = {
+        str(item.get("candidate_id")): {
+            "relevance_score": clamp_score(item.get("relevance_score"), default=5.0),
+            "decision": str(item.get("decision") or "borderline"),
+            "reason_cn": str(item.get("reason_cn") or ""),
+        }
+        for item in state.get("relevance_scores", [])
+        if item.get("candidate_id")
+    }
+    missing_papers = [
+        paper for paper in papers
+        if str(paper.get("candidate_id")) not in state_scores
+    ]
+    score_rows = dict(state_scores)
+    if missing_papers:
+        score_rows.update(score_relevance_batch(topic, missing_papers))
     lookup_path = journal_levels_path or state.get("journal_levels_path") or None
     journal_lookup = load_journal_levels(lookup_path)
 

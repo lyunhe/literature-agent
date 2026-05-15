@@ -3,7 +3,12 @@ import json
 from pathlib import Path
 from typing import Any
 
-from generate_review_figures import (
+try:
+    from analysis_pipeline._bootstrap import PROJECT_ROOT  # noqa: F401
+except ModuleNotFoundError:
+    from _bootstrap import PROJECT_ROOT  # noqa: F401
+
+from analysis_pipeline.svg_utils import (
     COLOR_MUTED,
     COLOR_TEXT,
     DIRECTION_COLORS,

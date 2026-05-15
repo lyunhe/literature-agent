@@ -90,6 +90,31 @@ def expand_queries(topic: str) -> list[str]:
                 "power market battery storage scheduling",
             ]
         )
+    if (
+        "高空风能" in topic
+        or "空中风能" in topic
+        or "高空风力" in topic
+        or "airborne wind" in text
+        or "high altitude wind" in text
+        or "awe" in text
+    ):
+        queries.extend(
+            [
+                "airborne wind energy trajectory control",
+                "airborne wind energy path control",
+                "airborne wind energy flight path control",
+                "high altitude wind energy trajectory optimization control",
+                "kite power system trajectory control",
+            ]
+        )
+    if "轨迹控制" in topic or "trajectory control" in text or "path control" in text:
+        queries.extend(
+            [
+                "trajectory control airborne wind energy",
+                "path following control airborne wind energy",
+                "flight path control kite power system",
+            ]
+        )
 
     unique: list[str] = []
     seen: set[str] = set()
@@ -233,8 +258,8 @@ def search_and_download(
         )
         save_json(output_dir / "scored_candidates.json", ranked)
         selected_candidates = selected_for_download(ranked, max_papers)
-        save_json(output_dir / "selected_candidates.json", selected_candidates)
         selected_pdfs = download_papers(selected_candidates, max_papers=None, fallback_to_library=False)
+        save_json(output_dir / "selected_candidates.json", selected_candidates)
         save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
 
         downloaded_names: set[str] = set()
@@ -279,8 +304,8 @@ def search_and_download(
         )
         save_json(output_dir / "scored_candidates.json", ranked)
         selected_candidates = selected_for_download(ranked, max_papers)
-        save_json(output_dir / "selected_candidates.json", selected_candidates)
         selected_pdfs = download_papers(selected_candidates, max_papers=None, fallback_to_library=False)
+        save_json(output_dir / "selected_candidates.json", selected_candidates)
         save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
 
         downloaded_names: set[str] = set()
