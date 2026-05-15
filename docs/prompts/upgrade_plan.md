@@ -1,6 +1,6 @@
 # Literature Agent PDF 后处理流程升级计划
 
-> 本文档说明如何从旧版 `flowchart(2).md` 对应的流程，升级到新版 `flowchart.md`。重点不是重写检索和下载模块，而是重构 **PDF 下载之后的文献研究产出链路**：方向划分前移到 10A，PDF 后处理不再重复分方向，每个方向独立生成综述和 SVG，最后生成总综述 Markdown 和总 SVG。
+> 本文档说明如何从旧版 `flowchart(2).md` 对应的流程，升级到新版 `flowchart.md`。重点不是重写检索和下载模块，而是重构 **PDF 下载之后的文献研究产出链路**：方向划分前移到 10，PDF 后处理不再重复分方向，每个方向独立生成综述和 SVG，最后生成总综述 Markdown 和总 SVG。
 
 ---
 
@@ -23,7 +23,7 @@
 
 主要问题是：
 
-1. **方向划分重复**：下载前 10A 已经基于标题、摘要和元数据完成初步方向划分，PDF 后又用全文再分一次方向，既慢又可能与用户保留/排除方向结果冲突。
+1. **方向划分重复**：下载前 10 已经基于标题、摘要和元数据完成初步方向划分，PDF 后又用全文再分一次方向，既慢又可能与用户保留/排除方向结果冲突。
 2. **单篇结构化过重**：旧 11 同时承担相关性判断、背景、任务、输入、方法、输出、评价、结论、方向提示，输出大而慢。
 3. **schema 和 corpus_synthesis 太重**：旧 13 和旧 16 增加了大量中间结构，但很多字段并不直接服务后续综述和作图。
 4. **输出重复**：单篇结构化、方向 records、corpus_synthesis、plot_ready 里会重复输出相似的背景、方法和结论。
@@ -39,8 +39,8 @@
 
 具体目标：
 
-1. 从检索开始时，沿用下载前 `10A-download-prescreen-improved.txt` 的方向划分结果。
-2. 直接 PDF 开始时，也只用标题、摘要、期刊、年份、DOI 等元数据复用 10A 做轻量方向划分，不用全文分方向。
+1. 从检索开始时，沿用下载前 `10-download-prescreen-improved.txt` 的方向划分结果。
+2. 直接 PDF 开始时，也只用标题、摘要、期刊、年份、DOI 等元数据复用 10 做轻量方向划分，不用全文分方向。
 3. PDF 全文只用于方向内富化单篇。
 4. 每个方向生成：`enriched_single_papers/`、`direction_records.json`、`literature_review.md`、`single_direction_overview.svg`。
 5. 所有方向完成后生成：`corpus_literature_review.md` 和 `corpus_overview.svg`。
@@ -64,13 +64,13 @@
 | 05 | `05-batch-score-papers.txt` | 保留 |
 | 06 | `06-refine-query.txt` | 保留，可选 |
 | 07 | `07-refine-search-plan.txt` | 保留，可选 |
-| 10 | `10-batch-title-translation.txt` | 保留 |
+| 09 | `09-batch-title-translation.txt` | 保留 |
 
 ### 2.2 替换旧 prompt
 
 | 旧编号 | 旧 prompt | 新 prompt | 改法 |
 |---|---|---|---|
-| 10A | `10A-download-prescreen.txt` | `10A-download-prescreen-improved.txt` | 增加唯一分配检查、confidence、direction_role、fast_check |
+| 10 | `10-download-prescreen.txt` | `10-download-prescreen-improved.txt` | 增加唯一分配检查、confidence、direction_role、fast_check |
 | 14 | `14-direction-record.txt` | `12-direction-records.txt` | 输入改为方向内 enriched JSON，输出比较 records |
 | 15 | `15-cross-direction-comparison.txt` | `15-cross-direction-review-md.txt` + `16-cross-direction-plot.txt` | 跨方向比较改成总综述 MD 和总图 JSON |
 | 17 | `17-corpus-repair.txt` | `17-json-local-repair.txt` | 全量 repair 改局部 JSON repair |
@@ -84,7 +84,7 @@
 | 旧编号 | 文件 | 原因 |
 |---|---|---|
 | 11 | `11-single-paper-structure.txt` | 过重；与新 11 方向内富化单篇重复 |
-| 12 | `12-direction-discovery.txt` | PDF 后不再重复分方向；方向划分前移到 10A |
+| 12 | `12-direction-discovery.txt` | PDF 后不再重复分方向；方向划分前移到 10 |
 | 13 | `13-direction-schema.txt` | 独立 schema 层过重；合并到新 12 的 comparison_axes |
 | 16 | `16-corpus-synthesis.txt` | 四合一综合过重；改为 direction review + corpus review |
 
@@ -92,8 +92,8 @@
 
 | 旧编号 | 文件 | 原因 |
 |---|---|---|
-| 08 | `08-pdf-relation-classify.txt` | 暂时不要文献关系图 |
-| 09 | `09-llm-relation-classify.txt` | 暂时不要文献关系图 |
+| legacy-pdf-relation | `pdf-relation-classify.txt` | 暂时不要文献关系图 |
+| legacy-llm-relation | `llm-relation-classify.txt` | 暂时不要文献关系图 |
 
 ---
 
@@ -103,7 +103,7 @@
 
 ```text
 Step 1  更新 prompt 文件与 prompt 索引
-Step 2  改造下载前 10A 预筛输出
+Step 2  改造下载前 10 预筛输出
 Step 3  新增直接 PDF 模式的元数据轻量分方向
 Step 4  新增方向工作区构建函数
 Step 5  改造单方向快速通道为“每个方向都可调用”
@@ -122,7 +122,7 @@ Step 8  更新 CLI、Web 页面和输出目录
 
 ```text
 docs/prompts_new/
-├─ 10A-download-prescreen-improved.txt
+├─ 10-download-prescreen-improved.txt
 ├─ 11-enriched-single-paper-by-direction.txt
 ├─ 12-direction-records.txt
 ├─ 13-single-direction-review-md.txt
@@ -142,7 +142,7 @@ docs/prompts_new_optional/
 
 ```python
 PROMPT_REGISTRY = {
-    "download_prescreen": "docs/prompts_new/10A-download-prescreen-improved.txt",
+    "download_prescreen": "docs/prompts_new/10-download-prescreen-improved.txt",
     "enriched_single_by_direction": "docs/prompts_new/11-enriched-single-paper-by-direction.txt",
     "direction_records": "docs/prompts_new/12-direction-records.txt",
     "single_direction_review": "docs/prompts_new/13-single-direction-review-md.txt",
@@ -156,7 +156,7 @@ PROMPT_REGISTRY = {
 
 ---
 
-## 5. Step 2：改造下载前 10A 预筛输出
+## 5. Step 2：改造下载前 10 预筛输出
 
 ### 5.1 涉及文件
 
@@ -168,7 +168,7 @@ analysis_pipeline/web_app.py
 
 ### 5.2 当前逻辑
 
-旧 10A 已经会生成：
+旧 10 已经会生成：
 
 ```text
 candidate_directions.json
@@ -248,7 +248,7 @@ def validate_prescreen_directions(candidates, directions, assignments):
 
 ### 6.1 背景
 
-如果用户跳过检索下载，直接给 `--pdf-dir`，就没有下载前 10A 的方向结果。此时需要补做轻量方向划分，但不能用 PDF 全文。
+如果用户跳过检索下载，直接给 `--pdf-dir`，就没有下载前 10 的方向结果。此时需要补做轻量方向划分，但不能用 PDF 全文。
 
 ### 6.2 新增函数
 
@@ -275,7 +275,7 @@ def extract_pdf_metadata_for_prescreen(pdf_dir):
 }
 ```
 
-### 6.3 调用 10A
+### 6.3 调用 10
 
 直接复用：
 
@@ -303,7 +303,7 @@ analysis/pdf_metadata_direction_mapping.json
 
 ```text
 如果存在 download/candidate_directions.json：直接使用
-否则如果 from_pdf_only：提取 PDF 元数据并调用 10A
+否则如果 from_pdf_only：提取 PDF 元数据并调用 10
 否则报错或提示缺少方向映射
 ```
 
@@ -716,7 +716,7 @@ run_old_direction_discovery_after_pdf()
 --single-direction-only
 ```
 
-此时不需要 10A 分方向，直接构造一个虚拟方向：
+此时不需要 10 分方向，直接构造一个虚拟方向：
 
 ```json
 {
@@ -821,7 +821,7 @@ review_figures/传统多方向图
 网页方向筛选仍然发生在下载前：
 
 ```text
-10A candidate_directions → 用户点击保留/排除 → selected_candidates
+10 candidate_directions → 用户点击保留/排除 → selected_candidates
 ```
 
 ### 16.2 新增运行结果展示
@@ -844,7 +844,7 @@ review_figures/传统多方向图
 如果 Web 支持直接上传 PDF，可以加入：
 
 ```text
-上传 PDF → 提取元数据 → 10A 轻量方向划分 → 方向方框 → 后处理
+上传 PDF → 提取元数据 → 10 轻量方向划分 → 方向方框 → 后处理
 ```
 
 ---
@@ -857,7 +857,7 @@ review_figures/传统多方向图
 {
   "pipeline_version": "pdf_postprocess_v3",
   "entry_mode": "search_to_pdf / pdf_only / single_direction_only",
-  "direction_source": "download_prescreen_10A / pdf_metadata_10A / user_single_direction",
+  "direction_source": "download_prescreen_10 / pdf_metadata_10 / user_single_direction",
   "directions": [
     {
       "direction_id": "D1",
@@ -892,9 +892,9 @@ review_figures/传统多方向图
 4. 实现新 11、12、13、14。
 5. 跑一个已有 PDF 目录测试。
 
-### 第二阶段：接入下载前 10A
+### 第二阶段：接入下载前 10
 
-1. 改 `prescreen.py` 的 10A 输出。
+1. 改 `prescreen.py` 的 10 输出。
 2. 加 validator。
 3. 将 `candidate_directions.json` 接到 `build_direction_workspace()`。
 4. 跑完整流程测试。
@@ -920,7 +920,7 @@ review_figures/传统多方向图
 如果只想先快速跑通，最低限度只需要实现：
 
 ```text
-10A-download-prescreen-improved.txt
+10-download-prescreen-improved.txt
 11-enriched-single-paper-by-direction.txt
 12-direction-records.txt
 13-single-direction-review-md.txt
@@ -955,10 +955,10 @@ SVG
 
 ```text
 旧能力：
-检索、过滤、下载、10A 预筛、PDF 文本提取、图表提取、单方向快速通道、SVG 渲染
+检索、过滤、下载、10 预筛、PDF 文本提取、图表提取、单方向快速通道、SVG 渲染
 
 新编排：
-10A 方向结果作为唯一方向来源
+10 方向结果作为唯一方向来源
 每个方向独立调用增强版单方向快速通道
 最后再做跨方向总综述和总图
 ```

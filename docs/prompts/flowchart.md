@@ -1,6 +1,6 @@
 # Literature Agent 新版 AI 调用流程图
 
-> 目标：在保留现有检索、过滤、下载、PDF 正文提取、图表提取和 SVG 渲染能力的基础上，重构“得到 PDF 后”的文献研究流程。核心原则是：**方向划分前移到下载前 10A；PDF 全文不再用于重复分方向；方向确定后，再做方向内富化、方向综述、方向图和总综述图。**
+> 目标：在保留现有检索、过滤、下载、PDF 正文提取、图表提取和 SVG 渲染能力的基础上，重构“得到 PDF 后”的文献研究流程。核心原则是：**方向划分前移到下载前 10；PDF 全文不再用于重复分方向；方向确定后，再做方向内富化、方向综述、方向图和总综述图。**
 
 ---
 
@@ -23,7 +23,8 @@ flowchart TB
         P05["05-batch-score-papers.txt<br/>批量相关性评分<br/>输入: 批量元数据 + topic<br/>输出: 批量评分"]
         P06["06-refine-query.txt<br/>优化查询<br/>输入: 当前查询 + 结果反馈<br/>输出: 新查询"]
         P07["07-refine-search-plan.txt<br/>优化检索计划<br/>输入: 检索反馈<br/>输出: 调整后的计划"]
-        P01 --> P02 --> P03 --> P05 --> P07 --> P06
+        P08["08-query-expansion-flash.txt<br/>Flash AI query expansion<br/>Model: FLASH<br/>Input: topic<br/>Output: English search queries"]
+        P01 --> P02 --> P08 --> P03 --> P05 --> P07 --> P06
         P05 --> P04
     end
 
@@ -32,17 +33,17 @@ flowchart TB
     end
 
     subgraph PRESCREEN[下载前方向筛选与排序]
-        P10["10-batch-title-translation.txt<br/>标题批量翻译<br/>模型: FLASH<br/>输入: 英文标题列表<br/>输出: 中文标题"]
-        P10A["10A-download-prescreen-improved.txt<br/>下载前方向归纳 + 相关度评分 + 快速检查<br/>模型: FLASH<br/>输入: 标题/摘要/期刊/年份/concepts/引用量<br/>输出: candidate_directions + assignments + scores + fast_check"]
+        P09["09-batch-title-translation.txt<br/>标题批量翻译<br/>模型: FLASH<br/>输入: 英文标题列表<br/>输出: 中文标题"]
+        P10["10-download-prescreen-improved.txt<br/>下载前方向归纳 + 相关度评分 + 快速检查<br/>模型: FLASH<br/>输入: 标题/摘要/期刊/年份/concepts/引用量<br/>输出: candidate_directions + assignments + scores + fast_check"]
         UI1["网页方向筛选<br/>无 LLM<br/>输入: candidate_directions<br/>输出: selected_directions / selected_candidates"]
         J1["期刊 CSV 加权排序<br/>无 LLM<br/>输入: relevance_score + journal_level_score<br/>输出: final_score + Top N"]
-        P10 --> P10A --> UI1 --> J1
+        P09 --> P10 --> UI1 --> J1
     end
 
     subgraph DIRECTPDF[直接 PDF 入口的轻量分方向]
         M1["PDF 元数据提取<br/>无 LLM 或轻量规则<br/>输入: PDF<br/>输出: pdf_metadata.json<br/>标题/摘要/DOI/年份/期刊"]
-        P10A2["复用 10A-download-prescreen-improved.txt<br/>直接 PDF 模式方向划分<br/>输入: pdf_metadata.json + topic<br/>输出: pdf_metadata_direction_mapping.json"]
-        M1 --> P10A2
+        P10PDF["复用 10-download-prescreen-improved.txt<br/>直接 PDF 模式方向划分<br/>输入: pdf_metadata.json + topic<br/>输出: pdf_metadata_direction_mapping.json"]
+        M1 --> P10PDF
     end
 
     subgraph DOWNLOAD[下载与归档]
@@ -53,7 +54,7 @@ flowchart TB
     subgraph EXTRACT[PDF 正文与图表提取]
         E1["PDF 正文提取<br/>无 LLM<br/>输入: pdfs/*.pdf<br/>输出: analysis/txt_output/*.txt"]
         E2["extract_pdf_figures_tables.py<br/>无 LLM<br/>输入: pdfs/*.pdf<br/>输出: figures_tables/manifest.json + 图片/表格"]
-        E3["方向内文件分组<br/>无 LLM<br/>输入: 10A方向结果 + PDF/TXT/图表路径<br/>输出: analysis/directions/D*/assigned_papers.json"]
+        E3["方向内文件分组<br/>无 LLM<br/>输入: 10方向结果 + PDF/TXT/图表路径<br/>输出: analysis/directions/D*/assigned_papers.json"]
         E1 --> E3
         E2 --> E3
     end
@@ -104,10 +105,10 @@ flowchart TB
     I3 --> DIRPIPE
     I3 --> CORPUS
 
-    AGENT --> O1 --> F1 --> O2 --> P10
+    AGENT --> O1 --> F1 --> O2 --> P09
     J1 --> O4 --> D1 --> D2 --> E1
     D2 --> E2
-    P10A --> O3
+    P10 --> O3
     E3 --> O7 --> P11
     P11 --> O8
     P12 --> O9
@@ -116,9 +117,9 @@ flowchart TB
     P15 --> O12
     R2 --> O13
 
-    I4 --> M1 --> P10A2 --> E3
+    I4 --> M1 --> P10PDF --> E3
 
-    P10A -. validator失败 .-> P17
+    P10 -. validator失败 .-> P17
     P11 -. JSON失败 .-> P17
     P12 -. JSON失败 .-> P17
     P14 -. 作图文本失败 .-> P18
@@ -134,7 +135,7 @@ flowchart TB
 ```text
 研究主题
   ↓
-01-07 检索与查询优化 prompts
+01-08 检索与查询优化 prompts
   ↓
 search_results.json
   ↓
@@ -142,7 +143,7 @@ TopicFilter 规则过滤
   ↓
 filtered_results.json
   ↓
-10 标题翻译 + 10A 下载前方向筛选
+10 标题翻译 + 10 下载前方向筛选
   ↓
 candidate_directions.json / scored_candidates.json
   ↓
@@ -154,7 +155,7 @@ selected_candidates.json
   ↓
 PDF 正文 TXT + 图表 manifest
   ↓
-按 10A 方向结果组织方向目录
+按 10 方向结果组织方向目录
   ↓
 11 → 12 → 13 → 14 方向内处理
   ↓
@@ -168,7 +169,7 @@ PDF 正文 TXT + 图表 manifest
   ↓
 提取 PDF 元数据：标题 / 摘要 / DOI / 年份 / 期刊
   ↓
-复用 10A 做轻量方向划分
+复用 10 做轻量方向划分
   ↓
 pdf_metadata_direction_mapping.json
   ↓
@@ -176,7 +177,7 @@ pdf_metadata_direction_mapping.json
   ↓
 PDF 正文 TXT + 图表 manifest
   ↓
-按 10A 方向结果组织方向目录
+按 10 方向结果组织方向目录
   ↓
 11 → 12 → 13 → 14 方向内处理
   ↓
@@ -196,8 +197,9 @@ PDF 正文 TXT + 图表 manifest
 | 05 | `05-batch-score-papers.txt` | 是 | PRO | 批量元数据 + topic | 批量相关性评分 | 预筛前参考 |
 | 06 | `06-refine-query.txt` | 可选 | PRO | 当前查询 + 检索反馈 | 优化后的查询 | 下一轮检索 |
 | 07 | `07-refine-search-plan.txt` | 可选 | PRO | 当前计划 + 平台效果反馈 | 调整后的搜索计划 | 下一轮检索 |
-| 10 | `10-batch-title-translation.txt` | 是 | FLASH | 英文标题列表 | 中文标题 | paper_table / 10A |
-| 10A | `10A-download-prescreen-improved.txt` | 是 | FLASH | 标题、摘要、期刊、年份、concepts、引用量、topic | 方向归纳、唯一分配、相关度评分、fast_check | 下载前用户筛选；直接 PDF 轻量分方向 |
+| 08 | `08-query-expansion-flash.txt` | yes | FLASH | topic | English search queries | OpenAlex / arXiv / IEEE search |
+| 09 | `09-batch-title-translation.txt` | 是 | FLASH | 英文标题列表 | 中文标题 | paper_table / 10 |
+| 10 | `10-download-prescreen-improved.txt` | 是 | FLASH | 标题、摘要、期刊、年份、concepts、引用量、topic | 方向归纳、唯一分配、相关度评分、fast_check | 下载前用户筛选；直接 PDF 轻量分方向 |
 | 11 | `11-enriched-single-paper-by-direction.txt` | 是 | FLASH 并发 | 方向信息、单篇全文 TXT、图表清单、预筛理由 | 方向内富化单篇 JSON | 12、13 |
 | 12 | `12-direction-records.txt` | 是 | PRO | assigned_papers + enriched JSON | direction_records.json | 13、14、15 |
 | 13 | `13-single-direction-review-md.txt` | 是 | PRO | direction_records + 关键公式/图表 | 单方向 `literature_review.md` | 14、15 |
@@ -220,7 +222,7 @@ PDF 正文 TXT + 图表 manifest
   topic
 
 Prompt:
-  10A-download-prescreen-improved.txt
+  10-download-prescreen-improved.txt
 
 输出:
   download/candidate_directions.json
@@ -333,10 +335,10 @@ Prompt:
 
 | 旧编号 | 旧功能 | 新处理 |
 |---|---|---|
-| 08 | PDF 关系分类 | 暂停默认调用，文献关系图以后再接 |
-| 09 | LLM 关系分类 | 暂停默认调用，文献关系图以后再接 |
+| legacy-pdf-relation | PDF 关系分类 | 暂停默认调用，文献关系图以后再接 |
+| legacy-llm-relation | LLM 关系分类 | 暂停默认调用，文献关系图以后再接 |
 | 11 | 单篇自适应结构化 | 被新 11 方向内富化单篇替代 |
-| 12 | PDF 后研究方向划分 | 移除默认流程；方向划分前移到 10A |
+| 12 | PDF 后研究方向划分 | 移除默认流程；方向划分前移到 10 |
 | 13 | 方向 Schema 设计 | 并入新 12 的 `comparison_axes` |
 | 14 | 方向内规整 | 被新 12 方向 records 替代 |
 | 15 | 跨方向比较 JSON | 被新 15 总综述 MD + 新 16 总图替代 |

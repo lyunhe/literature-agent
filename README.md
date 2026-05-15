@@ -5,7 +5,7 @@
 当前版本为 `pdf_postprocess_v3`。核心规则是：
 
 ```text
-方向划分只做一次：10A 是唯一方向来源。
+方向划分只做一次：10 是唯一方向来源。
 PDF 全文只用于方向内深度分析，不再用于二次分方向。
 ```
 
@@ -28,6 +28,7 @@ PDF 全文只用于方向内深度分析，不再用于二次分方向。
   05 批量相关性评分
   06 优化查询（可选）
   07 优化检索计划（可选）
+  08 Flash AI 检索词扩展（FLASH）
   输出：download/search_results.json
 
 规则过滤
@@ -36,8 +37,8 @@ PDF 全文只用于方向内深度分析，不再用于二次分方向。
   输出：download/filtered_results.json
 
 下载前方向筛选与排序
-  10 标题批量翻译（FLASH）
-  10A 下载前方向归纳 + 相关度评分 + fast_check（FLASH）
+  09 标题批量翻译（FLASH）
+  10 下载前方向归纳 + 相关度评分 + fast_check（FLASH）
   网页或 CLI 方向选择（无 LLM）
   期刊 CSV 加权排序（无 LLM）
   输出：
@@ -94,28 +95,28 @@ PDF 正文与图表提取
 ```text
 入口 A：从检索开始
   研究主题
-  -> 01-07 检索与查询优化
+  -> 01-08 检索与查询优化
   -> search_results.json
   -> TopicFilter 规则过滤
   -> filtered_results.json
-  -> 10 标题翻译 + 10A 下载前方向筛选
+  -> 10 标题翻译 + 10 下载前方向筛选
   -> candidate_directions.json / scored_candidates.json
   -> 用户保留或排除方向
   -> selected_candidates.json
   -> 下载 PDF
   -> PDF 正文 TXT + 可选图表 manifest
-  -> 按 10A 方向结果组织 analysis/directions/D*/
+  -> 按 10 方向结果组织 analysis/directions/D*/
   -> 11 -> 12 -> 13 -> 14 方向内处理
   -> 15 -> 16 跨方向总综述与总图
 
 入口 B：直接从 PDF 开始
   已有 PDF
   -> 提取 PDF 元数据：标题 / 摘要 / DOI / 年份 / 期刊
-  -> 复用 10A 做轻量方向划分
+  -> 复用 10 做轻量方向划分
   -> pdf_metadata_direction_mapping.json
   -> 可选：用户保留或排除方向
   -> PDF 正文 TXT + 可选图表 manifest
-  -> 按 10A 方向结果组织 analysis/directions/D*/
+  -> 按 10 方向结果组织 analysis/directions/D*/
   -> 11 -> 12 -> 13 -> 14 方向内处理
   -> 15 -> 16 跨方向总综述与总图
 ```
@@ -177,8 +178,8 @@ analysis_pipeline/
 └─ web_app.py                       # 本地网页
 
 literature_download/
-├─ workflow.py                      # 检索、过滤、10A 预筛、下载
-├─ prescreen.py                     # 10A 方向归纳、相关度评分、期刊加权
+├─ workflow.py                      # 检索、过滤、10 预筛、下载
+├─ prescreen.py                     # 10 方向归纳、相关度评分、期刊加权
 ├─ topic_filter.py                  # AND/OR/NOT 主题过滤
 └─ paper_table.py                   # 文献表格与标题翻译
 
@@ -186,8 +187,8 @@ docs/prompts/
 ├─ 01-agent-system.txt
 ├─ 02-generate-query-variations.txt
 ├─ ...
-├─ 10-batch-title-translation.txt
-├─ 10A-download-prescreen-improved.txt
+├─ 09-batch-title-translation.txt
+├─ 10-download-prescreen-improved.txt
 ├─ 11-enriched-single-paper-by-direction.txt
 ├─ 12-direction-records.txt
 ├─ 13-single-direction-review-md.txt
@@ -250,7 +251,7 @@ DEEPSEEK_ENABLE_THINKING=true
 
 ## PDF-only 模式
 
-直接从本地 PDF 开始，仍然会用 PDF 元数据复用 10A 做轻量方向划分：
+直接从本地 PDF 开始，仍然会用 PDF 元数据复用 10 做轻量方向划分：
 
 ```powershell
 .\.venv\Scripts\python.exe analysis_pipeline\unified_literature_pipeline.py "高空风能" `
@@ -312,9 +313,9 @@ output/YYYYMMDD_HHMM_研究主题/
 
 ## 方向工作区
 
-`analysis/directions/D*/assigned_papers.json` 是 10A 方向结果和 PDF 后文件之间的桥梁。它把以下信息合并到同一个方向目录中：
+`analysis/directions/D*/assigned_papers.json` 是 10 方向结果和 PDF 后文件之间的桥梁。它把以下信息合并到同一个方向目录中：
 
-- 10A 的 `direction_id`、方向名、方向说明
+- 10 的 `direction_id`、方向名、方向说明
 - 候选论文元数据和预筛理由
 - `relevance_score`、`direction_role`、`assignment_confidence`
 - 本次运行中的 PDF 路径
@@ -342,7 +343,7 @@ http://127.0.0.1:5000
 ```text
 输入主题和 AND/OR/NOT 条件
 -> 运行 --screen-only
--> 显示 10A 候选方向方框
+-> 显示 10 候选方向方框
 -> 用户选择保留方向
 -> 运行新版方向内 pipeline
 -> 展示每方向 SVG 和总 SVG
@@ -353,8 +354,9 @@ http://127.0.0.1:5000
 | 阶段 | Prompt | 模型 |
 |---|---|---|
 | 检索与查询优化 | 01-07 | PRO |
-| 标题翻译 | 10 | FLASH |
-| 下载前方向筛选与相关度评分 | 10A | FLASH |
+| Flash 检索词扩展 | 08 | FLASH |
+| 标题翻译 | 09 | FLASH |
+| 下载前方向筛选与相关度评分 | 10 | FLASH |
 | 方向内富化单篇 | 11 | FLASH |
 | 方向 records | 12 | PRO |
 | 单方向综述 | 13 | PRO |
@@ -368,5 +370,5 @@ http://127.0.0.1:5000
 
 - `.env` 不要提交真实密钥。
 - 默认一键流程不提取图表；需要图表时添加 `--extract-figures-tables`。
-- `--skip-ai-prescreen` 已不适用于新版流程，因为 10A 是唯一方向来源。
+- `--skip-ai-prescreen` 已不适用于新版流程，因为 10 是唯一方向来源。
 - Markdown 综述中的公式使用 `$...$` 和 `$$...$$`。

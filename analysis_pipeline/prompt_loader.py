@@ -9,7 +9,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PROMPTS_DIR = PROJECT_ROOT / "docs" / "prompts"
 
 PROMPT_FILES = {
-    "download_prescreen": "10A-download-prescreen-improved.txt",
+    "query_expansion": "08-query-expansion-flash.txt",
+    "batch_title_translation": "09-batch-title-translation.txt",
+    "download_prescreen": "10-download-prescreen-improved.txt",
     "enriched_single_by_direction": "11-enriched-single-paper-by-direction.txt",
     "direction_records": "12-direction-records.txt",
     "single_direction_review": "13-single-direction-review-md.txt",
@@ -52,6 +54,8 @@ def assert_prompt_placeholders_resolved(prompt: str) -> None:
         token
         for token in [
             "{topic}",
+            "{max_queries}",
+            "{title_list}",
             "{candidate_papers_json}",
             "{direction_info_json}",
             "{paper_metadata_and_prescreen_json}",

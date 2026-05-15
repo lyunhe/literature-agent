@@ -7,11 +7,13 @@ from typing import Any
 
 import requests
 
+from analysis_pipeline.prompt_loader import render_prompt
 from backend import db
+from backend.llm_client import llm_request
 from backend.paths import LIBRARY_PDF_DIR, normalize_library_path
 from literature_download import arxiv_search, ieee_search, openalex_search
 from literature_download.topic_filter import TopicFilter
-from literature_download.paper_table import build_paper_table, save_paper_table
+from literature_download.paper_table import build_paper_table, get_flash_model, save_paper_table
 from literature_download.prescreen import (
     build_screening_state,
     load_screening_state,
@@ -46,84 +48,93 @@ def paper_key(paper: dict[str, Any]) -> str:
     return "title:" + re.sub(r"\s+", " ", str(paper.get("title", "")).lower()).strip()
 
 
-def expand_queries(topic: str) -> list[str]:
-    """Expand a short Chinese or English research topic into search-oriented queries."""
-    queries = [topic]
-    text = topic.lower()
-    if "储能" in topic or "energy storage" in text:
-        queries.extend(
-            [
-                "energy storage electricity market",
-                "battery energy storage power market bidding",
-                "energy storage participation electricity markets",
-            ]
-        )
-    if "报价" in topic or "竞价" in topic or "bidding" in text or "bid" in text:
-        queries.extend(
-            [
-                "energy storage bidding strategies in electricity markets",
-                "battery energy storage bidding strategy electricity market",
-                "energy storage price bidding electricity markets",
-            ]
-        )
-    if (
-        "收益" in topic
-        or "分配" in topic
-        or "利润" in topic
-        or "revenue" in text
-        or "profit" in text
-        or "benefit sharing" in text
-        or "allocation" in text
-    ):
-        queries.extend(
-            [
-                "energy storage revenue allocation electricity market",
-                "battery energy storage profit sharing electricity market",
-                "energy storage benefit allocation power market",
-                "shared energy storage revenue sharing electricity market",
-            ]
-        )
-    if "电力市场" in topic or "electricity market" in text or "power market" in text:
-        queries.extend(
-            [
-                "electricity market energy storage optimization",
-                "power market battery storage scheduling",
-            ]
-        )
-    if (
-        "高空风能" in topic
-        or "空中风能" in topic
-        or "高空风力" in topic
-        or "airborne wind" in text
-        or "high altitude wind" in text
-        or "awe" in text
-    ):
-        queries.extend(
-            [
-                "airborne wind energy trajectory control",
-                "airborne wind energy path control",
-                "airborne wind energy flight path control",
-                "high altitude wind energy trajectory optimization control",
-                "kite power system trajectory control",
-            ]
-        )
-    if "轨迹控制" in topic or "trajectory control" in text or "path control" in text:
-        queries.extend(
-            [
-                "trajectory control airborne wind energy",
-                "path following control airborne wind energy",
-                "flight path control kite power system",
-            ]
-        )
+def _extract_json_from_text(text: str) -> Any:
+    raw = (text or "").strip()
+    raw = re.sub(r"^```(?:json)?\s*", "", raw)
+    raw = re.sub(r"\s*```$", "", raw)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        pass
+
+    starts = [idx for idx in [raw.find("{"), raw.find("[")] if idx != -1]
+    if not starts:
+        raise ValueError("LLM response does not contain JSON.")
+    start = min(starts)
+    stack: list[str] = []
+    in_string = False
+    escape = False
+    for index, ch in enumerate(raw[start:], start=start):
+        if in_string:
+            if escape:
+                escape = False
+            elif ch == "\\":
+                escape = True
+            elif ch == '"':
+                in_string = False
+            continue
+        if ch == '"':
+            in_string = True
+        elif ch in "{[":
+            stack.append(ch)
+        elif ch in "}]":
+            if not stack:
+                continue
+            opener = stack.pop()
+            if (opener, ch) not in {("{", "}"), ("[", "]")}:
+                raise ValueError("LLM response JSON brackets are mismatched.")
+            if not stack:
+                return json.loads(raw[start : index + 1])
+    raise ValueError("LLM response JSON is incomplete.")
+
+
+def _normalize_query_list(value: Any, limit: int) -> list[str]:
+    if isinstance(value, dict):
+        value = value.get("queries") or value.get("search_queries") or value.get("query_variations")
+    if not isinstance(value, list):
+        return []
 
     unique: list[str] = []
     seen: set[str] = set()
-    for query in queries:
-        key = query.strip().lower()
+    for item in value:
+        if isinstance(item, dict):
+            query = str(item.get("query") or item.get("search_query") or "").strip()
+        else:
+            query = str(item or "").strip()
+        key = re.sub(r"\s+", " ", query).lower()
         if key and key not in seen:
-            unique.append(query.strip())
+            unique.append(query)
             seen.add(key)
+        if len(unique) >= limit:
+            break
     return unique
+
+
+def expand_queries(topic: str, max_queries: int = 8) -> list[str]:
+    """Use the flash model to turn a research topic into English academic search queries."""
+    topic = topic.strip()
+    if not topic:
+        return []
+
+    prompt = render_prompt("query_expansion", topic=topic, max_queries=max_queries)
+    try:
+        resp = llm_request(
+            messages=[
+                {"role": "system", "content": "Return strict JSON only."},
+                {"role": "user", "content": prompt},
+            ],
+            model=get_flash_model(),
+            temperature=0.2,
+            max_tokens=1024,
+        )
+        payload = _extract_json_from_text(resp.choices[0].message.content)
+        queries = _normalize_query_list(payload, limit=max_queries)
+        if queries:
+            return queries
+        raise ValueError("query expansion returned an empty list")
+    except Exception as exc:
+        print(f"[search warning] AI query expansion failed, using original topic only: {exc}")
+        return [topic]
 
 
 def search_literature(topic: str, sources: list[str], max_results: int) -> list[dict[str, Any]]:

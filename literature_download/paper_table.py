@@ -14,6 +14,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from analysis_pipeline.prompt_loader import render_prompt
 from backend.llm_client import llm_request
 
 
@@ -38,10 +39,7 @@ def translate_titles(titles: list[str]) -> list[str]:
         f"{idx}. {text}" for idx, (_, text) in enumerate(non_empty)
     )
 
-    prompt = (
-        "将以下英文学术论文标题翻译为中文。返回 JSON 字符串数组，"
-        "与输入顺序一一对应，只返回 JSON 数组，不要额外解释。\n\n" + numbered
-    )
+    prompt = render_prompt("batch_title_translation", title_list=numbered)
 
     try:
         resp = llm_request(

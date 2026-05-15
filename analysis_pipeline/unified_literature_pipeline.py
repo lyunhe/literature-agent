@@ -309,7 +309,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--from-pdf-only", action="store_true", help="跳过在线检索，直接从 --pdf-dir 中的 PDF 开始")
     parser.add_argument("--pdf-metadata-path", type=Path, default=None, help="PDF-only 模式可选元数据 JSON")
     parser.add_argument("--skip-search", action="store_true", help="兼容旧参数：等同于 --from-pdf-only")
-    parser.add_argument("--single-direction-only", action="store_true", help="明确所有 PDF 属于同一方向，跳过 10A 分方向")
+    parser.add_argument("--single-direction-only", action="store_true", help="明确所有 PDF 属于同一方向，跳过 10 分方向")
     parser.add_argument("--single-only", action="store_true", help="兼容旧参数：等同于 --single-direction-only")
     parser.add_argument("--overwrite", action="store_true", help="覆盖已有中间结果")
     parser.add_argument("--output-dir", type=Path, default=None, help="统一流程输出目录")
@@ -318,7 +318,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--screening-state", type=Path, default=None, help="复用已有下载前方向筛选状态继续运行")
     parser.add_argument("--selected-directions", default="", help="只保留指定方向 ID，逗号分隔，如 D1,D3")
     parser.add_argument("--journal-levels", type=Path, default=PROJECT_ROOT / "journal_levels.csv", help="期刊分区评分 CSV")
-    parser.add_argument("--skip-ai-prescreen", action="store_true", help="旧参数已禁用：新版流程需要 10A")
+    parser.add_argument("--skip-ai-prescreen", action="store_true", help="旧参数已禁用：新版流程需要 10")
     parser.add_argument("--parallel-papers", type=int, default=1, help="并发处理方向内单篇富化数量")
     parser.add_argument("--filter-and", action="append", dest="filter_and_groups", default=None, help="AND 主题组：逗号分隔关键词。")
     parser.add_argument("--filter-or", action="append", dest="filter_or_groups", default=None, help="OR 主题组：逗号分隔关键词。")
@@ -413,7 +413,7 @@ def main() -> None:
                 report["direction_source"] = "user_single_direction"
             else:
                 state = build_screening_state(args.topic, candidates, args.journal_levels)
-                report["direction_source"] = "pdf_metadata_10A"
+                report["direction_source"] = "pdf_metadata_10"
             save_screening_state(state, download_dir)
             save_json(analysis_output_dir / "pdf_metadata_direction_mapping.json", state)
             if args.screen_only:
@@ -434,8 +434,8 @@ def main() -> None:
             return candidates, pdfs
 
         if args.skip_ai_prescreen:
-            raise RuntimeError("新版流程需要 10A 作为唯一方向来源，不能使用 --skip-ai-prescreen。")
-        report["direction_source"] = "download_prescreen_10A"
+            raise RuntimeError("新版流程需要 10 作为唯一方向来源，不能使用 --skip-ai-prescreen。")
+        report["direction_source"] = "download_prescreen_10"
         return search_and_download(
             topic=args.topic,
             sources=sources,
@@ -517,7 +517,7 @@ def main() -> None:
         ),
     )
     if not direction_dirs:
-        raise RuntimeError("方向工作区为空，请检查 selected_directions 或 10A 结果。")
+        raise RuntimeError("方向工作区为空，请检查 selected_directions 或 10 结果。")
 
     config = resolve_llm_config()
     client = build_client(config)

@@ -376,7 +376,7 @@ def validate_directions(
                 "candidate_id": candidate_id,
                 "relevance_score": 5.0,
                 "decision": "borderline",
-                "reason_cn": "10A 未返回该论文分数，使用默认分。",
+                "reason_cn": "10 未返回该论文分数，使用默认分。",
             },
         )
         for candidate_id in sorted(paper_ids)
