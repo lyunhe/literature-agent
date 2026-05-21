@@ -81,6 +81,36 @@ class ClaudeResp:
         self.choices = [ClaudeChoice(stop_reason, msg)]
 
 
+def _messages_to_responses_input(messages: list) -> str:
+    parts = []
+    for msg in messages:
+        role = msg.get("role", "user")
+        content = msg.get("content", "")
+        if isinstance(content, list):
+            text_parts = []
+            for block in content:
+                if isinstance(block, dict):
+                    text_parts.append(str(block.get("text") or block.get("content") or ""))
+                else:
+                    text_parts.append(str(block))
+            content = "\n".join(text_parts)
+        parts.append(f"{role.upper()}:\n{content}")
+    return "\n\n".join(parts)
+
+
+def _responses_input_from_messages(messages: list) -> list[dict]:
+    text = _messages_to_responses_input(messages)
+    return [{"role": "user", "content": [{"type": "input_text", "text": text}]}]
+
+
+def _collect_response_stream(stream) -> str:
+    parts = []
+    for event in stream:
+        if getattr(event, "type", "") == "response.output_text.delta":
+            parts.append(event.delta)
+    return "".join(parts)
+
+
 def llm_request(
     messages: list,
     model: str = model,
@@ -194,6 +224,13 @@ def llm_request(
 
         return ClaudeResp(stop_reason, text, wrapped_tool_calls)
     else:
+        if tools is None and model.startswith("gpt-5"):
+            stream = openai_client.responses.create(
+                model=model,
+                input=_responses_input_from_messages(messages),
+                stream=True,
+            )
+            return ClaudeResp("stop", _collect_response_stream(stream), None)
         params = dict(
             model=model,
             messages=messages,

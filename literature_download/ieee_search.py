@@ -8,23 +8,33 @@ from __future__ import annotations
 import requests
 from backend.config import IEEE_API_KEY
 
-IEEE_BASE = "https://ieeexplore.ieee.org/rest/search"
+IEEE_BASE = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
+IEEE_DOCUMENT = "https://ieeexploreapi.ieee.org/api/v1/search/document"
 IEEE_STAMP = "https://ieeexplore.ieee.org/stamp/stamp.jsp"
 
 
 def _format_result(record: dict) -> dict:
-    authors_list = record.get("authors", {}).get("authors", [])
+    authors_value = record.get("authors", {})
+    if isinstance(authors_value, dict):
+        authors_list = authors_value.get("authors", [])
+        authors = "; ".join(a.get("full_name") or a.get("name", "") for a in authors_list)
+    elif isinstance(authors_value, list):
+        authors = "; ".join(str(a.get("full_name") or a.get("name") or a) for a in authors_value)
+    else:
+        authors = str(authors_value or "")
+    article_number = record.get("article_number") or record.get("articleNumber") or ""
     return {
         "title":    record.get("title", ""),
-        "authors":  "; ".join(a.get("name", "") for a in authors_list),
+        "authors":  authors,
         "abstract": record.get("abstract", ""),
-        "ieee_id":  str(record.get("article_number", "")),
+        "ieee_id":  str(article_number),
         "doi":      record.get("doi", ""),
-        "url":      f"https://ieeexplore.ieee.org/document/{record.get('article_number', '')}",
-        "year":     record.get("year"),
+        "url":      record.get("html_url") or f"https://ieeexplore.ieee.org/document/{article_number}",
+        "year":     record.get("publication_year") or record.get("year"),
         "venue":    record.get("publication_title", ""),
         "source":   "ieee",
-        "pdf_url":  f"{IEEE_STAMP}?tp=&arnumber={record.get('article_number', '')}",
+        "access_type": record.get("access_type") or record.get("accessType") or "",
+        "pdf_url":  record.get("pdf_url") or f"{IEEE_STAMP}?tp=&arnumber={article_number}",
     }
 
 
@@ -37,25 +47,20 @@ def search(query: str, max_results: int = 5, api_key: str = None) -> list[dict]:
     if not key:
         return [{"error": "IEEE API key not found. Set api_keys.ieee_xplore in env.yaml."}]
 
-    headers = {
-        "Content-Type": "application/json",
-        "Accept":       "application/json",
-        "X-API-Key":    key,
-    }
-    payload = {
-        "QueryText":      query,
-        "maxRecords":     max_results,
-        "highlight":      True,
-        "fields":         "title,authors,abstract,doi,article_number,year,publication_title",
+    params = {
+        "apikey": key,
+        "format": "json",
+        "querytext": query,
+        "max_records": max_results,
     }
     try:
-        resp = requests.post(IEEE_BASE, json=payload, headers=headers, timeout=30)
+        resp = requests.get(IEEE_BASE, params=params, timeout=30)
         resp.raise_for_status()
         data = resp.json()
     except requests.RequestException as e:
         return [{"error": f"IEEE API request failed: {e}"}]
 
-    records = data.get("records", [])
+    records = data.get("articles", data.get("records", []))
     return [_format_result(r) for r in records]
 
 
@@ -68,16 +73,20 @@ def download_pdf(ieee_id: str, output_path: str, api_key: str = None) -> str:
     if not key:
         return "Error: IEEE API key not found."
 
-    # Step 1: get the actual PDF download URL via metadata endpoint
-    meta_url = f"https://ieeexplore.ieee.org/rest/document/{ieee_id}"
-    headers = {"Accept": "application/json", "X-API-Key": key}
+    # Step 1: IEEE Open Access / Full-Text endpoint. Availability depends on
+    # the API product attached to the key and the article's access type.
+    fulltext_url = f"{IEEE_DOCUMENT}/{ieee_id}/fulltext"
     try:
-        meta_resp = requests.get(meta_url, headers=headers, timeout=30)
+        meta_resp = requests.get(
+            fulltext_url,
+            params={"apikey": key, "format": "json"},
+            timeout=30,
+        )
         meta_resp.raise_for_status()
         meta = meta_resp.json()
-        pdf_url = meta.get("downloadLink", "")
+        pdf_url = meta.get("pdf_url") or meta.get("downloadLink", "")
     except requests.RequestException as e:
-        return f"Error fetching IEEE document metadata: {e}"
+        return f"Error fetching IEEE full-text metadata: {e}"
 
     if not pdf_url:
         # Fallback: construct stamp URL (may require session cookie for full PDF)
@@ -85,7 +94,7 @@ def download_pdf(ieee_id: str, output_path: str, api_key: str = None) -> str:
 
     # Step 2: download the PDF
     try:
-        pdf_resp = requests.get(pdf_url, headers=headers, timeout=60, stream=True)
+        pdf_resp = requests.get(pdf_url, timeout=60, stream=True)
         pdf_resp.raise_for_status()
         with open(output_path, "wb") as f:
             for chunk in pdf_resp.iter_content(chunk_size=8192):
@@ -102,24 +111,18 @@ def get_info(ieee_id: str, api_key: str = None) -> dict | str:
     key = api_key or IEEE_API_KEY
     if not key:
         return "Error: IEEE API key not found."
-    url = f"https://ieeexplore.ieee.org/rest/document/{ieee_id}"
-    headers = {"Accept": "application/json", "X-API-Key": key}
+    params = {
+        "apikey": key,
+        "format": "json",
+        "article_number": ieee_id,
+        "max_records": 1,
+    }
     try:
-        resp = requests.get(url, headers=headers, timeout=30)
+        resp = requests.get(IEEE_BASE, params=params, timeout=30)
         resp.raise_for_status()
-        r = resp.json()
-        # Extract needed fields
-        authors_list = r.get("authors", {}).get("authors", [])
-        return {
-            "title":    r.get("title", ""),
-            "authors":  "; ".join(a.get("name", "") for a in authors_list),
-            "abstract": r.get("abstract", ""),
-            "ieee_id":  str(r.get("articleNumber", ieee_id)),
-            "doi":      r.get("doi", ""),
-            "url":      f"https://ieeexplore.ieee.org/document/{ieee_id}",
-            "year":     r.get("year"),
-            "venue":    r.get("publicationTitle", ""),
-            "source":   "ieee",
-        }
+        articles = resp.json().get("articles", [])
+        if not articles:
+            return f"Error: IEEE article '{ieee_id}' not found."
+        return _format_result(articles[0])
     except requests.RequestException as e:
         return f"Error fetching IEEE document: {e}"

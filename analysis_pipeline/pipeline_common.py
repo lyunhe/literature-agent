@@ -294,6 +294,17 @@ def _chat_request_text(client: OpenAI, config: LLMConfig, model: str, prompt: st
             request_kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
         response = client.chat.completions.create(**request_kwargs)
         return extract_chat_message_text(response).strip()
+    if model.startswith("gpt-5"):
+        stream = client.responses.create(
+            model=model,
+            input=[{"role": "user", "content": [{"type": "input_text", "text": prompt}]}],
+            stream=True,
+        )
+        parts = []
+        for event in stream:
+            if getattr(event, "type", "") == "response.output_text.delta":
+                parts.append(event.delta)
+        return "".join(parts).strip()
     response = client.responses.create(model=model, input=prompt)
     return response.output_text.strip()
 

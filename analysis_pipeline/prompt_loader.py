@@ -20,6 +20,7 @@ PROMPT_FILES = {
     "cross_direction_plot": "16-cross-direction-plot.txt",
     "json_local_repair": "17-json-local-repair.txt",
     "plot_text_repair": "18-plot-text-repair.txt",
+    "query_plan_multilevel": "19-query-plan-multilevel.txt",
 }
 
 
@@ -78,6 +79,7 @@ def assert_prompt_placeholders_resolved(prompt: str) -> None:
             "{invalid_output_text}",
             "{plot_ready_json}",
             "{violations_json}",
+            "{seed_context_json}",
         ]
         if token in prompt
     ]

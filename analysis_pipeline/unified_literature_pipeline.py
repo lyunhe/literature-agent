@@ -303,6 +303,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("topic", nargs="?", default=DEFAULT_TOPIC, help="简单研究主题提示词")
     parser.add_argument("--sources", default="openalex,arxiv", help="检索源，逗号分隔：openalex,arxiv,ieee")
     parser.add_argument("--max-results", type=int, default=5, help="每个查询词在每个来源最多返回多少条结果")
+    parser.add_argument("--max-queries", type=int, default=8, help="AI 扩展检索词数量，用于放大候选元数据池")
+    parser.add_argument("--seed-papers", type=Path, default=None, help="种子文献 JSON，可用综述/核心文献点火检索计划")
+    parser.add_argument("--no-seed-candidates", action="store_true", help="只用种子文献补强检索词，不把种子文献并入候选池")
+    parser.add_argument("--skip-doi-enrich", action="store_true", help="跳过 DOI/Crossref/OpenAlex/出版社页面元数据追溯")
     parser.add_argument("--max-papers", type=int, default=1, help="最多处理多少篇 PDF")
     parser.add_argument("--all-papers", action="store_true", help="处理能下载或本地已有的全部 PDF")
     parser.add_argument("--pdf-dir", type=Path, default=LIBRARY_PDF_DIR, help="PDF-only 模式使用的 PDF 目录")
@@ -371,6 +375,10 @@ def main() -> None:
         "topic": args.topic,
         "topic_for_model": topic_for_model,
         "sources": sources,
+        "max_queries": args.max_queries,
+        "seed_papers": str(args.seed_papers.resolve()) if args.seed_papers else "",
+        "include_seed_candidates": not args.no_seed_candidates,
+        "doi_enrich": not args.skip_doi_enrich,
         "pipeline_version": "pdf_postprocess_v3",
         "entry_mode": entry_mode,
         "direction_source": "",
@@ -448,6 +456,10 @@ def main() -> None:
             screening_state_path=args.screening_state,
             selected_directions=_selected_direction_ids(args.selected_directions),
             journal_levels_path=args.journal_levels,
+            max_queries=args.max_queries,
+            seed_papers_path=args.seed_papers,
+            include_seed_candidates=not args.no_seed_candidates,
+            doi_enrich=not args.skip_doi_enrich,
         )
 
     _, selected_pdfs = run_tracked_block("0. 文献检索/方向预筛/PDF 准备", report, output_dir, logs_dir, prepare_papers)
