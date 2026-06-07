@@ -1,0 +1,20 @@
+id: bertsimas_2013_adaptive_robust_scuc
+title: Adaptive Robust Optimization for the Security Constrained Unit Commitment Problem
+authors:
+  - Dimitris Bertsimas
+  - Eugene Litvinov
+  - Xu Andy Sun
+  - Jinye Zhao
+  - Tongxin Zheng
+year: 2013
+venue: IEEE Transactions on Power Systems
+doi: 10.1109/TPWRS.2012.2205021
+role: method_reference
+source_pdf: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction/papers/pdfs/two-stage-benders-uc/2013 - Adaptive Robust Optimization for the Security Constrained Unit Commitment Problem.pdf
+run_dir: runs/bertsimas_2013_adaptive_robust_scuc
+obsidian_vault: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction
+notes:
+  - Canonical two-stage adaptive robust SCUC method reference.
+  - Exact numerical reproduction is blocked by non-packaged ISO-NE data.
+  - Use for BD/OA algorithm extraction and public-case substitute experiments.
+

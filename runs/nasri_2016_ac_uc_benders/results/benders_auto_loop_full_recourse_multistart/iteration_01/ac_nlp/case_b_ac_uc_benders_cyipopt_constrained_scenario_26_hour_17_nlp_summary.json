@@ -1,0 +1,40 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": -0.0017006544806392491,
+  "runtime_sec": 39.23616683296859,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 26,
+    "hour": 17,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "multistart_mode": "paper",
+    "selected_initialization": "flat_start_high_v",
+    "attempt_count": 3,
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 38.672829792136326,
+    "objective": -0.0017006544806392491,
+    "max_p_residual_mw": 0.00010294880530636874,
+    "max_q_residual_mvar": 2.0285739310565987e-08,
+    "sum_p_slack_mw": 0.003443543796885787,
+    "sum_q_slack_mvar": 0.002399743473398697,
+    "max_line_slack_mva": 0.0837931952095401,
+    "max_ac_line_loading_percent": 99.95462858515941,
+    "sum_load_shed_mw": 0.0,
+    "sum_wind_spillage_mw": 0.0001940075693368002,
+    "sum_reserve_up_mw": 0.0,
+    "sum_reserve_down_mw": 0.0022754496367331694,
+    "n_variables": 309,
+    "n_constraints": 113,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_summary.json",
+      "attempts": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_attempts.csv"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

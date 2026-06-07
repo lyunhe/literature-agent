@@ -1,0 +1,32 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": 6.43975972076154e-10,
+  "runtime_sec": 7.959280041046441,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 26,
+    "hour": 17,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 7.433771457988769,
+    "objective": 6.43975972076154e-10,
+    "max_p_residual_mw": 1.3009184840484522e-09,
+    "max_q_residual_mvar": 4.462314961983793e-09,
+    "sum_p_slack_mw": 0.00023975519936119904,
+    "sum_q_slack_mvar": 0.00023975541049479763,
+    "max_line_slack_mva": 0.02566860170515863,
+    "max_ac_line_loading_percent": 96.45462877924895,
+    "n_variables": 206,
+    "n_constraints": 86,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_stable/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_stable/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_stable/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_stable/iteration_01/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_summary.json"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are placeholders for future Benders cut coefficients; current constrained NLP includes balance/line multipliers."
+  }
+}

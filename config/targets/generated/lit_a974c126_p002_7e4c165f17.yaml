@@ -1,0 +1,13 @@
+id: "lit_a974c126_p002_7e4c165f17"
+title: "Inertia Emulation Control Strategy for VSC-HVDC Transmission Systems"
+authors:
+  - "Jiebei Zhu；Campbell D. Booth；Grain P. Adam；Andrew J. Roscoe；Chris G. Bright"
+year: "2013"
+venue: "IEEE Transactions on Power Systems"
+doi: "10.1109/TPWRS.2012.2213101"
+role: "literature_agent_selected_paper"
+source_pdf: "output/20260527_1535_频率安全/01_discovery/pdfs/Inertia_Emulation_Control_Strategy_for_VSC-HVDC_Transmission_Systems.pdf"
+run_dir: "runs/lit_a974c126_p002_7e4c165f17"
+notes:
+  - "Generated from literature showcase run 20260527_1535_频率安全, direction D1, paper P002."
+  - "Created for file-level reproducibility audit and toolchain handoff."

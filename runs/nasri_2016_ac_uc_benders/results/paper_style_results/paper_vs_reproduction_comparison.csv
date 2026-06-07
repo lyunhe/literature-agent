@@ -1,0 +1,6 @@
+metric,paper,reproduction,status
+Case A expected cost,"$638,537.8","$639,922.36",close scale; synthetic wind and simplified model
+Case B expected cost,"$651,909.9",not fully reproduced; proxy curve anchored to paper,full 40x24 AC NLP batch still pending
+Case C expected cost,"$650,368.9",not fully reproduced,requires relaxed-voltage AC-Benders batch
+Case B convergence,25 iterations at 0.3% tolerance,stage loop runs selected scenario-hours,proxy curve shown for visual comparison
+Wind scenarios,"40 historical scenarios, 24 h","40 reconstructed surrogate scenarios, 24 h",calibrated to reported 29.60% expected wind

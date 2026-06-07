@@ -1,0 +1,40 @@
+{
+  "paper": "nasri_2016_ac_uc_benders",
+  "base_case": "IEEE RTS-1996 one-area 24-node system",
+  "base_mva": 100,
+  "horizon_hours": 24,
+  "wind_scenarios": 40,
+  "experiments": [
+    {
+      "id": "case_a_dc_uc",
+      "description": "Both stages use DC network representation; direct MILP solve.",
+      "voltage_bounds_pu": null,
+      "algorithm": "direct_milp",
+      "alignment_targets": ["Table V", "Table VI", "Fig. 4"]
+    },
+    {
+      "id": "case_b_ac_uc_benders",
+      "description": "AC UC solved by Benders; voltage magnitude bounds 0.9-1.1 p.u.",
+      "voltage_bounds_pu": [0.9, 1.1],
+      "algorithm": "benders_milp_master_nlp_subproblems",
+      "convergence_tolerance_percent": 0.3,
+      "alignment_targets": ["Table V", "Table VI", "Fig. 4", "Fig. 5"]
+    },
+    {
+      "id": "case_c_ac_uc_relaxed_voltage",
+      "description": "AC UC solved by Benders; relaxed voltage magnitude bounds 0.5-1.5 p.u.",
+      "voltage_bounds_pu": [0.5, 1.5],
+      "algorithm": "benders_milp_master_nlp_subproblems",
+      "convergence_tolerance_percent": 0.3,
+      "alignment_targets": ["Table V", "Table VI", "Fig. 4"]
+    },
+    {
+      "id": "case_b_tolerance_sensitivity",
+      "description": "Re-run Case B with 0.1 percent tolerance for sensitivity test.",
+      "voltage_bounds_pu": [0.9, 1.1],
+      "algorithm": "benders_milp_master_nlp_subproblems",
+      "convergence_tolerance_percent": 0.1,
+      "alignment_targets": ["Section IV-D tolerance comparison"]
+    }
+  ]
+}

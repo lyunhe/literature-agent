@@ -1,0 +1,30 @@
+{
+  "status": "ac_nlp_solved",
+  "objective": 1.8315307644115896e-06,
+  "runtime_sec": 1.6630995830055326,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 21,
+    "hour": 17,
+    "solver": "scipy.optimize.minimize(method='SLSQP')",
+    "success": true,
+    "message": "Optimization terminated successfully",
+    "iterations": 142,
+    "solve_runtime_sec": 1.6495465410407633,
+    "objective": 1.8315307644115896e-06,
+    "max_p_residual_mw": 0.015989071253244447,
+    "max_q_residual_mvar": 0.09084820200888544,
+    "sum_abs_p_residual_mw": 0.11464595573014336,
+    "sum_abs_q_residual_mvar": 0.44033036681193494,
+    "max_ac_line_loading_percent": 99.98449567567822,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem/case_b_ac_uc_benders_scenario_21_hour_17_nlp_solution.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem/case_b_ac_uc_benders_scenario_21_hour_17_nlp_summary.json"
+    },
+    "limitations": [
+      "Prototype feasibility NLP; active generation and wind usage are fixed from DC-UC master.",
+      "SciPy SLSQP does not provide the dual multipliers needed for exact Benders cuts.",
+      "Lossless branch model is used until full MATPOWER AC parameters are wired in."
+    ]
+  }
+}

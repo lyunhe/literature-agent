@@ -1,0 +1,21 @@
+id: nasri_2016_ac_uc_benders
+title: "Network-Constrained AC Unit Commitment Under Uncertainty: A Benders' Decomposition Approach"
+authors:
+  - Amin Nasri
+  - Jalal Kazempour
+  - Antonio J. Conejo
+  - Mehrdad Ghandhari
+year: 2016
+venue: IEEE Transactions on Power Systems
+doi: 10.1109/TPWRS.2015.2409198
+role: ac_uc_benders_reproduction_candidate
+source_pdf: runs/nasri_2016_ac_uc_benders/pdfs/12_Amin_UC.pdf
+run_dir: runs/nasri_2016_ac_uc_benders
+obsidian_vault: runs/nasri_2016_ac_uc_benders/obsidian
+notes:
+  - Candidate paper for AC network-constrained unit commitment under uncertainty.
+  - Expected to be more complex than DC/LSF robust UC because of AC constraints and Benders cuts.
+  - Evaluate data availability, AC model clarity, and solver requirements before implementation.
+optional_data_files:
+  - reserves.csv
+  - uncertainty_bounds.csv

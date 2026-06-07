@@ -1,0 +1,40 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": -0.0017002228832494887,
+  "runtime_sec": 42.703924416098744,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 1,
+    "hour": 1,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "multistart_mode": "paper",
+    "selected_initialization": "dc_seed",
+    "attempt_count": 3,
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 42.099590248893946,
+    "objective": -0.0017002228832494887,
+    "max_p_residual_mw": 9.88415256895081e-05,
+    "max_q_residual_mvar": 7.88688225838996e-10,
+    "sum_p_slack_mw": 0.0033723588015049507,
+    "sum_q_slack_mvar": 0.0023998624982908678,
+    "max_line_slack_mva": 0.0837942836202603,
+    "max_ac_line_loading_percent": 46.30290230064728,
+    "sum_load_shed_mw": 0.0,
+    "sum_wind_spillage_mw": 0.000201822873122558,
+    "sum_reserve_up_mw": 0.0,
+    "sum_reserve_down_mw": 0.002167851476565472,
+    "n_variables": 301,
+    "n_constraints": 111,
+    "outputs": {
+      "solution": "../results/ac_nlp_subproblem_multistart_full/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_solution.csv",
+      "constraints": "../results/ac_nlp_subproblem_multistart_full/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_constraints.csv",
+      "multipliers": "../results/ac_nlp_subproblem_multistart_full/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_multipliers.csv",
+      "summary": "../results/ac_nlp_subproblem_multistart_full/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_summary.json",
+      "attempts": "../results/ac_nlp_subproblem_multistart_full/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_attempts.csv"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

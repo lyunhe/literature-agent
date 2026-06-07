@@ -1,0 +1,123 @@
+{
+  "data_dir": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/data",
+  "base_mva": 100.0,
+  "tables": {
+    "buses": {
+      "rows": 24,
+      "columns": [
+        "bus_id",
+        "base_kv",
+        "area",
+        "zone",
+        "pd_fraction",
+        "notes",
+        "base_pd_mw",
+        "base_qd_mvar",
+        "qd_fraction"
+      ]
+    },
+    "lines": {
+      "rows": 38,
+      "columns": [
+        "line_id",
+        "from_bus",
+        "to_bus",
+        "x_pu",
+        "rate_mw",
+        "lsf_row_source",
+        "notes",
+        "table_i_sbar_pu",
+        "table_i_source"
+      ]
+    },
+    "generators": {
+      "rows": 32,
+      "columns": [
+        "gen_id",
+        "bus_id",
+        "p_min_mw",
+        "p_max_mw",
+        "startup_cost",
+        "shutdown_cost",
+        "fixed_cost",
+        "ramp_up_mw",
+        "ramp_down_mw",
+        "min_up_h",
+        "min_down_h",
+        "initial_status",
+        "initial_p_mw",
+        "q_min_mvar",
+        "q_max_mvar",
+        "reserve_up_mw",
+        "reserve_down_mw",
+        "initial_reserve_mw",
+        "paper_cost_usd_per_pu",
+        "notes"
+      ]
+    },
+    "generator_cost_segments": {
+      "rows": 32,
+      "columns": [
+        "gen_id",
+        "segment_id",
+        "p_max_segment_mw",
+        "marginal_cost",
+        "notes"
+      ]
+    },
+    "load_profile": {
+      "rows": 24,
+      "columns": [
+        "hour",
+        "total_load_mw",
+        "total_reactive_load_mvar",
+        "nodal_allocation_source",
+        "notes"
+      ]
+    },
+    "wind_farms": {
+      "rows": 2,
+      "columns": [
+        "wind_id",
+        "bus_id",
+        "p_nom_mw",
+        "profile_source",
+        "notes"
+      ]
+    },
+    "wind_profile": {
+      "rows": 1920,
+      "columns": [
+        "hour",
+        "scenario_id",
+        "probability",
+        "wind_id",
+        "forecast_mw",
+        "production_mw",
+        "production_pu",
+        "lower_bound_mw",
+        "upper_bound_mw",
+        "source",
+        "notes"
+      ]
+    },
+    "scenario_probabilities": {
+      "rows": 40,
+      "columns": [
+        "scenario_id",
+        "probability",
+        "source",
+        "notes"
+      ]
+    },
+    "load_factors": {
+      "rows": 24,
+      "columns": [
+        "hour",
+        "load_factor",
+        "source",
+        "notes"
+      ]
+    }
+  }
+}

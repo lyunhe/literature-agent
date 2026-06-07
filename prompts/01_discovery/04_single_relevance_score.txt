@@ -1,0 +1,15 @@
+﻿# Prompt: 单篇论文相关性评分
+# 模型: 默认模型 (LLM_MODEL)
+# 角色: user
+# 输入: user_query(研究主题), topic_summary(主题摘要), paper(title/abstract)
+
+Rate the relevance of this paper to the research topic on a scale of 0-10.
+
+Research Topic: "{user_query}"
+Topic Summary: "{topic_summary}"
+
+Paper Title: {title}
+Paper Abstract: {abstract_truncated_700_chars}
+
+Return ONLY a single number between 0 and 10.
+

@@ -1,0 +1,7 @@
+# Prompt 12: single title translation
+# 角色: user
+# 输入: title(英文论文标题)
+
+将以下英文标题翻译为中文，只返回中文翻译。
+
+{title}

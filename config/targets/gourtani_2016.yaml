@@ -1,0 +1,16 @@
+id: gourtani_2016_n1_robust_uc
+title: Robust Unit Commitment with n-1 Security Criteria
+authors:
+  - A. Gourtani
+year: 2016
+venue: Mathematical Methods of Operations Research
+doi: 10.1007/s00186-016-0532-6
+role: sanity_check_target
+source_pdf: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction/papers/pdfs/two-stage-benders-uc/2016 - Robust Unit Commitment with n-1 Security Criteria.pdf
+run_dir: runs/gourtani_2016_n1_robust_uc
+obsidian_vault: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction
+notes:
+  - Data tables are comparatively complete.
+  - Use as end-to-end data and model sanity check.
+  - Main method is distributionally robust SIP/mixture formulation rather than Benders.
+

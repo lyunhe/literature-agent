@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="760" viewBox="0 0 980 760">
+<style>
+  .title { font: 700 18px Arial, sans-serif; fill: #222; }
+  .subtitle { font: 700 13px Arial, sans-serif; fill: #333; }
+  .label { font: 12px Arial, sans-serif; fill: #333; }
+  .tick { font: 10px Arial, sans-serif; fill: #555; }
+</style>
+<text x="490.0" y="28" text-anchor="middle" class="title">Paper-style generation schedule</text>
+<rect x="82" y="58" width="874" height="190" fill="#ffffff" stroke="#888" stroke-width="0.8"/>
+<line x1="82" y1="248.00" x2="956" y2="248.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="252.00" text-anchor="end" class="tick">1,454</text>
+<line x1="82" y1="200.50" x2="956" y2="200.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="204.50" text-anchor="end" class="tick">1,797</text>
+<line x1="82" y1="153.00" x2="956" y2="153.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="157.00" text-anchor="end" class="tick">2,140</text>
+<line x1="82" y1="105.50" x2="956" y2="105.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="109.50" text-anchor="end" class="tick">2,483</text>
+<line x1="82" y1="58.00" x2="956" y2="58.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="62.00" text-anchor="end" class="tick">2,826</text>
+<line x1="82.00" y1="248" x2="82.00" y2="253" stroke="#666"/>
+<text x="82.00" y="267" text-anchor="middle" class="tick">1.00</text>
+<line x1="234.00" y1="248" x2="234.00" y2="253" stroke="#666"/>
+<text x="234.00" y="267" text-anchor="middle" class="tick">5.00</text>
+<line x1="386.00" y1="248" x2="386.00" y2="253" stroke="#666"/>
+<text x="386.00" y="267" text-anchor="middle" class="tick">9.00</text>
+<line x1="538.00" y1="248" x2="538.00" y2="253" stroke="#666"/>
+<text x="538.00" y="267" text-anchor="middle" class="tick">13</text>
+<line x1="690.00" y1="248" x2="690.00" y2="253" stroke="#666"/>
+<text x="690.00" y="267" text-anchor="middle" class="tick">17</text>
+<line x1="842.00" y1="248" x2="842.00" y2="253" stroke="#666"/>
+<text x="842.00" y="267" text-anchor="middle" class="tick">21</text>
+<text x="82" y="46" class="subtitle">Expected thermal generation</text>
+<text x="20" y="153.0" transform="rotate(-90 20 153.0)" text-anchor="middle" class="label">Value</text>
+<path d="M 82.00,174.68 L 120.00,195.03 L 158.00,214.83 L 196.00,234.90 L 234.00,227.67 L 272.00,225.04 L 310.00,218.93 L 348.00,209.97 L 386.00,203.48 L 424.00,197.42 L 462.00,186.65 L 500.00,173.74 L 538.00,165.37 L 576.00,143.02 L 614.00,139.34 L 652.00,116.54 L 690.00,105.97 L 728.00,91.73 L 766.00,79.05 L 804.00,71.10 L 842.00,83.49 L 880.00,100.32 L 918.00,110.04 L 956.00,106.94" fill="none" stroke="#1b9e77" stroke-width="2.2"/>
+<rect x="82" y="286" width="874" height="190" fill="#ffffff" stroke="#888" stroke-width="0.8"/>
+<line x1="82" y1="476.00" x2="956" y2="476.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="480.00" text-anchor="end" class="tick">-19</text>
+<line x1="82" y1="428.50" x2="956" y2="428.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="432.50" text-anchor="end" class="tick">50</text>
+<line x1="82" y1="381.00" x2="956" y2="381.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="385.00" text-anchor="end" class="tick">120</text>
+<line x1="82" y1="333.50" x2="956" y2="333.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="337.50" text-anchor="end" class="tick">190</text>
+<line x1="82" y1="286.00" x2="956" y2="286.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="290.00" text-anchor="end" class="tick">259</text>
+<line x1="82.00" y1="476" x2="82.00" y2="481" stroke="#666"/>
+<text x="82.00" y="495" text-anchor="middle" class="tick">1.00</text>
+<line x1="234.00" y1="476" x2="234.00" y2="481" stroke="#666"/>
+<text x="234.00" y="495" text-anchor="middle" class="tick">5.00</text>
+<line x1="386.00" y1="476" x2="386.00" y2="481" stroke="#666"/>
+<text x="386.00" y="495" text-anchor="middle" class="tick">9.00</text>
+<line x1="538.00" y1="476" x2="538.00" y2="481" stroke="#666"/>
+<text x="538.00" y="495" text-anchor="middle" class="tick">13</text>
+<line x1="690.00" y1="476" x2="690.00" y2="481" stroke="#666"/>
+<text x="690.00" y="495" text-anchor="middle" class="tick">17</text>
+<line x1="842.00" y1="476" x2="842.00" y2="481" stroke="#666"/>
+<text x="842.00" y="495" text-anchor="middle" class="tick">21</text>
+<text x="82" y="274" class="subtitle">Expected wind</text>
+<path d="M 82.00,358.02 L 120.00,355.01 L 158.00,354.66 L 196.00,353.02 L 234.00,349.72 L 272.00,343.25 L 310.00,334.50 L 348.00,320.32 L 386.00,313.38 L 424.00,304.38 L 462.00,299.10 L 500.00,304.40 L 538.00,306.71 L 576.00,319.64 L 614.00,337.75 L 652.00,352.86 L 690.00,366.04 L 728.00,377.83 L 766.00,381.98 L 804.00,382.26 L 842.00,379.55 L 880.00,374.41 L 918.00,365.42 L 956.00,361.27" fill="none" stroke="#7570b3" stroke-width="2.2"/>
+<path d="M 82.00,462.90 L 120.00,462.90 L 158.00,462.90 L 196.00,462.90 L 234.00,462.90 L 272.00,462.90 L 310.00,462.90 L 348.00,462.90 L 386.00,462.90 L 424.00,462.90 L 462.00,462.90 L 500.00,462.90 L 538.00,462.90 L 576.00,462.90 L 614.00,462.90 L 652.00,462.90 L 690.00,462.90 L 728.00,462.90 L 766.00,462.90 L 804.00,462.90 L 842.00,462.90 L 880.00,462.90 L 918.00,462.90 L 956.00,462.90" fill="none" stroke="#d95f02" stroke-width="2.2"/>
+<rect x="82" y="514" width="874" height="190" fill="#ffffff" stroke="#888" stroke-width="0.8"/>
+<line x1="82" y1="704.00" x2="956" y2="704.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="708.00" text-anchor="end" class="tick">23</text>
+<line x1="82" y1="656.50" x2="956" y2="656.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="660.50" text-anchor="end" class="tick">24</text>
+<line x1="82" y1="609.00" x2="956" y2="609.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="613.00" text-anchor="end" class="tick">24</text>
+<line x1="82" y1="561.50" x2="956" y2="561.50" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="565.50" text-anchor="end" class="tick">25</text>
+<line x1="82" y1="514.00" x2="956" y2="514.00" stroke="#d9d9d9" stroke-width="0.7"/>
+<text x="74" y="518.00" text-anchor="end" class="tick">26</text>
+<line x1="82.00" y1="704" x2="82.00" y2="709" stroke="#666"/>
+<text x="82.00" y="723" text-anchor="middle" class="tick">1.00</text>
+<line x1="234.00" y1="704" x2="234.00" y2="709" stroke="#666"/>
+<text x="234.00" y="723" text-anchor="middle" class="tick">5.00</text>
+<line x1="386.00" y1="704" x2="386.00" y2="709" stroke="#666"/>
+<text x="386.00" y="723" text-anchor="middle" class="tick">9.00</text>
+<line x1="538.00" y1="704" x2="538.00" y2="709" stroke="#666"/>
+<text x="538.00" y="723" text-anchor="middle" class="tick">13</text>
+<line x1="690.00" y1="704" x2="690.00" y2="709" stroke="#666"/>
+<text x="690.00" y="723" text-anchor="middle" class="tick">17</text>
+<line x1="842.00" y1="704" x2="842.00" y2="709" stroke="#666"/>
+<text x="842.00" y="723" text-anchor="middle" class="tick">21</text>
+<text x="82" y="502" class="subtitle">Committed units</text>
+<path d="M 82.00,690.90 L 120.00,690.90 L 158.00,690.90 L 196.00,690.90 L 234.00,690.90 L 272.00,690.90 L 310.00,690.90 L 348.00,690.90 L 386.00,690.90 L 424.00,690.90 L 462.00,690.90 L 500.00,690.90 L 538.00,636.30 L 576.00,636.30 L 614.00,636.30 L 652.00,581.70 L 690.00,581.70 L 728.00,527.10 L 766.00,527.10 L 804.00,527.10 L 842.00,527.10 L 880.00,527.10 L 918.00,581.70 L 956.00,581.70" fill="none" stroke="#4d4d4d" stroke-width="2.2"/>
+<text x="490.0" y="746" text-anchor="middle" class="label">Hour</text>
+<line x1="700" y1="32" x2="726" y2="32" stroke="#1b9e77" stroke-width="3"/>
+<text x="736" y="37" class="label">thermal MW</text>
+<line x1="700" y1="54" x2="726" y2="54" stroke="#7570b3" stroke-width="3"/>
+<text x="736" y="59" class="label">wind used MW</text>
+<line x1="700" y1="76" x2="726" y2="76" stroke="#d95f02" stroke-width="3"/>
+<text x="736" y="81" class="label">wind curtailed MW</text>
+<line x1="700" y1="98" x2="726" y2="98" stroke="#4d4d4d" stroke-width="3"/>
+<text x="736" y="103" class="label">committed units</text>
+</svg>

@@ -1,0 +1,114 @@
+constraint_type,component_id,multiplier,benders_coefficient,variable_name,master_value,notes
+p_balance_eq,1,-6.082067697294778e-06,,,,
+p_balance_eq,2,-6.082472930540086e-06,,,,
+p_balance_eq,3,-6.07523688278715e-06,,,,
+p_balance_eq,4,-6.078950888856598e-06,,,,
+p_balance_eq,5,-6.078575277272407e-06,,,,
+p_balance_eq,6,-6.075268650881127e-06,,,,
+p_balance_eq,7,8.777770050878264e-06,,,,
+p_balance_eq,8,-6.081826874347201e-06,,,,
+p_balance_eq,9,-6.081384770491734e-06,,,,
+p_balance_eq,10,-6.080850681282156e-06,,,,
+p_balance_eq,11,-6.087763638875595e-06,,,,
+p_balance_eq,12,-6.094630266087612e-06,,,,
+p_balance_eq,13,-6.105751439291037e-06,,,,
+p_balance_eq,14,-6.081694190992065e-06,,,,
+p_balance_eq,15,-6.079919867393088e-06,,,,
+p_balance_eq,16,-6.08505812312763e-06,,,,
+p_balance_eq,17,-6.081234283415745e-06,,,,
+p_balance_eq,18,-6.076344012481149e-06,,,,
+p_balance_eq,19,-6.091563040584347e-06,,,,
+p_balance_eq,20,-6.103856247007059e-06,,,,
+p_balance_eq,21,-6.081623715377438e-06,,,,
+p_balance_eq,22,-6.094219365618094e-06,,,,
+p_balance_eq,23,-6.109035538328526e-06,,,,
+p_balance_eq,24,-6.076965959318999e-06,,,,
+q_balance_eq,1,2.760113962071412e-09,,,,
+q_balance_eq,2,2.7681954473368194e-09,,,,
+q_balance_eq,3,4.79224072714118e-09,,,,
+q_balance_eq,4,4.286625770577737e-09,,,,
+q_balance_eq,5,4.2914676646098505e-09,,,,
+q_balance_eq,6,5.277487882424022e-09,,,,
+q_balance_eq,7,7.819256163534035e-09,,,,
+q_balance_eq,8,7.42475538890677e-09,,,,
+q_balance_eq,9,4.32487940748887e-09,,,,
+q_balance_eq,10,4.468426314046774e-09,,,,
+q_balance_eq,11,1.9569154898205774e-09,,,,
+q_balance_eq,12,4.700051267086186e-10,,,,
+q_balance_eq,13,-4.0708736191056974e-09,,,,
+q_balance_eq,14,2.5473346694359803e-09,,,,
+q_balance_eq,15,1.468683668349789e-09,,,,
+q_balance_eq,16,1.626555704702336e-10,,,,
+q_balance_eq,17,2.662685994866158e-09,,,,
+q_balance_eq,18,3.597342422423066e-09,,,,
+q_balance_eq,19,-1.7299284275892155e-09,,,,
+q_balance_eq,20,-4.937013191983144e-09,,,,
+q_balance_eq,21,2.4085615783742843e-09,,,,
+q_balance_eq,22,1.6601654780131302e-09,,,,
+q_balance_eq,23,-6.344589570968722e-09,,,,
+q_balance_eq,24,3.3655119891103717e-09,,,,
+line_mva_ineq,1,-3.9178975463018065e-07,,,,
+line_mva_ineq,2,-3.9193395541056226e-07,,,,
+line_mva_ineq,3,-3.915212325457262e-07,,,,
+line_mva_ineq,4,-3.9161654078203625e-07,,,,
+line_mva_ineq,5,-3.9156077434557176e-07,,,,
+line_mva_ineq,6,-3.9173839430914896e-07,,,,
+line_mva_ineq,7,-3.9270967067952455e-07,,,,
+line_mva_ineq,8,-3.9167730040053316e-07,,,,
+line_mva_ineq,9,-3.9169075812847037e-07,,,,
+line_mva_ineq,10,-3.917758923036795e-07,,,,
+line_mva_ineq,11,0.00042461439737043324,,,,
+line_mva_ineq,12,-3.9192077083497805e-07,,,,
+line_mva_ineq,13,-3.920218257217411e-07,,,,
+line_mva_ineq,14,-3.916681223948575e-07,,,,
+line_mva_ineq,15,-3.9095182730737015e-07,,,,
+line_mva_ineq,16,-3.909485768132417e-07,,,,
+line_mva_ineq,17,-3.906414512026626e-07,,,,
+line_mva_ineq,18,-3.814670656047808e-07,,,,
+line_mva_ineq,19,-3.922760719083752e-07,,,,
+line_mva_ineq,20,-3.908982665938388e-07,,,,
+line_mva_ineq,21,-3.9114088878163394e-07,,,,
+line_mva_ineq,22,-3.918694754285553e-07,,,,
+line_mva_ineq,23,-3.913788453534901e-07,,,,
+line_mva_ineq,24,-1.8644546292063607e-07,,,,
+line_mva_ineq,25,-3.9209077754339845e-07,,,,
+line_mva_ineq,26,-3.9209077377740526e-07,,,,
+line_mva_ineq,27,-3.9168564381664337e-07,,,,
+line_mva_ineq,28,-3.9215176414244513e-07,,,,
+line_mva_ineq,29,-2.068536159958311e-07,,,,
+line_mva_ineq,30,-1.294508498511295e-07,,,,
+line_mva_ineq,31,-3.918438979768551e-07,,,,
+line_mva_ineq,32,-3.9208928075412343e-07,,,,
+line_mva_ineq,33,-3.920893077618537e-07,,,,
+line_mva_ineq,34,-3.916198386523099e-07,,,,
+line_mva_ineq,35,-3.9161984523782173e-07,,,,
+line_mva_ineq,36,-1.3357926022743843e-07,,,,
+line_mva_ineq,37,-1.3366485591507513e-07,,,,
+line_mva_ineq,38,-3.9138260225197675e-07,,,,
+fixed_master_dispatch_eq,1,-0.004993922087771419,0.004993922087771419,p_s26_t24_g1,19.99999999999983,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,2,-0.004757867596115804,0.004757867596115804,p_s26_t24_g2,20.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,3,-0.001292754792799035,0.001292754792799035,p_s26_t24_g3,76.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,4,-0.001292754792799035,0.001292754792799035,p_s26_t24_g4,76.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,5,-0.004757867393921761,0.004757867393921761,p_s26_t24_g5,20.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,6,-0.0047578673939217605,0.0047578673939217605,p_s26_t24_g6,20.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,7,-0.0012927545906049908,0.0012927545906049908,p_s26_t24_g7,76.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,8,-0.0012927545906049908,0.0012927545906049908,p_s26_t24_g8,76.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,9,-8.729562302005655e-06,8.729562302005655e-06,p_s26_t24_g9,89.9999999999999,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,10,-0.0009988996760197171,0.0009988996760197171,p_s26_t24_g10,100.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,11,-0.000998899676019871,0.000998899676019871,p_s26_t24_g11,100.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,12,-0.0005015245820297706,0.0005015245820297706,p_s26_t24_g12,196.99999999999997,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,13,-0.0004989749164846461,0.0004989749164846461,p_s26_t24_g13,197.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,14,-0.000498974916484646,0.000498974916484646,p_s26_t24_g14,197.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,20,-0.0006349706563670609,0.0006349706563670609,p_s26_t24_g20,155.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,21,-0.0006390785051196959,0.0006390785051196959,p_s26_t24_g21,154.99999999999983,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,24,-0.0039185238654201185,0.0039185238654201185,p_s26_t24_g24,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,25,-0.0039185238654201185,0.0039185238654201185,p_s26_t24_g25,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,26,-0.003918523865420118,0.003918523865420118,p_s26_t24_g26,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,27,-0.0039185238654201185,0.0039185238654201185,p_s26_t24_g27,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,28,-0.0039185238654201185,0.0039185238654201185,p_s26_t24_g28,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,29,-0.003918523865420119,0.003918523865420119,p_s26_t24_g29,50.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,30,-0.0006349561250948007,0.0006349561250948007,p_s26_t24_g30,155.00000000000003,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,31,-0.0006349561134138377,0.0006349561134138377,p_s26_t24_g31,155.0,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_dispatch_eq,32,6.0906151702753166e-06,-6.0906151702753166e-06,p_s26_t24_g32,343.2583195057222,Coefficient is -multiplier for constraint p_ac - p_master_bar = 0.
+fixed_master_wind_eq,W14,3.0436096699747873e-06,-3.0436096699747873e-06,wind_s26_t24_W14,60.75266081164376,Coefficient is -multiplier for constraint wind_ac - wind_master_bar = 0.
+fixed_master_wind_eq,W3,3.039097428795559e-06,-3.039097428795559e-06,wind_s26_t24_W3,32.98901968263334,Coefficient is -multiplier for constraint wind_ac - wind_master_bar = 0.

@@ -1,0 +1,31 @@
+{
+  "status": "ac_nlp_solved",
+  "objective": 6.28763802832694e-07,
+  "runtime_sec": 1.3081818330101669,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 1,
+    "hour": 1,
+    "solver": "scipy.optimize.minimize(method='SLSQP')",
+    "backend": "scipy_slsqp",
+    "success": true,
+    "message": "Optimization terminated successfully",
+    "iterations": 83,
+    "solve_runtime_sec": 1.0508966660127044,
+    "objective": 6.28763802832694e-07,
+    "max_p_residual_mw": 0.021074260900434183,
+    "max_q_residual_mvar": 0.03298362497266538,
+    "sum_abs_p_residual_mw": 0.10953769050928663,
+    "sum_abs_q_residual_mvar": 0.2650600850007776,
+    "max_ac_line_loading_percent": 48.85425257931398,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem/case_b_ac_uc_benders_scipy_slsqp_scenario_1_hour_1_nlp_solution.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem/case_b_ac_uc_benders_scipy_slsqp_scenario_1_hour_1_nlp_summary.json"
+    },
+    "limitations": [
+      "Prototype feasibility NLP; active generation and wind usage are fixed from DC-UC master.",
+      "This prototype does not yet expose the dual multipliers needed for exact Benders cuts.",
+      "Lossless branch model is used until full MATPOWER AC parameters are wired in."
+    ]
+  }
+}

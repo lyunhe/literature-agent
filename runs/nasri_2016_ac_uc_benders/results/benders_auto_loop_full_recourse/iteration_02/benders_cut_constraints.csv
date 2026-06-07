@@ -1,0 +1,4 @@
+cut_id,case_id,scenario_id,hour,cut_type,scenario_probability,eta_objective_weight,lhs,sense,rhs_constant,eta_variable,subproblem_objective_phi,xbar_dot_beta,term_count,status,algebra
+BC-002-0001,case_b_ac_uc_benders,26,20,optimality_cut,0.01,0.01,eta_ac_s26_t20,>=,-2.941464503017842,eta_ac_s26_t20,-0.0017033923302221972,2.93976111068762,28,generated_not_added_to_master,eta_ac_s26_t20 >= -2.94146450302 + sum(beta_i * x_i)
+BC-002-0002,case_b_ac_uc_benders,5,20,optimality_cut,0.02,0.02,eta_ac_s5_t20,>=,-2.946350818167686,eta_ac_s5_t20,-0.0017035021594864338,2.9446473160081994,28,generated_not_added_to_master,eta_ac_s5_t20 >= -2.94635081817 + sum(beta_i * x_i)
+BC-002-0003,case_b_ac_uc_benders,10,20,optimality_cut,0.04,0.04,eta_ac_s10_t20,>=,-2.941499882129852,eta_ac_s10_t20,-0.0017033741619043698,2.9397965079679476,28,generated_not_added_to_master,eta_ac_s10_t20 >= -2.94149988213 + sum(beta_i * x_i)

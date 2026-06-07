@@ -1,0 +1,13 @@
+id: "lit_acb6b2a1_p210_eb8074b1_cffce66bb8"
+title: "Strategies and sustainability in fast charging station deployment for electric vehicles"
+authors:
+  - "Abdallah Mohammed；Omar Saif；Maged A. Abo-Adma；Ashraf Fahmy；Rasha Elazab"
+year: "2024"
+venue: "Scientific Reports"
+doi: "10.1038/s41598-023-50825-7"
+role: "literature_agent_selected_paper"
+source_pdf: "output/20260528_0954_电力系统规划/01_discovery/pdfs/Strategies_and_sustainability_in_fast_charging_station_deployment_for_electric_vehicles.pdf"
+run_dir: "runs/lit_acb6b2a1_p210_eb8074b1_cffce66bb8"
+notes:
+  - "Generated from literature showcase run 20260528_0954_电力系统规划, direction D1, paper P210_eb8074b1."
+  - "Created for file-level reproducibility audit and toolchain handoff."

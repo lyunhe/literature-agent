@@ -1,0 +1,89 @@
+{
+  "status": "closed_loop_complete",
+  "iteration_log": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/closed_loop_iteration_log.csv",
+  "iteration_1": {
+    "objective": 639922.3560276568,
+    "metadata": {
+      "case": "case_a_dc_uc_synthetic_extensive_form",
+      "description": "Solver-backed DC-UC MILP over 40 synthetic wind scenarios and 24 hours.",
+      "solver": "HiGHS via highspy",
+      "model_status": "kOptimal",
+      "solve_runtime_sec": 54.82050904096104,
+      "variables": 80256,
+      "constraints": 159168,
+      "scenarios": 40,
+      "hours": 24,
+      "generators": 32,
+      "buses": 24,
+      "lines": 38,
+      "outputs": {
+        "commitment": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/commitment.csv",
+        "dispatch": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/dispatch.csv",
+        "wind": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/wind_usage.csv",
+        "load_shedding": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/load_shedding.csv",
+        "line_flows": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/line_flows.csv",
+        "bus_angles": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/bus_angles.csv",
+        "scenario_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/scenario_summary.csv",
+        "hour_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/hour_summary.csv",
+        "experiment_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_1_master/experiment_summary.md"
+      },
+      "benders_cuts": {
+        "enabled": false,
+        "cuts_added": 0
+      },
+      "limitations": [
+        "Synthetic calibrated wind scenarios are used instead of original Fig. 3 trajectories.",
+        "This stage includes unit commitment, startup, generator limits, DC nodal balance, line limits, wind curtailment, and load shedding.",
+        "Minimum up/down time, ramping chronology, reserve constraints, and AC feasibility cuts are not yet implemented."
+      ]
+    }
+  },
+  "iteration_2": {
+    "objective": 639922.3560277787,
+    "metadata": {
+      "case": "case_a_dc_uc_synthetic_extensive_form",
+      "description": "Solver-backed DC-UC MILP over 40 synthetic wind scenarios and 24 hours.",
+      "solver": "HiGHS via highspy",
+      "model_status": "kOptimal",
+      "solve_runtime_sec": 54.834774957969785,
+      "variables": 80259,
+      "constraints": 159171,
+      "scenarios": 40,
+      "hours": 24,
+      "generators": 32,
+      "buses": 24,
+      "lines": 38,
+      "outputs": {
+        "commitment": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/commitment.csv",
+        "dispatch": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/dispatch.csv",
+        "wind": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/wind_usage.csv",
+        "load_shedding": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/load_shedding.csv",
+        "line_flows": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/line_flows.csv",
+        "bus_angles": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/bus_angles.csv",
+        "scenario_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/scenario_summary.csv",
+        "hour_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/hour_summary.csv",
+        "experiment_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_closed_loop/iteration_2_master_with_cuts/experiment_summary.md"
+      },
+      "benders_cuts": {
+        "enabled": true,
+        "cuts_added": 3,
+        "candidate_cuts": 3,
+        "eta_variables": [
+          "eta_ac_s26_t17",
+          "eta_ac_s21_t17",
+          "eta_ac_s26_t24"
+        ],
+        "missing_terms": [],
+        "headers_path": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_benders_cut_constraints.csv",
+        "terms_path": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_benders_cut_terms.csv",
+        "eta_objective_weight": 1.0
+      },
+      "limitations": [
+        "Synthetic calibrated wind scenarios are used instead of original Fig. 3 trajectories.",
+        "This stage includes unit commitment, startup, generator limits, DC nodal balance, line limits, wind curtailment, and load shedding.",
+        "Minimum up/down time, ramping chronology, reserve constraints, and AC feasibility cuts are not yet implemented."
+      ]
+    }
+  },
+  "objective_delta": 1.2188684195280075e-07
+}

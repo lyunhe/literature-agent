@@ -1,0 +1,224 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文献综述与论文复现智能体</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=spark-brand-3">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"], ["$$", "$$"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true">
+          <img src="{{ url_for('static', filename='assets/spark_uploaded_logo.png') }}" alt="">
+        </span>
+        <div>
+          <h1>SPARK</h1>
+          <p>文献综述与论文复现智能体</p>
+        </div>
+      </div>
+
+      <section class="panel mode-switch-panel">
+        <div class="panel-head">
+          <h2>工作台</h2>
+          <small>双链路展示</small>
+        </div>
+        <div class="mode-switch">
+          <button class="active" id="literatureViewButton" type="button">文献综述</button>
+          <button id="reproductionViewButton" type="button">论文复现</button>
+        </div>
+      </section>
+
+      <section class="panel run-form">
+        <div class="panel-head">
+          <h2>启动文献调研</h2>
+          <small>保留原始输入交互</small>
+        </div>
+        <label>核心研究主题
+          <textarea id="topic" placeholder="例如：储能参与电力市场报价方式"></textarea>
+        </label>
+
+        <div class="topic-builder">
+          <div class="topic-builder-head">
+            <span>主题条件</span>
+            <button class="icon-button" id="addTopicClause" type="button" title="添加条件" aria-label="添加条件">+</button>
+          </div>
+          <div id="topicClauses" class="topic-clauses"></div>
+        </div>
+
+        <div class="form-grid">
+          <label>模式
+            <select id="mode">
+              <option value="pdf_only">本地文献</option>
+              <option value="online" selected>在线检索</option>
+            </select>
+          </label>
+          <label>论文数
+            <input id="maxPapers" type="number" min="1" max="20" placeholder="默认 5">
+          </label>
+        </div>
+        <div class="local-pdf-controls hidden" id="localPdfControls">
+          <label>本地文献批次
+            <select id="pdfDir">
+              {% for item in pdf_sources %}
+              <option value="{{ item.relative }}">{{ item.name }} · {{ item.count }} 篇</option>
+              {% else %}
+              <option value="input_pdfs">暂无本地文献</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label class="check-row">
+            <input id="allPapers" type="checkbox" checked>
+            <span>处理目录内全部文献</span>
+          </label>
+        </div>
+        <div class="form-grid">
+          <label id="maxResultsField">可下载候选上限
+            <input id="maxResults" type="number" min="1" max="30" placeholder="自动匹配论文数">
+          </label>
+          <label>运行阶段
+            <select id="runParts">
+              <option value="discovery,reviews">检索 + 综述</option>
+              <option value="discovery">仅检索</option>
+              <option value="reviews">仅综述</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-grid year-range-controls">
+          <label>起始年份
+            <input id="yearFrom" type="number" min="1900" max="2100" placeholder="不限">
+          </label>
+          <label>结束年份
+            <input id="yearTo" type="number" min="1900" max="2100" placeholder="不限">
+          </label>
+        </div>
+        <button id="startJob" type="button">运行流水线</button>
+        <p id="jobState" class="job-state">右侧为 analysis_pipeline 输出驱动的三层文献综述页面。</p>
+        <div id="jobProgress" class="job-progress hidden">
+          <div class="progress-head">
+            <div>
+              <strong id="progressStage">等待启动</strong>
+              <small id="progressRunId"></small>
+            </div>
+            <b id="progressPercent">0%</b>
+          </div>
+          <div class="progress-bar" aria-label="流水线进度"><span id="progressBar"></span></div>
+          <div class="progress-stats">
+            <span><b id="progressSearched">0</b><small>题录候选</small></span>
+            <span><b id="progressDownloaded">0</b><small>成功下载</small></span>
+            <span><b id="progressAnalyzed">0</b><small>单篇总结</small></span>
+            <span><b id="progressFiltered">0</b><small>方向总结</small></span>
+          </div>
+          <ol id="progressSteps" class="progress-steps"></ol>
+          <ul id="progressNotes" class="progress-notes"></ul>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>已有运行</h2>
+          <small>{{ runs|length }} 条</small>
+        </div>
+        <nav class="run-list">
+          {% for run in runs[:8] %}
+          <a class="{% if selected and selected.run_id == run.id %}active{% endif %}" href="/?run={{ run.id|urlencode }}">
+            <b>{{ run.title }}</b>
+            <small>{{ run.id }}</small>
+            <span class="run-meta">
+              <em>{{ run.modified_label }}</em>
+              {% if run.paper_count %}<em>{{ run.paper_count }} 篇</em>{% endif %}
+              {% if run.direction_count %}<em>{{ run.direction_count }} 类</em>{% endif %}
+              {% if run.quality_status %}<em class="status-{{ run.quality_status }}">{{ run.quality_status }}</em>{% endif %}
+            </span>
+          </a>
+          {% else %}
+          <p class="muted">还没有 output 运行结果。</p>
+          {% endfor %}
+        </nav>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>本地文献</h2>
+          <small>{{ pdf_sources|length }} 个批次</small>
+        </div>
+        {% for item in pdf_sources[:6] %}
+        <div class="pdf-group">
+          <strong>{{ item.name }}</strong>
+          <small>{{ item.count }} 篇 · {{ item.size_mb }} MB</small>
+          {% for sample in item.sample[:2] %}
+          <small class="pdf-sample">{{ sample }}</small>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">暂无本地文献。可放入 input_pdfs/ 或其子目录。</p>
+        {% endfor %}
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>复现目标</h2>
+          <small>{{ reproduction_data.targets|length }} 个</small>
+        </div>
+        <nav class="run-list repro-run-list">
+          {% for target in reproduction_data.targets[:6] %}
+          <a href="?view=reproduction#repro-{{ target.id }}">
+            <b>{{ target.title }}</b>
+            <small>{{ target.id }}</small>
+            <span class="run-meta">
+              {% if target.year %}<em>{{ target.year }}</em>{% endif %}
+              {% if target.data_validation.complete_files is defined %}<em>数据 {{ target.data_validation.complete_files }} 表</em>{% endif %}
+              {% if target.role %}<em>{{ target.role }}</em>{% endif %}
+            </span>
+          </a>
+          {% else %}
+          <p class="muted">还没有 runs/&lt;target&gt;/target.yaml。</p>
+          {% endfor %}
+        </nav>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="layerEyebrow">第 1 层 · 总主题层</p>
+        </div>
+        <div class="view-actions">
+          <a class="ghost-button" id="backButton" href="/">返回上层</a>
+          <a class="ghost-button" id="overviewButton" href="/">总览</a>
+        </div>
+      </header>
+
+      <section class="page-intro">
+        <h2 id="pageTitle">储能参与电力市场报价方式</h2>
+        <p id="pageSubtitle">先看全局，再看方向，最后进入单篇论文。</p>
+        <div id="queryMeta" class="query-meta"></div>
+      </section>
+
+      <nav class="breadcrumb" id="breadcrumb"></nav>
+      <section id="reviewCanvas" class="review-canvas"></section>
+    </section>
+  </main>
+
+  <script id="showcaseData" type="application/json">{{ showcase_data|tojson }}</script>
+  <script id="reproductionData" type="application/json">{{ reproduction_data|tojson }}</script>
+  <script id="initialView" type="application/json">{{ initial_view|tojson }}</script>
+  <script id="activeRunId" type="application/json">{{ (selected.run_id if selected else "")|tojson }}</script>
+  <script id="queryMetaData" type="application/json">{{ query_meta|tojson }}</script>
+  <script src="{{ url_for('static', filename='showcase.js') }}?v=spark-brand-3"></script>
+</body>
+</html>

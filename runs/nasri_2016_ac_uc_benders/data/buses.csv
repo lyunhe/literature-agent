@@ -1,0 +1,25 @@
+bus_id,base_kv,area,zone,pd_fraction,notes,base_pd_mw,base_qd_mvar,qd_fraction
+1,138.0,1,1,0.037894736842105266,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,108.0,22.0,0.03793103448275862
+2,138.0,1,1,0.034035087719298245,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,97.0,20.0,0.034482758620689655
+3,138.0,1,1,0.06315789473684211,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,180.0,37.0,0.06379310344827586
+4,138.0,1,1,0.025964912280701753,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,74.0,15.0,0.02586206896551724
+5,138.0,1,1,0.024912280701754386,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,71.0,14.0,0.02413793103448276
+6,138.0,2,1,0.047719298245614036,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,136.0,28.0,0.04827586206896552
+7,138.0,2,1,0.043859649122807015,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,125.0,25.0,0.04310344827586207
+8,138.0,2,1,0.06,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,171.0,35.0,0.0603448275862069
+9,138.0,1,1,0.06140350877192982,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,175.0,36.0,0.06206896551724138
+10,138.0,2,1,0.06842105263157895,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,195.0,40.0,0.06896551724137931
+11,230.0,3,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+12,230.0,3,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+13,230.0,3,1,0.09298245614035087,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,265.0,54.0,0.09310344827586207
+14,230.0,3,1,0.06807017543859649,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,194.0,39.0,0.06724137931034482
+15,230.0,4,1,0.11122807017543859,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,317.0,64.0,0.1103448275862069
+16,230.0,4,1,0.03508771929824561,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,100.0,20.0,0.034482758620689655
+17,230.0,4,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+18,230.0,4,1,0.1168421052631579,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,333.0,68.0,0.11724137931034483
+19,230.0,3,1,0.06350877192982456,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,181.0,37.0,0.06379310344827586
+20,230.0,3,1,0.04491228070175438,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,128.0,26.0,0.04482758620689655
+21,230.0,4,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+22,230.0,4,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+23,230.0,3,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0
+24,230.0,4,1,0.0,imported from MATPOWER bus matrix; load fractions filled from MATPOWER Pd/Qd,0.0,0.0,0.0

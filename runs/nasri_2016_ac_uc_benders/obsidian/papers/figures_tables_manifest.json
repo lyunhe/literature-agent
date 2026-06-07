@@ -1,0 +1,137 @@
+[
+  {
+    "page": 4,
+    "label": "Fig. 1",
+    "context": "lusion in a future issue of this journal. Content is final as presented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 3 Fig. 1. Two-stage stochastic decision framework of the proposed ac-UC problem. the best of our knowledge, no paper in the literature takes the advantages of wind uncertainty to convexify the ac-UC problem, making it possible the use of decomposition techniques. 3) To implement Benders’ decomposition, which requires it- eratively solving a) a mixed-i nteger linear master problem, and b) a set of nonlinea"
+  },
+  {
+    "page": 4,
+    "label": "Fig. 1",
+    "context": "f this paper the terms “dc-UC” and “ac-UC” refer to “netwo rk-constrained dc-UC” and “network- constrained ac-UC” problems, respectively. II. A C-UC M ODEL A. Stochastic Framework Fig. 1 depicts the two-stage stochastic framework consid- ered in this paper. Note that these two stages are simultane- ously considered. The ﬁrst-stage includes the scheduling deci- sions made at the day-ahead mark et. Such decisions are adapted to any wind production realization in the second-stage, where the real-time operating conditions corresponding to individual wind scenarios are represented. Th"
+  },
+  {
+    "page": 7,
+    "label": "Fig. 2",
+    "context": "i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the values of complicating variables. Fig. 2. Flowchart of the proposed Benders’ algorithm. E. Benders’ Algorithm The proposed Benders’ algorithm is as follows: 1) Input: a small tolerance to control convergence, and initial guesses of the complicating variables, and . 2) Initialization: Set , , and . 3) Initial scenario: Consider scenario . 4) Initial time period: Consider time period . 5) Subproblem solution: Solve (5) for scenario and ti"
+  },
+  {
+    "page": 7,
+    "label": "Fig. 2",
+    "context": "r problem solution: Solve (7), calculate and update the values of comp licating variables. Then, continue in step 3. The ﬂowchart of the proposed Benders’ algorithm is depicted in Fig. 2."
+  },
+  {
+    "page": 8,
+    "label": "TABLE I",
+    "context": "lusion in a future issue of this journal. Content is final as presented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 7 TABLE I NETWORK DATA TABLE II DATA FOR GENERATING UNITS TABLE III LOAD FACTOR CORRESPONDING TO EACH TIME PERIOD IV. C ASE STUDY This section presents numerical results for a case study based on the IEEE one-area 24-node reliability test system (RTS) [24]. In this study, a daily time horizon (time periods to )i s considered. Under the per-unit system used, 1 p.u. of power is equivalent to 100 MW. A. Data"
+  },
+  {
+    "page": 8,
+    "label": "TABLE II",
+    "context": "sue of this journal. Content is final as presented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 7 TABLE I NETWORK DATA TABLE II DATA FOR GENERATING UNITS TABLE III LOAD FACTOR CORRESPONDING TO EACH TIME PERIOD IV. C ASE STUDY This section presents numerical results for a case study based on the IEEE one-area 24-node reliability test system (RTS) [24]. In this study, a daily time horizon (time periods to )i s considered. Under the per-unit system used, 1 p.u. of power is equivalent to 100 MW. A. Data Network data are those"
+  },
+  {
+    "page": 8,
+    "label": "TABLE III",
+    "context": "al as presented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 7 TABLE I NETWORK DATA TABLE II DATA FOR GENERATING UNITS TABLE III LOAD FACTOR CORRESPONDING TO EACH TIME PERIOD IV. C ASE STUDY This section presents numerical results for a case study based on the IEEE one-area 24-node reliability test system (RTS) [24]. In this study, a daily time horizon (time periods to )i s considered. Under the per-unit system used, 1 p.u. of power is equivalent to 100 MW. A. Data Network data are those reported in [24], except the ones g"
+  },
+  {
+    "page": 8,
+    "label": "Table I",
+    "context": "time periods to )i s considered. Under the per-unit system used, 1 p.u. of power is equivalent to 100 MW. A. Data Network data are those reported in [24], except the ones given in Table I. In addition, data for generating units are given in Table II. Note that generating units 1, 2, 5 and 6 do not pro- vide reserve. Note also that to hi ghlight voltage issues, the syn- chronous condenser connected to node 14 in [24] is removed. Hourly active and reactive loads are those given in [24] mul- tiplied by the hourly load factors provided in Table III. Accord- ingly, time period is the p"
+  },
+  {
+    "page": 8,
+    "label": "Table II",
+    "context": "ed, 1 p.u. of power is equivalent to 100 MW. A. Data Network data are those reported in [24], except the ones given in Table I. In addition, data for generating units are given in Table II. Note that generating units 1, 2, 5 and 6 do not pro- vide reserve. Note also that to hi ghlight voltage issues, the syn- chronous condenser connected to node 14 in [24] is removed. Hourly active and reactive loads are those given in [24] mul- tiplied by the hourly load factors provided in Table III. Accord- ingly, time period is the peak hour. Two wind farms located at node s 3 and 14 are consid"
+  },
+  {
+    "page": 8,
+    "label": "Table III",
+    "context": ", the syn- chronous condenser connected to node 14 in [24] is removed. Hourly active and reactive loads are those given in [24] mul- tiplied by the hourly load factors provided in Table III. Accord- ingly, time period is the peak hour. Two wind farms located at node s 3 and 14 are considered, whose installed capacities are 2.85 p.u. and 2.96 p.u., respec- tively. Total wind capacity (i.e., 5.81 p.u.) is 13.71% of the total installed capacity (42.36 p.u.). The wind power production un- certainties are character ized through 40 scenar ios, as illustrated Fig. 3. Wind power scenarios o"
+  },
+  {
+    "page": 8,
+    "label": "Fig. 3",
+    "context": "pacity (i.e., 5.81 p.u.) is 13.71% of the total installed capacity (42.36 p.u.). The wind power production un- certainties are character ized through 40 scenar ios, as illustrated Fig. 3. Wind power scenarios of the farm (a) located at node 3, (b) and of that located at node 14. TABLE IV PROBABILITY OF EACH SCENARIO in Fig. 3, whose upper plot corresponds to the farm located at node 3, and whose lower plot refers to the farm located at node 14. Note that each dot illustrate s the wind production level of the corresponding farm for a given time period under a partic- ular scenario"
+  },
+  {
+    "page": 8,
+    "label": "TABLE IV",
+    "context": "uction un- certainties are character ized through 40 scenar ios, as illustrated Fig. 3. Wind power scenarios of the farm (a) located at node 3, (b) and of that located at node 14. TABLE IV PROBABILITY OF EACH SCENARIO in Fig. 3, whose upper plot corresponds to the farm located at node 3, and whose lower plot refers to the farm located at node 14. Note that each dot illustrate s the wind production level of the corresponding farm for a given time period under a partic- ular scenario. In other words, each scenario of any of the two plots contains 24 dots indicating the wind productio"
+  },
+  {
+    "page": 8,
+    "label": "Fig. 3",
+    "context": "through 40 scenar ios, as illustrated Fig. 3. Wind power scenarios of the farm (a) located at node 3, (b) and of that located at node 14. TABLE IV PROBABILITY OF EACH SCENARIO in Fig. 3, whose upper plot corresponds to the farm located at node 3, and whose lower plot refers to the farm located at node 14. Note that each dot illustrate s the wind production level of the corresponding farm for a given time period under a partic- ular scenario. In other words, each scenario of any of the two plots contains 24 dots indicating the wind production levels of the corresponding farm over"
+  },
+  {
+    "page": 8,
+    "label": "Table IV",
+    "context": "ed from historical data, and accurately represent the uncertainty without making the considered problem compu- tationally intractable. The corresponding probabilities are given in Table IV. Based on the scenarios considered, the ex- pected total wind power production over the 24 time periods is 1.72 p.u. (i.e., 29.60% of the total wind capacity). The value of load shedding for all demands ( )i sc o n s i d - ered 10 000 $/p.u. Finally, tolerance required for convergence check is set to 0.3% of the value of the objective function (ex- pected cost). B. Cases Considered Three differen"
+  },
+  {
+    "page": 9,
+    "label": "TABLE V",
+    "context": "is article has been accepted for inclusion in a future issue of this journal. Content is final as presented, with the exception of pagination. 8 IEEE TRANSACTIONS ON POWER SYSTEMS TABLE V MATHEMATICAL CHARACTERISTICS OF EACH UC P ROBLEM Fig. 4. Commitment status of the units for Cases A-C. Case B) This case refers to an ac-UC problem based on model (1)–(3) solved by the proposed Benders’ algorithm. The voltage magnitude of each node is enforced to be within 0.9 p.u. and 1.1 p.u. Case C) This case is similar to Case B, but constraints on the voltage magnitude of nodes are relaxed."
+  },
+  {
+    "page": 9,
+    "label": "Fig. 4",
+    "context": "sue of this journal. Content is final as presented, with the exception of pagination. 8 IEEE TRANSACTIONS ON POWER SYSTEMS TABLE V MATHEMATICAL CHARACTERISTICS OF EACH UC P ROBLEM Fig. 4. Commitment status of the units for Cases A-C. Case B) This case refers to an ac-UC problem based on model (1)–(3) solved by the proposed Benders’ algorithm. The voltage magnitude of each node is enforced to be within 0.9 p.u. and 1.1 p.u. Case C) This case is similar to Case B, but constraints on the voltage magnitude of nodes are relaxed. In this case, the voltage magnitude of nodes can lie wit"
+  },
+  {
+    "page": 9,
+    "label": "Table V",
+    "context": "des are relaxed. In this case, the voltage magnitude of nodes can lie within 0.5 p.u. and 1.5 p.u. Although this case is not realistic, it is considered for illustrative purposes. Table V mathematically char acterizes the non-decomposed dc-UC problem (Case A), the non-decomposed ac-UC problem, and the decomposed ac-UC problem (Cases B and C). Note that the non-decomposed dc-UC problem (Case A) includes the dc version of ac constraints (3), which is given in Appendix B as constraints (9). The corresponding numerical results are given and analyzed in the next subsection. C. Numerica"
+  },
+  {
+    "page": 9,
+    "label": "Table VI",
+    "context": "alyzed in the next subsection. C. Numerical Results The expected cost, i.e., the val ue of objective function (1), for the three cases considered are given in the second column of Table VI. Additionally, the commitment status of the units are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE VI NUMERICAL RESULTS FOR CASES A-C According to Table VI and Fig. 4, the following observations are in order: 1) The expected cost in Case A (dc-UC problem) is compar- atively smaller than that of Cases B and C (ac-UC prob- lems). The"
+  },
+  {
+    "page": 9,
+    "label": "Fig. 4",
+    "context": ", the val ue of objective function (1), for the three cases considered are given in the second column of Table VI. Additionally, the commitment status of the units are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE VI NUMERICAL RESULTS FOR CASES A-C According to Table VI and Fig. 4, the following observations are in order: 1) The expected cost in Case A (dc-UC problem) is compar- atively smaller than that of Cases B and C (ac-UC prob- lems). The reason of this is that the ac-UC problem en- forces more realistic const"
+  },
+  {
+    "page": 9,
+    "label": "TABLE VI",
+    "context": "d column of Table VI. Additionally, the commitment status of the units are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE VI NUMERICAL RESULTS FOR CASES A-C According to Table VI and Fig. 4, the following observations are in order: 1) The expected cost in Case A (dc-UC problem) is compar- atively smaller than that of Cases B and C (ac-UC prob- lems). The reason of this is that the ac-UC problem en- forces more realistic constr aints than those of the dc-UC one. Also, the expected cost of Case B is comparatively higher"
+  },
+  {
+    "page": 9,
+    "label": "Table VI",
+    "context": "tus of the units are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE VI NUMERICAL RESULTS FOR CASES A-C According to Table VI and Fig. 4, the following observations are in order: 1) The expected cost in Case A (dc-UC problem) is compar- atively smaller than that of Cases B and C (ac-UC prob- lems). The reason of this is that the ac-UC problem en- forces more realistic constr aints than those of the dc-UC one. Also, the expected cost of Case B is comparatively higher than that of Case C, where voltage magnitude con- stra"
+  },
+  {
+    "page": 9,
+    "label": "Fig. 4",
+    "context": "its are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE VI NUMERICAL RESULTS FOR CASES A-C According to Table VI and Fig. 4, the following observations are in order: 1) The expected cost in Case A (dc-UC problem) is compar- atively smaller than that of Cases B and C (ac-UC prob- lems). The reason of this is that the ac-UC problem en- forces more realistic constr aints than those of the dc-UC one. Also, the expected cost of Case B is comparatively higher than that of Case C, where voltage magnitude con- straints are no"
+  },
+  {
+    "page": 9,
+    "label": "Fig. 4",
+    "context": "Case C, where voltage magnitude con- straints are not tightly enforced. 2) The dc-UC and ac-UC proble ms yield different commit- ment status for the generating units. According to Fig. 4, generating units 22 and 23 are decommitted in Case A (dc-UC problem), while they are committed in peak hours of Case B (ac-UC problem). Similarly, generating unit 9 is committed in time periods 1 and 2 of Case B. 3) In addition to the commitment status of generating units, the dispatch results of committed units from the dc-UC and ac-UC formulations are different. For example in Cases A and B, g"
+  },
+  {
+    "page": 9,
+    "label": "Fig. 4",
+    "context": "3j), power losses in the network is the other reason of differ- ences, as it is modeled in the ac-UC problem (Case B), but it is not in the dc-UC problem (Case A). 5) According to Fig. 4, although both Cases B and C solve ac-UC problems, different bounds on voltage magnitude"
+  },
+  {
+    "page": 10,
+    "label": "Fig. 5",
+    "context": "lusion in a future issue of this journal. Content is final as presented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 9 Fig. 5. Evolution of Benders’ algorithm in Case B. constraints (3j) render slightly different results. For ex- ample, the comparatively small generating unit 15 is fully committed in Case C, while it is fully decommitted in Case B. On the other hand, the comparatively large generating unit 9 is not committed in Case C for time periods and , while it is in Case B. These differences allow concluding that"
+  },
+  {
+    "page": 10,
+    "label": "Fig. 5",
+    "context": "se C for time periods and , while it is in Case B. These differences allow concluding that the voltage magnitude cons traint may potentially alter the commitment results. Finally, Fig. 5 illustrates the e volution of Benders’ algorithm in Case B (ac-UC problem). This algorithm converges in iter- ation 25, where the difference between (upper curve) and (lower curve) is smaller tha n the considered tolerance. D. Computational, Optimality, and Implementation Issues Each subproblem (5) is solved using CONOPT [26] under GAMS [27], while the master problem (7) is solved using CPLEX 12."
+  },
+  {
+    "page": 10,
+    "label": "Table VI",
+    "context": "t of Case A (the non-decomposed solution) is veriﬁed to be smaller than 0.2%. • The computational times required for solving different instances are provided in the last column of Table VI. The computational time to solve Case B is comparatively higher. Note that both Cases B a nd C are solved iteratively, however the constraints of Case B are tighter. On the other hand, Case A is solved in a non-iterative way, thus its computational time is comparatively smaller. • To speed-up convergence, suitable values for constants , ,a n d need to be derived. In this paper, the values conside"
+  }
+]

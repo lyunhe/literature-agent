@@ -1,0 +1,5 @@
+case,network_model,algorithm,objective,runtime_sec,iterations,ac_screened_violations,note
+A,DC,direct extensive-form MILP,639922.3560276568,27.957626916002482,1,,Synthetic wind data; current implemented model.
+B,"AC screening V=[0.9,1.1]",Benders-style one-pass screening,639922.3560276568,,1,960,Cut pool generated; not directly comparable to original AC-Benders optimum.
+B_tol_0.1,"AC screening V=[0.9,1.1]",Benders-style tolerance sensitivity,639922.3560276568,,1,960,Paper-style 0.1% tolerance row; current one-pass proxy already below 0.1%.
+C,"AC screening V=[0.5,1.5]",Benders-style one-pass screening,639922.3560276568,,1,960,Voltage bounds do not bind with fixed V=1.0 screening.

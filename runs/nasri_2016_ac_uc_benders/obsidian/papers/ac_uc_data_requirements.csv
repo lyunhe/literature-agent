@@ -1,0 +1,15 @@
+item,source_in_paper,needed_for,status,notes
+IEEE RTS-1996 one-area 24-node system,Reference [24],base network and load data,traceable,Use IEEE RTS-1996 as base system
+Network modifications,Table I,AC network parameters and branch limits,needs transcription,Table I must be manually extracted from PDF
+Generator unit data,Table II,UC costs limits reserve ramping,needs transcription,Table II must be manually extracted from PDF
+Hourly load factors,Table III,24h active/reactive load profile,needs transcription,Multiply RTS loads by Table III factors
+Wind farm locations,Section IV-A,wind buses,available,nodes 3 and 14
+Wind farm capacities,Section IV-A,wind capacity,available,2.85 p.u. and 2.96 p.u.; 1 p.u.=100 MW
+Wind scenarios,Fig. 3,scenario time series,blocked/approximate,40 scenarios plotted for each farm; exact values require digitization or source data
+Scenario probabilities,Table IV,expected objective weights,needs transcription,40 probabilities
+Load shedding value,Section IV-A,penalty,available,10000 USD per p.u.
+Voltage bounds Case B,Section IV-B,AC subproblem limits,available,0.9 to 1.1 p.u.
+Voltage bounds Case C,Section IV-B,sensitivity case,available,0.5 to 1.5 p.u.
+Solver stack,Section IV-D,method reproduction,available,GAMS CPLEX 12.1 and CONOPT
+Convergence tolerance,Section IV-A/IV-D,Benders stopping,available,0.3 percent; sensitivity at 0.1 percent
+

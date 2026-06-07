@@ -1,0 +1,872 @@
+[
+  {
+    "page": 1,
+    "equation": "2015",
+    "context": "09/TPWRS.2015.2409198 Publication date: 2015 Document Version Peer reviewed version Link back to DTU Orbit Citation (APA): Nasri, A., Kazempour, S., Conejo, A. J., & Ghandhari, M. (2015). Network-constrained AC unit commitment under uncertainty: A Benders' decomposition approach. IEEE Transactions on Power Systems, 31(1), 412 - 422 . https://doi.org/10.1109/TPWRS.2015.2409198"
+  },
+  {
+    "page": 1,
+    "equation": "1",
+    "context": "pour, S., Conejo, A. J., & Ghandhari, M. (2015). Network-constrained AC unit commitment under uncertainty: A Benders' decomposition approach. IEEE Transactions on Power Systems, 31(1), 412 - 422 . https://doi.org/10.1109/TPWRS.2015.2409198"
+  },
+  {
+    "page": 4,
+    "equation": "1",
+    "context": "e not modeled in this work. However, such constraints can be easily incorporated in the proposed framework. C. Formulation The considered two-stage ac- UC problem is formulated as (1)–(3). Objective function (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Not"
+  },
+  {
+    "page": 4,
+    "equation": "3",
+    "context": "t modeled in this work. However, such constraints can be easily incorporated in the proposed framework. C. Formulation The considered two-stage ac- UC problem is formulated as (1)–(3). Objective function (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note th"
+  },
+  {
+    "page": 4,
+    "equation": "1",
+    "context": "However, such constraints can be easily incorporated in the proposed framework. C. Formulation The considered two-stage ac- UC problem is formulated as (1)–(3). Objective function (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁn"
+  },
+  {
+    "page": 4,
+    "equation": "2",
+    "context": "rmulation The considered two-stage ac- UC problem is formulated as (1)–(3). Objective function (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective fu"
+  },
+  {
+    "page": 4,
+    "equation": "3",
+    "context": "ac- UC problem is formulated as (1)–(3). Objective function (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms"
+  },
+  {
+    "page": 4,
+    "equation": "1",
+    "context": "nction (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling"
+  },
+  {
+    "page": 4,
+    "equation": "3",
+    "context": "on (1) represents the system’s expected cost, and is subject to ﬁrst-sta ge constraints (2) and second- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling time"
+  },
+  {
+    "page": 4,
+    "equation": "2",
+    "context": "cond- stage constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling time (ﬁrst-stage), while the other two terms refer to the expected cost in real-time operation (second"
+  },
+  {
+    "page": 4,
+    "equation": "3",
+    "context": "age constraints (3). The optim ization variables of the ac-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling time (ﬁrst-stage), while the other two terms refer to the expected cost in real-time operation (second-stage)."
+  },
+  {
+    "page": 4,
+    "equation": "1",
+    "context": "c-UC problem (1)–(3) are the elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling time (ﬁrst-stage), while the other two terms refer to the expected cost in real-time operation (second-stage). The ﬁrst term represents the start-up cost of the units,"
+  },
+  {
+    "page": 4,
+    "equation": "1",
+    "context": "he elements of the set: Ξ Note that the mathematical deﬁnitions of the functions used in (2) and (3) are given in Appendix A. The objective function is Ξ (1) The ﬁrst two terms of (1) correspond to the system’s cost at scheduling time (ﬁrst-stage), while the other two terms refer to the expected cost in real-time operation (second-stage). The ﬁrst term represents the start-up cost of the units, the second one refers to"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "ariability. This term is in fact the product of the generating unit’s marginal cost and the produc- tion increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each ti"
+  },
+  {
+    "page": 5,
+    "equation": "2a",
+    "context": "nd the produc- tion increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active po"
+  },
+  {
+    "page": 5,
+    "equation": "2b",
+    "context": "e produc- tion increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power p"
+  },
+  {
+    "page": 5,
+    "equation": "2c",
+    "context": "duc- tion increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power produc"
+  },
+  {
+    "page": 5,
+    "equation": "2d",
+    "context": "tion increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production"
+  },
+  {
+    "page": 5,
+    "equation": "2e",
+    "context": "increment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of ge"
+  },
+  {
+    "page": 5,
+    "equation": "2f",
+    "context": "ment from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene ra"
+  },
+  {
+    "page": 5,
+    "equation": "2g",
+    "context": "from day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating"
+  },
+  {
+    "page": 5,
+    "equation": "2h",
+    "context": "day-ahead to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units"
+  },
+  {
+    "page": 5,
+    "equation": "2i",
+    "context": "head to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and"
+  },
+  {
+    "page": 5,
+    "equation": "2j",
+    "context": "to real-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind"
+  },
+  {
+    "page": 5,
+    "equation": "2k",
+    "context": "al-time operation. Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind farms"
+  },
+  {
+    "page": 5,
+    "equation": "2a",
+    "context": ". Finally, the last term of (1) is the load curtailment cost. T h eﬁ r s t - s t a g ec o n s t r a i n t sa r e (2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind farms, respec- tively."
+  },
+  {
+    "page": 5,
+    "equation": "2b",
+    "context": "2a) (2b) (2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind farms, respec- tively. Constraints (2 d) and (2e) ensure that the hourly changes of scheduled power do no t violate the ramp-rate limits"
+  },
+  {
+    "page": 5,
+    "equation": "2c",
+    "context": "(2c) (2d) (2e) (2f) (2g) (2h) (2i) (2j) (2k) Constraints (2a) represen t the active power balance at sched- uling time at each node and f or each time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind farms, respec- tively. Constraints (2 d) and (2e) ensure that the hourly changes of scheduled power do no t violate the ramp-rate limits. Con- st"
+  },
+  {
+    "page": 5,
+    "equation": "2e",
+    "context": "h time period. Constraints (2b) and (2c) enforce the l ower and upper bounds for active power production of gene rating units and wind farms, respec- tively. Constraints (2 d) and (2e) ensure that the hourly changes of scheduled power do no t violate the ramp-rate limits. Con- straints (2f) enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on l"
+  },
+  {
+    "page": 5,
+    "equation": "2f",
+    "context": "gene rating units and wind farms, respec- tively. Constraints (2 d) and (2e) ensure that the hourly changes of scheduled power do no t violate the ramp-rate limits. Con- straints (2f) enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The"
+  },
+  {
+    "page": 5,
+    "equation": "2g",
+    "context": "and (2e) ensure that the hourly changes of scheduled power do no t violate the ramp-rate limits. Con- straints (2f) enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h)"
+  },
+  {
+    "page": 5,
+    "equation": "2h",
+    "context": "its. Con- straints (2f) enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power b"
+  },
+  {
+    "page": 5,
+    "equation": "2i",
+    "context": "(2f) enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-tim"
+  },
+  {
+    "page": 5,
+    "equation": "2k",
+    "context": "enfor ce lower and upper bounds of voltage angles. Constraints (2g) se t as the reference node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time ope"
+  },
+  {
+    "page": 5,
+    "equation": "3a",
+    "context": "e node. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constrain"
+  },
+  {
+    "page": 5,
+    "equation": "3b",
+    "context": "e. The capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3"
+  },
+  {
+    "page": 5,
+    "equation": "3c",
+    "context": "e capacity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en"
+  },
+  {
+    "page": 5,
+    "equation": "3d",
+    "context": "acity of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- for"
+  },
+  {
+    "page": 5,
+    "equation": "3e",
+    "context": "of each transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force th"
+  },
+  {
+    "page": 5,
+    "equation": "3f",
+    "context": "ach transmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that th"
+  },
+  {
+    "page": 5,
+    "equation": "3g",
+    "context": "ransmissi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the dev"
+  },
+  {
+    "page": 5,
+    "equation": "3h",
+    "context": "issi on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviatio"
+  },
+  {
+    "page": 5,
+    "equation": "3i",
+    "context": "on line is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of"
+  },
+  {
+    "page": 5,
+    "equation": "3j",
+    "context": "ne is enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind"
+  },
+  {
+    "page": 5,
+    "equation": "3k",
+    "context": "enforced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind prod"
+  },
+  {
+    "page": 5,
+    "equation": "3l",
+    "context": "rced through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind productio"
+  },
+  {
+    "page": 5,
+    "equation": "3m",
+    "context": "through (2h). Constraints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind production are"
+  },
+  {
+    "page": 5,
+    "equation": "3a",
+    "context": "straints (2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind production are met with reserve"
+  },
+  {
+    "page": 5,
+    "equation": "3b",
+    "context": "(2i)–(2k) allow c alculating the start-up cost of the units. The second-stage constraints are (3a) (3b) (3c) (3d) (3e) (3f) (3g) (3h) (3i) (3j) (3k) (3l) (3m) Constraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind production are met with reserve deployme"
+  },
+  {
+    "page": 5,
+    "equation": "3a",
+    "context": "nstraints (3a) and (3b) represent the active and reactive power balance in real-time operation at each node and for each time period and scenario. Active power balance constraints (3a) en- force that the deviations of wind production are met with reserve deployment of generating units, and/or wind power spillage of farms, and/or curtailment of loads. Constraints (3c)–(3g) bound the value of unserved load, win d power spi"
+  },
+  {
+    "page": 5,
+    "equation": "3c",
+    "context": "en- force that the deviations of wind production are met with reserve deployment of generating units, and/or wind power spillage of farms, and/or curtailment of loads. Constraints (3c)–(3g) bound the value of unserved load, win d power spillage, active power reserve deployed, total activ e power production and reactive power production of generating uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits"
+  },
+  {
+    "page": 5,
+    "equation": "3g",
+    "context": "orce that the deviations of wind production are met with reserve deployment of generating units, and/or wind power spillage of farms, and/or curtailment of loads. Constraints (3c)–(3g) bound the value of unserved load, win d power spillage, active power reserve deployed, total activ e power production and reactive power production of generating uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Con"
+  },
+  {
+    "page": 5,
+    "equation": "3h",
+    "context": "of unserved load, win d power spillage, active power reserve deployed, total activ e power production and reactive power production of generating uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac"
+  },
+  {
+    "page": 5,
+    "equation": "3i",
+    "context": "ed load, win d power spillage, active power reserve deployed, total activ e power production and reactive power production of generating uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC probl"
+  },
+  {
+    "page": 5,
+    "equation": "3j",
+    "context": "reserve deployed, total activ e power production and reactive power production of generating uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and"
+  },
+  {
+    "page": 5,
+    "equation": "3k",
+    "context": "g uni ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described i"
+  },
+  {
+    "page": 5,
+    "equation": "3m",
+    "context": "ts, respectively. Constraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described in the"
+  },
+  {
+    "page": 5,
+    "equation": "2f",
+    "context": "nstraints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described in the next section. III. B"
+  },
+  {
+    "page": 5,
+    "equation": "2h",
+    "context": "ints (3h) and (3i) enforce ramp-rate limits. Constraints (3j) enforce the lower and upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described in the next section. III. B ENDE"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "nd upper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described in the next section. III. B ENDERS’S OLUTION This section proposes a solution strategy based on Benders’ decompo"
+  },
+  {
+    "page": 5,
+    "equation": "3",
+    "context": "pper bounds of nodes’ voltage magnitude. Fi- nally, constraints (3k)–(3m) ar e similar to (2f)–(2h), but for real-time operation. Finally, note that the proposed ac-UC problem (1)–(3) is mixed-integer, nonlinear and generally intractable. To make it solvable, Benders’ decomposition is applied as described in the next section. III. B ENDERS’S OLUTION This section proposes a solution strategy based on Benders’ decompositi"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "ders’ decomposition is applied as described in the next section. III. B ENDERS’S OLUTION This section proposes a solution strategy based on Benders’ decomposition to solve problem (1)–(3). A. Complicating V ariables and Convexi ﬁcation If ﬁrst-stage variables and are ﬁxed to given values in problem (1)–(3), this problem decomposes into 1) a sce- nario-independent mixed-integ er linear problem (r epresenting the ﬁrst-sta"
+  },
+  {
+    "page": 5,
+    "equation": "3",
+    "context": "’ decomposition is applied as described in the next section. III. B ENDERS’S OLUTION This section proposes a solution strategy based on Benders’ decomposition to solve problem (1)–(3). A. Complicating V ariables and Convexi ﬁcation If ﬁrst-stage variables and are ﬁxed to given values in problem (1)–(3), this problem decomposes into 1) a sce- nario-independent mixed-integ er linear problem (r epresenting the ﬁrst-stage),"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "n strategy based on Benders’ decomposition to solve problem (1)–(3). A. Complicating V ariables and Convexi ﬁcation If ﬁrst-stage variables and are ﬁxed to given values in problem (1)–(3), this problem decomposes into 1) a sce- nario-independent mixed-integ er linear problem (r epresenting the ﬁrst-stage), and 2) a set of nonlinear continuous problems, one per scenario (representing t he second-stage). Therefore, and ar"
+  },
+  {
+    "page": 5,
+    "equation": "3",
+    "context": "rategy based on Benders’ decomposition to solve problem (1)–(3). A. Complicating V ariables and Convexi ﬁcation If ﬁrst-stage variables and are ﬁxed to given values in problem (1)–(3), this problem decomposes into 1) a sce- nario-independent mixed-integ er linear problem (r epresenting the ﬁrst-stage), and 2) a set of nonlinear continuous problems, one per scenario (representing t he second-stage). Therefore, and are co"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "ario (representing t he second-stage). Therefore, and are complicating variables, and Benders’ decom- position can be potentially applied [20]. Although the original ac-UC problem (1)–(3) is non-convex and Benders’ decomposition is n ot generally applicable, if the number of wind power scenarios is large enough, the objective function (1) as a function of the complicating variables convex- iﬁes as shown in [21]. In othe"
+  },
+  {
+    "page": 5,
+    "equation": "3",
+    "context": "(representing t he second-stage). Therefore, and are complicating variables, and Benders’ decom- position can be potentially applied [20]. Although the original ac-UC problem (1)–(3) is non-convex and Benders’ decomposition is n ot generally applicable, if the number of wind power scenarios is large enough, the objective function (1) as a function of the complicating variables convex- iﬁes as shown in [21]. In other wo"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "original ac-UC problem (1)–(3) is non-convex and Benders’ decomposition is n ot generally applicable, if the number of wind power scenarios is large enough, the objective function (1) as a function of the complicating variables convex- iﬁes as shown in [21]. In other words, the objective function of an expected value stochastic pro gramming problem convexiﬁes as the number of scenarios increases. The reason of this is t"
+  },
+  {
+    "page": 5,
+    "equation": "1",
+    "context": "rgence is guaran teed if the objective function of the original problem projected on the subspace of the com- plicating variables has a convex envelope. The proposed ac-UC problem (1)–(3) is “sufﬁciently” convexiﬁed by considering a large enough number of scenario s, and our numerical analysis conﬁrms the well-functioning of the proposed decomposition algorithm. Nevertheless, conve rgence cannot be generally guar- antee"
+  },
+  {
+    "page": 5,
+    "equation": "3",
+    "context": "ce is guaran teed if the objective function of the original problem projected on the subspace of the com- plicating variables has a convex envelope. The proposed ac-UC problem (1)–(3) is “sufﬁciently” convexiﬁed by considering a large enough number of scenario s, and our numerical analysis conﬁrms the well-functioning of the proposed decomposition algorithm. Nevertheless, conve rgence cannot be generally guar- anteed fo"
+  },
+  {
+    "page": 6,
+    "equation": "1",
+    "context": "ate the objective function with a convex objective. B. Decomposition by Scenario and Time Period Fixing the complicating variables and to given values decomposes the ac-UC problem (1)–(3) by scenario. However, the ramping constraints (3h) and (3i), which links time periods, impede the ac-UC problem to decompose by time period. In general, an appropriate balance is needed between model accuracy and computational bur den."
+  },
+  {
+    "page": 6,
+    "equation": "3",
+    "context": "the objective function with a convex objective. B. Decomposition by Scenario and Time Period Fixing the complicating variables and to given values decomposes the ac-UC problem (1)–(3) by scenario. However, the ramping constraints (3h) and (3i), which links time periods, impede the ac-UC problem to decompose by time period. In general, an appropriate balance is needed between model accuracy and computational bur den. To"
+  },
+  {
+    "page": 6,
+    "equation": "3h",
+    "context": "Decomposition by Scenario and Time Period Fixing the complicating variables and to given values decomposes the ac-UC problem (1)–(3) by scenario. However, the ramping constraints (3h) and (3i), which links time periods, impede the ac-UC problem to decompose by time period. In general, an appropriate balance is needed between model accuracy and computational bur den. To this end, a heuristic technique is used in this pap"
+  },
+  {
+    "page": 6,
+    "equation": "3i",
+    "context": "ition by Scenario and Time Period Fixing the complicating variables and to given values decomposes the ac-UC problem (1)–(3) by scenario. However, the ramping constraints (3h) and (3i), which links time periods, impede the ac-UC problem to decompose by time period. In general, an appropriate balance is needed between model accuracy and computational bur den. To this end, a heuristic technique is used in this paper to dec"
+  },
+  {
+    "page": 6,
+    "equation": "3h",
+    "context": "he computational burden, but at the potential cost of intro- ducing imprecision in the ﬁnal solution. According to this heuristic technique, the inter-temporal ramping constraints (3h) and (3i) are relaxed and enforced just locally. That is, at time , ramping limits are enforced with respect to time , and time periods are processed successively from the ﬁrst to the last one. However, note that if needed, a reduced number"
+  },
+  {
+    "page": 6,
+    "equation": "3i",
+    "context": "ational burden, but at the potential cost of intro- ducing imprecision in the ﬁnal solution. According to this heuristic technique, the inter-temporal ramping constraints (3h) and (3i) are relaxed and enforced just locally. That is, at time , ramping limits are enforced with respect to time , and time periods are processed successively from the ﬁrst to the last one. However, note that if needed, a reduced number of hours"
+  },
+  {
+    "page": 6,
+    "equation": "4",
+    "context": "ered. The formulation of Benders’ master problem and subprob- lems are provided in the next subsections. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d"
+  },
+  {
+    "page": 6,
+    "equation": "4a",
+    "context": "- lems are provided in the next subsections. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven val"
+  },
+  {
+    "page": 6,
+    "equation": "4b",
+    "context": "s are provided in the next subsections. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values o"
+  },
+  {
+    "page": 6,
+    "equation": "4c",
+    "context": "provided in the next subsections. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtain"
+  },
+  {
+    "page": 6,
+    "equation": "4d",
+    "context": "ided in the next subsections. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtained fr"
+  },
+  {
+    "page": 6,
+    "equation": "4a",
+    "context": "ions. C. Subproblem The subproblem for scenario and time period is formulated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtained from the solution of the m"
+  },
+  {
+    "page": 6,
+    "equation": "4b",
+    "context": "ated as (4) below. All variables per tain to Benders’ iteration : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtained from the solution of the master problem. The formulation of the master problem is provided in the n"
+  },
+  {
+    "page": 6,
+    "equation": "4c",
+    "context": "tion : Ξ (4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtained from the solution of the master problem. The formulation of the master problem is provided in the next subsection. Reactive power constraints (3g ) and voltag"
+  },
+  {
+    "page": 6,
+    "equation": "4d",
+    "context": "(4a) (4b) (4c) (4d) Objective function (4a) represents total operation costs in real time operation. Constraint (4b) comprises the second-stage con- straints. Constraints (4c) and (4d) ﬁx the values of the compli- cating variables to gi ven values obtained from the solution of the master problem. The formulation of the master problem is provided in the next subsection. Reactive power constraints (3g ) and voltage magnitu"
+  },
+  {
+    "page": 6,
+    "equation": "3j",
+    "context": "the solution of the master problem. The formulation of the master problem is provided in the next subsection. Reactive power constraints (3g ) and voltage magnitude con- straints (3j) are enforced in each subproblem (4), while similar constraints are not enforced in the master problem. Thus, the ﬁxed values in (4c) and (4d) obtained from the master problem may make subproblems (4) infeasib le. To prevent infeasibility,"
+  },
+  {
+    "page": 6,
+    "equation": "4",
+    "context": "The formulation of the master problem is provided in the next subsection. Reactive power constraints (3g ) and voltage magnitude con- straints (3j) are enforced in each subproblem (4), while similar constraints are not enforced in the master problem. Thus, the ﬁxed values in (4c) and (4d) obtained from the master problem may make subproblems (4) infeasib le. To prevent infeasibility, a number of non-negative slack varia"
+  },
+  {
+    "page": 6,
+    "equation": "4c",
+    "context": "ints (3g ) and voltage magnitude con- straints (3j) are enforced in each subproblem (4), while similar constraints are not enforced in the master problem. Thus, the ﬁxed values in (4c) and (4d) obtained from the master problem may make subproblems (4) infeasib le. To prevent infeasibility, a number of non-negative slack variables are included in the reactive power and voltage magn itude constraints, along with penalties"
+  },
+  {
+    "page": 6,
+    "equation": "4d",
+    "context": ") and voltage magnitude con- straints (3j) are enforced in each subproblem (4), while similar constraints are not enforced in the master problem. Thus, the ﬁxed values in (4c) and (4d) obtained from the master problem may make subproblems (4) infeasib le. To prevent infeasibility, a number of non-negative slack variables are included in the reactive power and voltage magn itude constraints, along with penalties in the ob"
+  },
+  {
+    "page": 6,
+    "equation": "4",
+    "context": "each subproblem (4), while similar constraints are not enforced in the master problem. Thus, the ﬁxed values in (4c) and (4d) obtained from the master problem may make subproblems (4) infeasib le. To prevent infeasibility, a number of non-negative slack variables are included in the reactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasi"
+  },
+  {
+    "page": 6,
+    "equation": "4a",
+    "context": "event infeasibility, a number of non-negative slack variables are included in the reactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- t"
+  },
+  {
+    "page": 6,
+    "equation": "4",
+    "context": "ariables are included in the reactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough posi"
+  },
+  {
+    "page": 6,
+    "equation": "5",
+    "context": "s are included in the reactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive co"
+  },
+  {
+    "page": 6,
+    "equation": "5a",
+    "context": "the reactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also"
+  },
+  {
+    "page": 6,
+    "equation": "5b",
+    "context": "eactive power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that"
+  },
+  {
+    "page": 6,
+    "equation": "5c",
+    "context": "ve power and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a"
+  },
+  {
+    "page": 6,
+    "equation": "5d",
+    "context": "wer and voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a conti"
+  },
+  {
+    "page": 6,
+    "equation": "5e",
+    "context": "nd voltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous"
+  },
+  {
+    "page": 6,
+    "equation": "5f",
+    "context": "ltage magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous vari"
+  },
+  {
+    "page": 6,
+    "equation": "5g",
+    "context": "magn itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous variable"
+  },
+  {
+    "page": 6,
+    "equation": "5h",
+    "context": "itude constraints, along with penalties in the objective function (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous variable in ea"
+  },
+  {
+    "page": 6,
+    "equation": "5",
+    "context": "ion (4a) [20], [23]. Thus, the al- ways-feasible form of (4) is (5) as follows: Ξ (5a) (5b) (5c) (5d) (5e) (5f) (5g) (5h) The optimization variables per taining to each subproblem (5) are the elements of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the origin"
+  },
+  {
+    "page": 6,
+    "equation": "5",
+    "context": "ments of the set: Ξ Note that , , and are non-nega- tive slack variables, while and are large enough positive constants. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variable"
+  },
+  {
+    "page": 6,
+    "equation": "1",
+    "context": "ack variables, while and are large enough positive constants. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb"
+  },
+  {
+    "page": 6,
+    "equation": "3",
+    "context": "variables, while and are large enough positive constants. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i"
+  },
+  {
+    "page": 6,
+    "equation": "7",
+    "context": "rge enough positive constants. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u"
+  },
+  {
+    "page": 6,
+    "equation": "5",
+    "context": "ts. Note also that is a continuous variable in each subproblem (5), while it is a binary variable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u t sf o rt h em a s t e r p"
+  },
+  {
+    "page": 6,
+    "equation": "5g",
+    "context": "iable in the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u t sf o rt h em a s t e r problem. These sensitivities are obtained as follows: (6a) (6b)"
+  },
+  {
+    "page": 6,
+    "equation": "5h",
+    "context": "the original problem (1)–(3) and the master problem (7). Thus, each subproblem (5) is con- tinuous and nonlinear. The complicating variables are ﬁ xed through constraints (5g) and (5h), whose dual variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u t sf o rt h em a s t e r problem. These sensitivities are obtained as follows: (6a) (6b)"
+  },
+  {
+    "page": 6,
+    "equation": "6a",
+    "context": "l variables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u t sf o rt h em a s t e r problem. These sensitivities are obtained as follows: (6a) (6b)"
+  },
+  {
+    "page": 6,
+    "equation": "6b",
+    "context": "iables, and , provide sen- s i t i v i t i e st ob eu s e di nb u i l d i n gB e n d e r s ’c u t sf o rt h em a s t e r problem. These sensitivities are obtained as follows: (6a) (6b)"
+  },
+  {
+    "page": 7,
+    "equation": "6d",
+    "context": "of this journal. Content is final as presented, with the exception of pagination. 6 IEEE TRANSACTIONS ON POWER SYSTEMS In addition, the following value is calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master"
+  },
+  {
+    "page": 7,
+    "equation": "7",
+    "context": "is final as presented, with the exception of pagination. 6 IEEE TRANSACTIONS ON POWER SYSTEMS In addition, the following value is calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding"
+  },
+  {
+    "page": 7,
+    "equation": "6c",
+    "context": "inal as presented, with the exception of pagination. 6 IEEE TRANSACTIONS ON POWER SYSTEMS In addition, the following value is calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the"
+  },
+  {
+    "page": 7,
+    "equation": "1",
+    "context": "In addition, the following value is calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders"
+  },
+  {
+    "page": 7,
+    "equation": "3",
+    "context": "addition, the following value is calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ it"
+  },
+  {
+    "page": 7,
+    "equation": "6d",
+    "context": "calculated to be used in (6d) and master problem (7): (6c) The upper bound for the optimal value of objective function of the original problem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function"
+  },
+  {
+    "page": 7,
+    "equation": "1",
+    "context": "roblem (1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) i"
+  },
+  {
+    "page": 7,
+    "equation": "3",
+    "context": "(1)–(3) at iteration is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixe"
+  },
+  {
+    "page": 7,
+    "equation": "7",
+    "context": "is obtained as (6d) where the value of is calculated using ﬁxed values for . D. Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and"
+  },
+  {
+    "page": 7,
+    "equation": "7a",
+    "context": "Master Problem The master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are"
+  },
+  {
+    "page": 7,
+    "equation": "1",
+    "context": "master problem corresponding to the original problem (1) – (3) is formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, whi"
+  },
+  {
+    "page": 7,
+    "equation": "7a",
+    "context": "formulated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts"
+  },
+  {
+    "page": 7,
+    "equation": "7b",
+    "context": "lated as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are n"
+  },
+  {
+    "page": 7,
+    "equation": "7c",
+    "context": "as (7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not re"
+  },
+  {
+    "page": 7,
+    "equation": "7d",
+    "context": "7) below. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not require"
+  },
+  {
+    "page": 7,
+    "equation": "7e",
+    "context": "low. All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not required in"
+  },
+  {
+    "page": 7,
+    "equation": "7f",
+    "context": "All variables refer to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not required in the m"
+  },
+  {
+    "page": 7,
+    "equation": "7",
+    "context": "to Ben- ders’ iteration . The objective function (7a) corresponds to (1), where represents the expected cost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not required in the master problem becau"
+  },
+  {
+    "page": 7,
+    "equation": "7b",
+    "context": "ost in real-time operation: Ξ (7a) (7b) (7c) (7d) (7e) (7f) Master problem (7) is mixed-integer linear, and its optimiza- tion variables are the elements of the set: Ξ Constraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not required in the master problem because alwa ys-feasible subproblems (5) are used within the proposed Benders’ algorithm. This “trick” has prov"
+  },
+  {
+    "page": 7,
+    "equation": "5",
+    "context": "nstraints (7b) are Benders’ cuts, which are generated one per iteration. Note that the feasibility cuts are not required in the master problem because alwa ys-feasible subproblems (5) are used within the proposed Benders’ algorithm. This “trick” has proven to be computationally e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except ("
+  },
+  {
+    "page": 7,
+    "equation": "7c",
+    "context": "in the master problem because alwa ys-feasible subproblems (5) are used within the proposed Benders’ algorithm. This “trick” has proven to be computationally e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and"
+  },
+  {
+    "page": 7,
+    "equation": "7d",
+    "context": "within the proposed Benders’ algorithm. This “trick” has proven to be computationally e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the pre"
+  },
+  {
+    "page": 7,
+    "equation": "2b",
+    "context": "ck” has proven to be computationally e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Bend"
+  },
+  {
+    "page": 7,
+    "equation": "2b",
+    "context": "e computationally e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), con"
+  },
+  {
+    "page": 7,
+    "equation": "7e",
+    "context": "e fﬁcient. Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and"
+  },
+  {
+    "page": 7,
+    "equation": "7f",
+    "context": ". Constraint (7c) im- poses a lower bound on to accelerate convergence. Con- straint (7d) enforce all ﬁrst-st age constraints, except (2b). In- stead of (2b), constraints (7e) and (7f) are included in the master problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and (7f) furt"
+  },
+  {
+    "page": 7,
+    "equation": "7b",
+    "context": "ter problem to improve convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and (7f) further link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master"
+  },
+  {
+    "page": 7,
+    "equation": "7e",
+    "context": "rove convergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and (7f) further link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updat"
+  },
+  {
+    "page": 7,
+    "equation": "7f",
+    "context": "ergence. Note that and are parameters obtained from the solution of the subproblems in the previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and (7f) further link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the va"
+  },
+  {
+    "page": 7,
+    "equation": "7a",
+    "context": "previous iteration. In fact, in addition to the Benders’ cuts (7b), constraints (7e) and (7f) further link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the values of complicating variables. Fig. 2. Flowchart of the proposed Benders’ algorithm. E. B"
+  },
+  {
+    "page": 7,
+    "equation": "1",
+    "context": "f) further link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the values of complicating variables. Fig. 2. Flowchart of the proposed Benders’ algorithm. E. Benders’ Algorithm The proposed Benders’ algorithm is as follows: 1) Input: a small toleranc"
+  },
+  {
+    "page": 7,
+    "equation": "3",
+    "context": "urther link the master problem and the subproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the values of complicating variables. Fig. 2. Flowchart of the proposed Benders’ algorithm. E. Benders’ Algorithm The proposed Benders’ algorithm is as follows: 1) Input: a small tolerance to"
+  },
+  {
+    "page": 7,
+    "equation": "7",
+    "context": "ubproblems. The value of objective function (7a), i.e., ,i sal o w e r bound for the optimal value of the objective function of problem (1)–(3). The solution of the master problem (7) updates the values of complicating variables. Fig. 2. Flowchart of the proposed Benders’ algorithm. E. Benders’ Algorithm The proposed Benders’ algorithm is as follows: 1) Input: a small tolerance to control convergence, and initial guesse"
+  },
+  {
+    "page": 7,
+    "equation": "5",
+    "context": "omplicating variables, and . 2) Initialization: Set , , and . 3) Initial scenario: Consider scenario . 4) Initial time period: Consider time period . 5) Subproblem solution: Solve (5) for scenario and time period and calculate . 6) Next time period: Consider the next time period, and repeat step 5. If all time periods have been considered, go to the next step. 7) Next scenario: Consider the next scenario, and repeat ste"
+  },
+  {
+    "page": 7,
+    "equation": "7",
+    "context": "timal solution with a level of accuracy has been obtained. Otherwise, calculate and the sensitivities to build the next Benders’ cut. Then, set . 9) Master problem solution: Solve (7), calculate and update the values of comp licating variables. Then, continue in step 3. The ﬂowchart of the proposed Benders’ algorithm is depicted in Fig. 2."
+  },
+  {
+    "page": 9,
+    "equation": "1",
+    "context": "SYSTEMS TABLE V MATHEMATICAL CHARACTERISTICS OF EACH UC P ROBLEM Fig. 4. Commitment status of the units for Cases A-C. Case B) This case refers to an ac-UC problem based on model (1)–(3) solved by the proposed Benders’ algorithm. The voltage magnitude of each node is enforced to be within 0.9 p.u. and 1.1 p.u. Case C) This case is similar to Case B, but constraints on the voltage magnitude of nodes are relaxed. In this"
+  },
+  {
+    "page": 9,
+    "equation": "3",
+    "context": "TEMS TABLE V MATHEMATICAL CHARACTERISTICS OF EACH UC P ROBLEM Fig. 4. Commitment status of the units for Cases A-C. Case B) This case refers to an ac-UC problem based on model (1)–(3) solved by the proposed Benders’ algorithm. The voltage magnitude of each node is enforced to be within 0.9 p.u. and 1.1 p.u. Case C) This case is similar to Case B, but constraints on the voltage magnitude of nodes are relaxed. In this cas"
+  },
+  {
+    "page": 9,
+    "equation": "3",
+    "context": ", the non-decomposed ac-UC problem, and the decomposed ac-UC problem (Cases B and C). Note that the non-decomposed dc-UC problem (Case A) includes the dc version of ac constraints (3), which is given in Appendix B as constraints (9). The corresponding numerical results are given and analyzed in the next subsection. C. Numerical Results The expected cost, i.e., the val ue of objective function (1), for the three cases co"
+  },
+  {
+    "page": 9,
+    "equation": "9",
+    "context": "posed ac-UC problem (Cases B and C). Note that the non-decomposed dc-UC problem (Case A) includes the dc version of ac constraints (3), which is given in Appendix B as constraints (9). The corresponding numerical results are given and analyzed in the next subsection. C. Numerical Results The expected cost, i.e., the val ue of objective function (1), for the three cases considered are given in the second column of Table"
+  },
+  {
+    "page": 9,
+    "equation": "1",
+    "context": "constraints (9). The corresponding numerical results are given and analyzed in the next subsection. C. Numerical Results The expected cost, i.e., the val ue of objective function (1), for the three cases considered are given in the second column of Table VI. Additionally, the commitment status of the units are depicted in Fig. 4. Note that for a ll cases, neither load curtail- ment nor wind power spillage occurs. TABLE"
+  },
+  {
+    "page": 9,
+    "equation": "3g",
+    "context": "p.u. and 2.5 p.u., respectively. 4) The reason for these differences is the constraints that are not modeled in the dc-UC formulation (Case A), i.e., re- active power constraints (3g) and voltage magnitude con- straints (3j). For example, the numerical results of Case B (ac-UC problem) illustrate that the voltage magnitudes of node 6 within different scenarios and time periods are mostly equal to its upper bound, i.e.,"
+  },
+  {
+    "page": 9,
+    "equation": "3j",
+    "context": "reason for these differences is the constraints that are not modeled in the dc-UC formulation (Case A), i.e., re- active power constraints (3g) and voltage magnitude con- straints (3j). For example, the numerical results of Case B (ac-UC problem) illustrate that the voltage magnitudes of node 6 within different scenarios and time periods are mostly equal to its upper bound, i.e., 1.1 p.u. However, the results obtained by"
+  },
+  {
+    "page": 9,
+    "equation": "3g",
+    "context": "1.1 p.u. However, the results obtained by dc-UC model (Case A) misrepre- sent such constraint, since it does not consider the voltage magnitude bounds. In addition to constraints (3g) and (3j), power losses in the network is the other reason of differ- ences, as it is modeled in the ac-UC problem (Case B), but it is not in the dc-UC problem (Case A). 5) According to Fig. 4, although both Cases B and C solve ac-UC proble"
+  },
+  {
+    "page": 9,
+    "equation": "3j",
+    "context": "However, the results obtained by dc-UC model (Case A) misrepre- sent such constraint, since it does not consider the voltage magnitude bounds. In addition to constraints (3g) and (3j), power losses in the network is the other reason of differ- ences, as it is modeled in the ac-UC problem (Case B), but it is not in the dc-UC problem (Case A). 5) According to Fig. 4, although both Cases B and C solve ac-UC problems, diffe"
+  },
+  {
+    "page": 10,
+    "equation": "3j",
+    "context": "resented, with the exception of pagination. NASRI et al.: NETWORK-CONSTRAINED AC UNIT COMMITMENT UNDER UNCERTAINTY 9 Fig. 5. Evolution of Benders’ algorithm in Case B. constraints (3j) render slightly different results. For ex- ample, the comparatively small generating unit 15 is fully committed in Case C, while it is fully decommitted in Case B. On the other hand, the comparatively large generating unit 9 is not committ"
+  },
+  {
+    "page": 10,
+    "equation": "5",
+    "context": "25, where the difference between (upper curve) and (lower curve) is smaller tha n the considered tolerance. D. Computational, Optimality, and Implementation Issues Each subproblem (5) is solved using CONOPT [26] under GAMS [27], while the master problem (7) is solved using CPLEX 12.1 [25] under GAMS [27], both on a Sun Fire X4600M2 with 8 Quad-Core processors clocking at 2.9 GHz and 256 GB of RAM. The following computat"
+  },
+  {
+    "page": 10,
+    "equation": "7",
+    "context": "r tha n the considered tolerance. D. Computational, Optimality, and Implementation Issues Each subproblem (5) is solved using CONOPT [26] under GAMS [27], while the master problem (7) is solved using CPLEX 12.1 [25] under GAMS [27], both on a Sun Fire X4600M2 with 8 Quad-Core processors clocking at 2.9 GHz and 256 GB of RAM. The following computational, optimality and implementation issues are in order: • We report that"
+  },
+  {
+    "page": 10,
+    "equation": "1",
+    "context": "too large values of constants and may lead to conver- gence ﬂuctuations, while comparatively small values may lead to infeasible solutions. • Note that the original ac-UC problem (1)–(3) is non-convex, and since the number of scenarios cannot be increased beyond a limit to ensure computational tractability, the result obtained may not be a global op- timal. To overcome such issue, a multi-start decomposition approach i"
+  },
+  {
+    "page": 10,
+    "equation": "3",
+    "context": "large values of constants and may lead to conver- gence ﬂuctuations, while comparatively small values may lead to infeasible solutions. • Note that the original ac-UC problem (1)–(3) is non-convex, and since the number of scenarios cannot be increased beyond a limit to ensure computational tractability, the result obtained may not be a global op- timal. To overcome such issue, a multi-start decomposition approach is us"
+  },
+  {
+    "page": 10,
+    "equation": "1",
+    "context": "ingly, the proposed de- composition problem is solved several times considering diverse initial points, and ﬁnally the one leading to the smallest value for the objective function (1) is selected. Among the diverse initial solutions checked, the ﬂat start, i.e., and , shows the best performance. • To assess the effect of the considered tolerance on the so- lution obtained, the proposed decomposition algorithm has been r"
+  },
+  {
+    "page": 11,
+    "equation": "2a",
+    "context": "final as presented, with the exception of pagination. 10 IEEE TRANSACTIONS ON POWER SYSTEMS APPENDIX A This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- com"
+  },
+  {
+    "page": 11,
+    "equation": "2h",
+    "context": "presented, with the exception of pagination. 10 IEEE TRANSACTIONS ON POWER SYSTEMS APPENDIX A This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-"
+  },
+  {
+    "page": 11,
+    "equation": "8a",
+    "context": "10 IEEE TRANSACTIONS ON POWER SYSTEMS APPENDIX A This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provide"
+  },
+  {
+    "page": 11,
+    "equation": "3a",
+    "context": "STEMS APPENDIX A This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACK"
+  },
+  {
+    "page": 11,
+    "equation": "3b",
+    "context": "APPENDIX A This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLED"
+  },
+  {
+    "page": 11,
+    "equation": "3m",
+    "context": "This appendix provides the functions used in this paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. N"
+  },
+  {
+    "page": 11,
+    "equation": "8b",
+    "context": "paper. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow"
+  },
+  {
+    "page": 11,
+    "equation": "8c",
+    "context": "r. Func- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- shi"
+  },
+  {
+    "page": 11,
+    "equation": "8d",
+    "context": "nc- tion used in (2a) and (2h) is mathematically formulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- ship. He"
+  },
+  {
+    "page": 11,
+    "equation": "3",
+    "context": "ormulated as follows: (8a) Functions , ,a n d used in (3a), (3b), and (3m) are math ematically formulated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- ship. He would like to express his gratitude towards all"
+  },
+  {
+    "page": 11,
+    "equation": "9a",
+    "context": "lated as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- ship. He would like to express his gratitude towards all partner institutions within the program as well as the European Com- mission for their support. R EFE"
+  },
+  {
+    "page": 11,
+    "equation": "9b",
+    "context": "as fol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- ship. He would like to express his gratitude towards all partner institutions within the program as well as the European Com- mission for their support. R EFERENCE"
+  },
+  {
+    "page": 11,
+    "equation": "9c",
+    "context": "ol- lows: (8b) (8c) (8d) APPENDIX B The dc version of ac constraint s (3) included in the non-de- composed dc-UC problem (Case A of Section IV-B) is provided as follows: (9a) (9b) (9c) ACKNOWLEDGMENT A. Nasri has been awarded an Erasmus Mundus PhD Fellow- ship. He would like to express his gratitude towards all partner institutions within the program as well as the European Com- mission for their support. R EFERENCES [1]"
+  }
+]

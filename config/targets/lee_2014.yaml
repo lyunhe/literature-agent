@@ -1,0 +1,19 @@
+id: lee_2014_tlc_robust_uc
+title: Modeling Transmission Line Constraints in Two-Stage Robust Unit Commitment Problem
+authors:
+  - Changhyeok Lee
+  - Cong Liu
+  - Sanjay Mehrotra
+  - Mohammad Shahidehpour
+year: 2014
+venue: IEEE Transactions on Power Systems
+doi: 10.1109/TPWRS.2013.2291498
+role: primary_reproduction_target
+source_pdf: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction/papers/pdfs/two-stage-benders-uc/2014 - Modeling Transmission Line Constraints in Two-Stage Robust Unit Commitment Problem.pdf
+run_dir: runs/lee_2014_tlc_robust_uc
+obsidian_vault: /Users/yunhe/ai for research分享/obsidian-vaults/two-stage-benders-uc-reproduction
+notes:
+  - Uses modified IEEE 118-bus system.
+  - Primary algorithm path is C&CG plus load-shift-factor cutting plane.
+  - Exact modified data and wind farm bus locations require source tracing.
+

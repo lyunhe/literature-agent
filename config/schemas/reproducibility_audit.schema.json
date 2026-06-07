@@ -1,0 +1,74 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paper_title",
+    "recommended_role",
+    "scores",
+    "data_check",
+    "algorithm_check",
+    "result_alignment",
+    "blockers",
+    "next_steps"
+  ],
+  "properties": {
+    "paper_title": { "type": "string" },
+    "recommended_role": {
+      "type": "string",
+      "enum": ["primary_target", "method_reference", "sanity_check", "reject"]
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["data", "algorithm", "result_alignment", "overall"],
+      "properties": {
+        "data": { "type": "number" },
+        "algorithm": { "type": "number" },
+        "result_alignment": { "type": "number" },
+        "overall": { "type": "number" }
+      }
+    },
+    "data_check": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "evidence", "status"],
+        "properties": {
+          "item": { "type": "string" },
+          "evidence": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "algorithm_check": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["component", "evidence", "status"],
+        "properties": {
+          "component": { "type": "string" },
+          "evidence": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "result_alignment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target", "evidence", "status"],
+        "properties": {
+          "target": { "type": "string" },
+          "evidence": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } }
+  }
+}
+

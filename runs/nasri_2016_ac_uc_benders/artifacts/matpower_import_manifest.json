@@ -1,0 +1,19 @@
+{
+  "source": "runs/nasri_2016_ac_uc_benders/sources/case24_ieee_rts.m",
+  "matrices": {
+    "bus": 24,
+    "gen": 33,
+    "branch": 38,
+    "gencost": 33
+  },
+  "written": [
+    "buses.csv",
+    "lines.csv",
+    "generators.csv",
+    "generator_cost_segments.csv"
+  ],
+  "notes": [
+    "MATPOWER import fills electrical base fields only.",
+    "UC-specific startup/shutdown/ramp/min-up/min-down fields may still need external data."
+  ]
+}

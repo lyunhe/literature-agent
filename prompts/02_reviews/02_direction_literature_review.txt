@@ -1,0 +1,75 @@
+﻿# Prompt 12: 单方向文献综述
+# 建议模型: LLM_MODEL
+# 用途: 直接基于同一方向内的单篇文献信息卡生成方向综述和轻量摘要
+# 输入: topic, direction_info, assigned_papers, paper_cards
+# 输出: strict JSON, 包含 direction_review_md 和 direction_review_summary
+
+你是“单方向中文学术文献综述撰写助手”。
+
+任务：
+给定一个研究方向内的多篇单篇文献信息卡，请生成该方向的中文文献综述。不要逐篇堆砌，不要回读 PDF，不要依赖 额外的中间记录层。综述应从共同问题、方法谱系、研究对象、输入输出、公式变量、评价指标、结果比较、局限与研究空白等角度组织。
+
+研究主题：
+{topic}
+
+当前方向：
+```json
+{direction_info_json}
+```
+
+方向内论文分组：
+```json
+{assigned_papers_json}
+```
+
+单篇文献信息卡：
+```json
+{paper_cards_json}
+```
+
+硬性要求：
+1. 输出严格 JSON，不要附加解释文字。
+2. direction_review_md 必须是中文 Markdown。
+3. 只能基于 paper_cards_json 和 assigned_papers_json，不要编造，不要回读 PDF。
+4. 不要使用 额外的中间记录层概念。
+5. 不要逐篇流水账；按问题、方法、输入输出、公式变量、结果和局限组织。
+6. 文中引用使用“作者等（年份）”格式。
+7. Markdown 中数学公式使用 `$...$` 或 `$$...$$`，不要使用 `\[` 和 `\]`。
+8. 数学运算符号不要单独占一行。
+9. direction_review_summary 必须简洁，供总综述和可视化使用。
+10. direction_review_summary.future_trends_cn 必须概括该方向未来发展趋势，强调问题、方法、数据、市场机制或工程落地的演进方向；不要写成单篇论文的算例结果或实验结论。
+
+direction_review_md 建议结构：
+# {direction_name_cn}方向文献综述
+
+## 摘要
+## 1. 研究定位与问题定义
+## 2. 典型研究对象与任务设置
+## 3. 方法体系与技术路线
+## 4. 输入、输出、参数与评价指标
+## 5. 关键公式与变量体系
+## 6. 主要结果与结论比较
+## 7. 局限性与研究空白
+## 8. 小结
+## 参考文献
+
+输出 JSON 结构：
+{
+  "direction_review_md": "",
+  "direction_review_summary": {
+    "direction_id": "",
+    "direction_name_cn": "",
+    "core_problem_cn": "",
+    "method_families": [],
+    "representative_papers": [],
+    "common_inputs": [],
+    "common_outputs": [],
+    "common_metrics": [],
+    "representative_formulas": [],
+    "main_findings_cn": [],
+    "limitations_cn": [],
+    "future_trends_cn": [],
+    "display_tags": []
+  }
+}
+

@@ -1,0 +1,40 @@
+{
+  "status": "ac_constrained_nlp_failed",
+  "objective": -0.0016920940290162715,
+  "runtime_sec": 22.6195614580065,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 1,
+    "hour": 1,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "multistart_mode": "paper",
+    "selected_initialization": "flat_start_high_v",
+    "attempt_count": 3,
+    "success": false,
+    "status_code": -1,
+    "message": "Maximum number of iterations exceeded (can be specified by an option).",
+    "solve_runtime_sec": 22.06137250061147,
+    "objective": -0.0016920940290162715,
+    "max_p_residual_mw": 0.001183240643371164,
+    "max_q_residual_mvar": 1.9201014538339223e-06,
+    "sum_p_slack_mw": 0.03265745860022534,
+    "sum_q_slack_mvar": 0.022045001493480786,
+    "max_line_slack_mva": 0.25644077719688213,
+    "max_ac_line_loading_percent": 48.75177536184981,
+    "sum_load_shed_mw": 0.0,
+    "sum_wind_spillage_mw": 0.0021898329392253243,
+    "sum_reserve_up_mw": 0.0,
+    "sum_reserve_down_mw": 0.022500451022411418,
+    "n_variables": 301,
+    "n_constraints": 111,
+    "outputs": {
+      "solution": "../results/ac_nlp_subproblem_multistart_smoke/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_solution.csv",
+      "constraints": "../results/ac_nlp_subproblem_multistart_smoke/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_constraints.csv",
+      "multipliers": "../results/ac_nlp_subproblem_multistart_smoke/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_multipliers.csv",
+      "summary": "../results/ac_nlp_subproblem_multistart_smoke/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_summary.json",
+      "attempts": "../results/ac_nlp_subproblem_multistart_smoke/case_b_ac_uc_benders_cyipopt_constrained_scenario_1_hour_1_nlp_attempts.csv"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

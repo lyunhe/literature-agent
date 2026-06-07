@@ -1,0 +1,25 @@
+hour,total_load_mw,total_reactive_load_mvar,nodal_allocation_source,notes
+1,2137.5,435.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+2,1994.9999999999998,406.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+3,1852.5,377.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+4,1710.0,348.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+5,1767.0,359.6,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+6,1795.5,365.4,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+7,1852.5,377.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+8,1938.0000000000002,394.40000000000003,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+9,1994.9999999999998,406.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+10,2052.0,417.59999999999997,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+11,2137.5,435.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+12,2223.0,452.40000000000003,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+13,2280.0,464.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+14,2422.5,493.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+15,2422.5,493.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+16,2565.0,522.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+17,2622.0,533.6,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+18,2707.5,551.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+19,2793.0,568.4,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+20,2850.0,580.0,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+21,2764.5,562.6,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+22,2650.5,539.4,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+23,2593.5,527.8000000000001,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0
+24,2622.0,533.6,MATPOWER case24_ieee_rts bus Pd/Qd scaled by Nasri Table III,base total Pd=2850.0; base total Qd=580.0

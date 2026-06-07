@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="410" viewBox="0 0 1180 410">
+<style>
+  .title { font: 700 18px Arial, sans-serif; fill: #222; }
+  .subtitle { font: 700 13px Arial, sans-serif; fill: #333; }
+  .label { font: 12px Arial, sans-serif; fill: #333; }
+  .tick { font: 10px Arial, sans-serif; fill: #555; }
+</style>
+<text x="590.0" y="30" text-anchor="middle" class="title">Paper vs current reproduction</text>
+<rect x="28" y="58" width="260" height="54" fill="#f0f0f0" stroke="#999"/>
+<text x="38" y="91" class="subtitle">Metric</text>
+<rect x="288" y="58" width="300" height="54" fill="#f0f0f0" stroke="#999"/>
+<text x="298" y="91" class="subtitle">Paper</text>
+<rect x="588" y="58" width="300" height="54" fill="#f0f0f0" stroke="#999"/>
+<text x="598" y="91" class="subtitle">Current reproduction</text>
+<rect x="888" y="58" width="240" height="54" fill="#f0f0f0" stroke="#999"/>
+<text x="898" y="91" class="subtitle">Status</text>
+<rect x="28" y="112" width="260" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="38" y="134" class="label">Case A expected cost</text>
+<rect x="288" y="112" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="298" y="134" class="label">$638,537.8</text>
+<rect x="588" y="112" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="598" y="134" class="label">$639,922.36</text>
+<rect x="888" y="112" width="240" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="898" y="134" class="label">close scale; synthetic wind and simplified</text>
+<text x="898" y="152" class="tick"> model</text>
+<rect x="28" y="166" width="260" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="38" y="188" class="label">Case B expected cost</text>
+<rect x="288" y="166" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="298" y="188" class="label">$651,909.9</text>
+<rect x="588" y="166" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="598" y="188" class="label">not fully reproduced; proxy curve anchored</text>
+<text x="598" y="206" class="tick"> to paper</text>
+<rect x="888" y="166" width="240" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="898" y="188" class="label">full 40x24 AC NLP batch still pending</text>
+<rect x="28" y="220" width="260" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="38" y="242" class="label">Case C expected cost</text>
+<rect x="288" y="220" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="298" y="242" class="label">$650,368.9</text>
+<rect x="588" y="220" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="598" y="242" class="label">not fully reproduced</text>
+<rect x="888" y="220" width="240" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="898" y="242" class="label">requires relaxed-voltage AC-Benders batch</text>
+<rect x="28" y="274" width="260" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="38" y="296" class="label">Case B convergence</text>
+<rect x="288" y="274" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="298" y="296" class="label">25 iterations at 0.3% tolerance</text>
+<rect x="588" y="274" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="598" y="296" class="label">stage loop runs selected scenario-hours</text>
+<rect x="888" y="274" width="240" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="898" y="296" class="label">proxy curve shown for visual comparison</text>
+<rect x="28" y="328" width="260" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="38" y="350" class="label">Wind scenarios</text>
+<rect x="288" y="328" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="298" y="350" class="label">40 historical scenarios, 24 h</text>
+<rect x="588" y="328" width="300" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="598" y="350" class="label">40 reconstructed surrogate scenarios, 24 h</text>
+<rect x="888" y="328" width="240" height="54" fill="#ffffff" stroke="#ddd"/>
+<text x="898" y="350" class="label">calibrated to reported 29.60% expected win</text>
+<text x="898" y="368" class="tick">d</text>
+</svg>

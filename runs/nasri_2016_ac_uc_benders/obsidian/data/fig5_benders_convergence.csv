@@ -1,0 +1,2 @@
+iteration,lower_bound,upper_bound,relative_gap_percent,master_status,subproblem_status,cuts_added,notes
+1,639922.3560276568,640439.1535720726,0.08069424574268301,solved,ac_screening_complete,960,AC screening pass only; feasibility cuts are counted but not added as dual-derived cuts.

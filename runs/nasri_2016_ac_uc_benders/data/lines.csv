@@ -1,0 +1,39 @@
+line_id,from_bus,to_bus,x_pu,rate_mw,lsf_row_source,notes,table_i_sbar_pu,table_i_source
+1,1,2,0.0139,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+2,1,3,0.2112,229.99999999999997,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,2.3,Nasri 2016 Table I
+3,1,5,0.0845,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+4,2,4,0.1267,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+5,2,6,0.192,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+6,3,9,0.119,160.0,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,1.6,Nasri 2016 Table I
+7,3,24,0.0839,400.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+8,4,9,0.1037,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+9,5,10,0.0883,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+10,6,10,0.0605,250.0,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,2.5,Nasri 2016 Table I
+11,7,8,0.0614,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+12,8,9,0.1651,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+13,8,10,0.1651,175.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+14,9,11,0.0839,400.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+15,9,12,0.0839,400.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+16,10,11,0.0839,300.0,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,3.0,Nasri 2016 Table I
+17,10,12,0.0839,400.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+18,11,13,0.0476,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+19,11,14,0.0418,229.99999999999997,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,2.3,Nasri 2016 Table I
+20,12,13,0.0476,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+21,12,23,0.0966,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+22,13,23,0.0865,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+23,14,16,0.0389,210.0,compute_lsf_from_case,rate overridden from Nasri 2016 Table I,2.1,Nasri 2016 Table I
+24,15,16,0.0173,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+25,15,21,0.049,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+26,15,21,0.049,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+27,15,24,0.0519,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+28,16,17,0.0259,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+29,16,19,0.0231,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+30,17,18,0.0144,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+31,17,22,0.1053,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+32,18,21,0.0259,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+33,18,21,0.0259,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+34,19,20,0.0396,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+35,19,20,0.0396,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+36,20,23,0.0216,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+37,20,23,0.0216,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,
+38,21,22,0.0678,500.0,compute_lsf_from_case,imported from MATPOWER branch matrix,,

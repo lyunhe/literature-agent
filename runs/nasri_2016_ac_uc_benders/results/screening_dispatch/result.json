@@ -1,0 +1,40 @@
+{
+  "status": "screening_complete",
+  "objective": null,
+  "runtime_sec": 1.7341996668837965,
+  "metadata": {
+    "case": "screening_dispatch",
+    "description": "No-solver merit-order dispatch plus DC flow screening; not a paper-level UC solution.",
+    "scenario_filter": null,
+    "hours_evaluated": 24,
+    "scenarios_evaluated": 40,
+    "max_shortage_mw": 0.0,
+    "max_curtailment_mw": 0.0,
+    "max_abs_line_loading_percent": 250.0,
+    "hours_with_overloads": 426,
+    "outputs": {
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/screening_dispatch/summary.csv",
+      "dispatch": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/screening_dispatch/dispatch.csv",
+      "line_flows": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/screening_dispatch/line_flows.csv"
+    },
+    "solver_config": {
+      "preferred_solvers": [
+        "gurobi",
+        "cplex",
+        "highs"
+      ],
+      "mip_gap": 0.001,
+      "time_limit_sec": 7200,
+      "threads": null,
+      "feasibility_tolerance": null,
+      "notes": [
+        "Original paper used AMPL/CPLEX and C++/Coin-OR Bcp for specialized subproblem variants.",
+        "Record all deviations from the paper solver stack."
+      ]
+    },
+    "limitations": [
+      "No commitment binaries, startup/shutdown costs, ramp chronology, reserve scheduling, or Benders cuts.",
+      "Uses synthetic calibrated wind profiles, so results are synthetic-data reproduction rather than exact paper-result reproduction."
+    ]
+  }
+}

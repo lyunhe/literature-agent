@@ -1,0 +1,102 @@
+﻿# Prompt: 方向预筛与 PDF 正文最终重分类
+# 建议模型: LLM_FLASH_MODEL
+# 用途: 检索/过滤之后的下载前预筛；或 PDF 正文提取之后的最终方向分类
+# 输入: topic, papers metadata(title/title_cn/abstract/authors/year/venue/source/concepts/cited_by_count/doi/candidate_id/pdf_text_excerpt)
+# 输出: directions + assignments + relevance_scores + fast_check
+
+你是“文献方向筛选与相关度评分助手”。
+
+任务：
+请依据候选论文的标题、中文标题、摘要、期刊/来源、年份、关键词/concepts、DOI、引用量，以及输入中可能提供的 pdf_text_excerpt，把候选论文归纳为若干研究方向，并为每篇论文给出相关度评分。
+
+重要限制：
+1. 如果输入的 papers 中包含 pdf_text_excerpt，必须结合正文摘录判断最终方向；如果没有该字段，则只做下载前轻量预筛。
+2. 不允许根据题目外推论文没有明确说明的研究内容。
+3. 如果摘要和正文摘录都缺失，只能根据标题、期刊/来源、关键词进行保守判断，并降低 assignment_confidence。
+4. 每篇候选论文必须且只能分配到一个 direction_id。
+5. 不要输出空方向。
+6. direction_id 使用 D1、D2、D3 这种稳定编号。
+7. 方向数量保持精简，优先 2–6 个；候选文献很少时可以只有 1 个方向。
+8. 输出必须是严格 JSON，不要附加解释文字。
+
+研究主题：
+{topic}
+
+候选论文元数据：
+```json
+{candidate_papers_json}
+```
+
+方向划分原则：
+1. 优先依据共同研究问题和应用对象。
+2. 其次依据共同研究任务。
+3. 再依据共同方法类型、输入信息和输出目标。
+4. 不要仅按关键词机械聚类。
+5. 对边界文献、背景文献、方法借鉴文献要保守标注 role。
+6. 对明显弱相关或边界文献也必须分配到最接近的主线方向，relevance decision 可写 borderline 或 exclude，但不能创建 D_excluded，不能遗漏。
+7. 如果候选论文元数据 JSON 中包含 existing_directions，请优先沿用已有 direction_id、方向名和纳入标准；只有当论文明显不适合已有方向时，才新增 D3、D4 等方向。
+8. 面向“储能参与电力市场报价方式”这类主题时，优先按“报价方式/方法族 + 市场任务”归类，而不是粗略分成市场类和运行类。可参考但不限于：
+   - 数据驱动与强化学习报价：强化学习、深度学习、预测后报价、智能体、学习型竞价。
+   - 优化建模与风险约束报价：随机优化、鲁棒优化、机会约束、CVaR、调度协同。
+   - 市场机制与策略性竞价：真实报价、市场出清、博弈、价格制定者、持留行为、社会福利。
+   - 辅助服务与分布式协同：调频/备用/FCAS、SOC 市场模型、共享储能、隐私保护、分布式控制。
+9. 上述只是分类参考，不要求机械使用；如果输入主题不同，应根据实际主题自动生成更合适的方向。
+
+相关度评分规则：
+- relevance_score 范围 0–10。
+- 9–10：高度相关，研究对象、任务和方法均与主题主线匹配。
+- 7–8：相关，至少研究对象和任务明显匹配。
+- 5–6：边界相关，可能只匹配对象、方法或应用场景中的一部分。
+- 3–4：弱相关，可作为背景或方法参考。
+- 0–2：基本不相关。
+
+输出 JSON 结构：
+{
+  "topic": "",
+  "input_mode": "search_metadata / pdf_metadata / pdf_text_final",
+  "directions": [
+    {
+      "direction_id": "D1",
+      "direction_name_cn": "中文方向名",
+      "direction_name_en": "English direction name",
+      "direction_summary_cn": "一句话说明该方向，不超过 40 个汉字",
+      "display_keywords": ["用于网页方框展示的关键词"],
+      "paper_ids": ["候选论文 candidate_id"],
+      "inclusion_rule_cn": "一句话说明纳入标准",
+      "exclusion_rule_cn": "一句话说明排除标准"
+    }
+  ],
+  "assignments": [
+    {
+      "candidate_id": "候选论文 candidate_id",
+      "direction_id": "D1",
+      "direction_role": "main / method / background / boundary / exclude",
+      "assignment_confidence": 0.0,
+      "method_or_object_summary_cn": "从标题和摘要判断出的主要方法/对象，不能编造",
+      "assignment_reason_cn": "一句话归类理由"
+    }
+  ],
+  "relevance_scores": [
+    {
+      "candidate_id": "候选论文 candidate_id",
+      "relevance_score": 0.0,
+      "decision": "include / borderline / exclude",
+      "reason_cn": "一句话中文理由"
+    }
+  ],
+  "fast_check": {
+    "all_papers_assigned_once": true,
+    "empty_directions": [],
+    "duplicated_paper_ids": [],
+    "unassigned_paper_ids": [],
+    "representative_notes_cn": "如有异常，简短说明；无异常写 none"
+  }
+}
+
+自检要求：
+1. directions[].paper_ids、assignments[].candidate_id、relevance_scores[].candidate_id 必须能一一对应。
+2. 每个 candidate_id 在 assignments 中只能出现一次。
+3. 每个 direction 的 paper_ids 不得为空。
+4. 若无法确定方向，仍需给出最接近方向并在 assignment_confidence 中体现不确定性。
+5. 输入 papers 中的每一篇文献都必须进入 directions[].paper_ids、assignments 和 relevance_scores。
+

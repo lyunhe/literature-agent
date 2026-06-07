@@ -1,0 +1,32 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": 6.439194429281643e-10,
+  "runtime_sec": 4.084060499910265,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 21,
+    "hour": 24,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 4.074612875003368,
+    "objective": 6.439194429281643e-10,
+    "max_p_residual_mw": 4.3151260342710884e-10,
+    "max_q_residual_mvar": 6.5819989458759665e-09,
+    "sum_p_slack_mw": 0.00023971773554026132,
+    "sum_q_slack_mvar": 0.00023977773646337153,
+    "max_line_slack_mva": 0.025669215645767265,
+    "max_ac_line_loading_percent": 99.1840828420673,
+    "n_variables": 233,
+    "n_constraints": 113,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_21_hour_24_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_21_hour_24_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_21_hour_24_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_21_hour_24_nlp_summary.json"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

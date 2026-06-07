@@ -1,0 +1,14 @@
+id: "lit_226cbeaa_p016_75ab0a57_50e8fc8583"
+title: "Optimal participation of price-maker battery energy storage systems in energy and ancillary services markets considering degradation cost"
+authors:
+  - "Reza Khalilisenobari"
+  - "Meng Wu"
+year: "2022"
+venue: "International Journal of Electrical Power & Energy Systems"
+doi: "10.1016/j.ijepes.2021.107924"
+role: "literature_agent_selected_paper"
+source_pdf: "output/20260527_1630_储能参与电力市场/01_discovery/pdfs/Optimal_participation_of_price-maker_battery_energy_storage_systems_in_energy_and_ancillar.pdf"
+run_dir: "runs/lit_226cbeaa_p016_75ab0a57_50e8fc8583"
+notes:
+  - "Generated from literature showcase run 20260527_1630_储能参与电力市场, direction D1, paper P016_75ab0a57."
+  - "Created for file-level reproducibility audit and toolchain handoff."

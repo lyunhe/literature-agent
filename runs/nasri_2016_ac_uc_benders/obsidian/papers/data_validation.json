@@ -1,0 +1,89 @@
+{
+  "target": "nasri_2016_ac_uc_benders",
+  "complete_files": 11,
+  "empty_files": 0,
+  "missing_files": 0,
+  "bad_header_files": 0,
+  "optional_empty_files": 2,
+  "optional_missing_files": 0,
+  "checks": [
+    {
+      "file": "buses.csv",
+      "status": "ok",
+      "rows": 24,
+      "missing_columns": []
+    },
+    {
+      "file": "lines.csv",
+      "status": "ok",
+      "rows": 38,
+      "missing_columns": []
+    },
+    {
+      "file": "generators.csv",
+      "status": "ok",
+      "rows": 32,
+      "missing_columns": []
+    },
+    {
+      "file": "generator_cost_segments.csv",
+      "status": "ok",
+      "rows": 32,
+      "missing_columns": []
+    },
+    {
+      "file": "reserves.csv",
+      "status": "optional_empty",
+      "rows": 0,
+      "missing_columns": []
+    },
+    {
+      "file": "load_profile.csv",
+      "status": "ok",
+      "rows": 24,
+      "missing_columns": []
+    },
+    {
+      "file": "wind_farms.csv",
+      "status": "ok",
+      "rows": 2,
+      "missing_columns": []
+    },
+    {
+      "file": "wind_profile.csv",
+      "status": "ok",
+      "rows": 1920,
+      "missing_columns": []
+    },
+    {
+      "file": "uncertainty_bounds.csv",
+      "status": "optional_empty",
+      "rows": 0,
+      "missing_columns": []
+    },
+    {
+      "file": "scenario_probabilities.csv",
+      "status": "ok",
+      "rows": 40,
+      "missing_columns": []
+    },
+    {
+      "file": "load_factors.csv",
+      "status": "ok",
+      "rows": 24,
+      "missing_columns": []
+    },
+    {
+      "file": "paper_parameters.csv",
+      "status": "ok",
+      "rows": 7,
+      "missing_columns": []
+    },
+    {
+      "file": "wind_scenario_statistics.csv",
+      "status": "ok",
+      "rows": 40,
+      "missing_columns": []
+    }
+  ]
+}

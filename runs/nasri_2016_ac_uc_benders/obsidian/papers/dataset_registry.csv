@@ -1,0 +1,6 @@
+item,type,source_hint,availability,reproduction_status,notes
+Modified IEEE 118-bus network,network,MATPOWER/PGLib IEEE 118,public base case,needs tracing,Paper uses modified case
+UC generator parameters,generator data,cited UC benchmark or paper appendix,partially available,needs tracing,54 generators
+Wind farms,renewable data,paper/cited references,partially available,needs assumption,Three identical wind stations
+Load profile,time series,paper/cited references,partially available,needs extraction,24h peak 3733 MWh
+Uncertainty set,model parameter,paper,available,rebuildable,+/-20% wind and +/-3% load

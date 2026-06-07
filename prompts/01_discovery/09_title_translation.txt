@@ -1,0 +1,14 @@
+﻿# Prompt: Batch title translation
+# Model: LLM_FLASH_MODEL
+# Input: title_list
+# Output: JSON array of Chinese title translations
+
+Translate the following academic paper titles into Chinese.
+
+Return ONLY a valid JSON array of strings.
+The array length and order must exactly match the input title order.
+Do not add explanations, Markdown, numbering, or extra fields.
+
+Titles:
+{title_list}
+

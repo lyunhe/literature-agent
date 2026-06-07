@@ -1,0 +1,35 @@
+{
+  "status": "solved",
+  "objective": 639922.3560276568,
+  "runtime_sec": 28.42360149999149,
+  "metadata": {
+    "case": "case_a_dc_uc_synthetic_extensive_form",
+    "description": "Solver-backed DC-UC MILP over 40 synthetic wind scenarios and 24 hours.",
+    "solver": "HiGHS via highspy",
+    "model_status": "kOptimal",
+    "solve_runtime_sec": 26.56434700009413,
+    "variables": 80256,
+    "constraints": 159168,
+    "scenarios": 40,
+    "hours": 24,
+    "generators": 32,
+    "buses": 24,
+    "lines": 38,
+    "outputs": {
+      "commitment": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/commitment.csv",
+      "dispatch": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/dispatch.csv",
+      "wind": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/wind_usage.csv",
+      "load_shedding": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/load_shedding.csv",
+      "line_flows": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/line_flows.csv",
+      "bus_angles": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/bus_angles.csv",
+      "scenario_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/scenario_summary.csv",
+      "hour_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/hour_summary.csv",
+      "experiment_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/experiment_summary.md"
+    },
+    "limitations": [
+      "Synthetic calibrated wind scenarios are used instead of original Fig. 3 trajectories.",
+      "This stage includes unit commitment, startup, generator limits, DC nodal balance, line limits, wind curtailment, and load shedding.",
+      "Minimum up/down time, ramping chronology, reserve constraints, and AC feasibility cuts are not yet implemented."
+    ]
+  }
+}

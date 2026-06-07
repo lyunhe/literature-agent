@@ -1,0 +1,175 @@
+case_id,scenario_id,hour,coefficient_family,component_type,component_id,bus_id,coefficient,source_constraint,notes
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,1,1,-0.0003245417836161,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,2,1,-0.0003245417836161,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,3,1,-0.0003245417836161,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,4,1,-0.0003245417836161,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,5,2,-0.0003245328308756,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,6,2,-0.0003245328308756,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,7,2,-0.0003245328308756,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,8,2,-0.0003245328308756,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,9,7,0.0001201521715696,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,10,7,0.0001201521715696,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,11,7,0.0001201521715696,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,12,13,-0.0003234260504971,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,13,13,-0.0003234260504971,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,14,13,-0.0003234260504971,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,15,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,16,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,17,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,18,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,19,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,20,15,-0.0003245263244402,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,21,16,-0.0003242967650678,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,22,18,-0.0003245965536443,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,23,21,-0.0003244321006677,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,24,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,25,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,26,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,27,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,28,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,29,22,-0.0003233818227675,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,30,23,-0.0003229916600832,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,31,23,-0.0003229916600832,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_dispatch_active_power,generator,32,23,-0.0003229916600832,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_wind_active_power,wind_farm,W3,3,-0.000325340617954,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,fixed_wind_active_power,wind_farm,W14,14,-0.0003244820077044,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,1,1,-4.5206921584531155e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,2,2,-4.527808418535496e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,3,3,-4.724554481406814e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,4,4,-4.664938752911998e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,5,5,-4.658786397350637e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,6,6,-4.806465366395844e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,7,7,0.0001528355840973,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,8,8,-4.630645592250769e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,9,9,-4.697472091647793e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,10,10,-4.741816097997794e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,11,11,-4.562701555953518e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,12,12,-4.513536037165704e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,13,13,-4.288183233960275e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,14,14,-4.54977298263719e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,15,15,-4.473877787095049e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,16,16,-4.442726305578021e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,17,17,-4.4712116055506715e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,18,18,-4.510260805093832e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,19,19,-4.39554684516994e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,20,20,-4.268448269339857e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,21,21,-4.478741801211968e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,22,22,-4.250043393989985e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,23,23,-4.153335187574839e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,17,reactive_balance_sensitivity,bus,24,24,-4.554517290679605e-06,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,1,1,-1.5689366779317428e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,2,1,-1.5689366779317428e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,3,1,-1.5689366779317428e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,4,1,-1.5689366779317428e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,5,2,-1.4809842813729398e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,6,2,-1.4809842813729398e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,7,2,-1.4809842813729398e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,8,2,-1.4809842813729398e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,9,7,-6.236022727371696e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,10,7,-6.236022727371696e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,11,7,-6.236022727371696e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,12,13,-3.5366856226502076e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,13,13,-3.5366856226502076e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,14,13,-3.5366856226502076e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,15,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,16,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,17,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,18,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,19,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,20,15,1.6239556607574987e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,21,16,-1.7098962198063098e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,22,18,2.310743914937215e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,23,21,4.1331369921953895e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,24,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,25,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,26,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,27,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,28,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,29,22,-9.077173136909491e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,30,23,-3.4346384379820835e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,31,23,-3.4346384379820835e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_dispatch_active_power,generator,32,23,-3.4346384379820835e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_wind_active_power,wind_farm,W3,3,7.353421746829965e-12,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,fixed_wind_active_power,wind_farm,W14,14,1.8177708312780368e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,1,1,-6.600868511288858e-13,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,2,2,-4.1399104806137323e-13,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,3,3,4.6366823565494866e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,4,4,9.371785717379876e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,5,5,4.223851509433959e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,6,6,8.556533176607516e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,7,7,-7.958683506219284e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,8,8,9.701110008859148e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,9,9,1.1531350924607087e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,10,10,2.40225279958823e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,11,11,5.627759630692789e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,12,12,-7.527492886595707e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,13,13,-7.733197455137709e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,14,14,9.119679245108959e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,15,15,6.6742567027911025e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,16,16,-2.7586896677430076e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,17,17,1.1741079608342386e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,18,18,1.5296405550747008e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,19,19,-2.944541938060648e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,20,20,-7.011813659656139e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,21,21,1.1195537520968696e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,22,22,1.063456772945438e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,23,23,-6.530872726463383e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,26,24,reactive_balance_sensitivity,bus,24,24,1.55605169370777e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,1,1,4.5263092719727966e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,2,1,4.5263092719727966e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,3,1,4.5263092719727966e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,4,1,4.5263092719727966e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,5,2,3.6557783740620246e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,6,2,3.6557783740620246e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,7,2,3.6557783740620246e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,8,2,3.6557783740620246e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,9,7,6.975172851729506e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,10,7,6.975172851729506e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,11,7,6.975172851729506e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,12,13,-1.1806074542375148e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,13,13,-1.1806074542375148e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,14,13,-1.1806074542375148e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,15,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,16,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,17,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,18,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,19,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,20,15,-2.7738514387436753e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,21,16,-4.405104816714441e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,22,18,-1.0741690019659803e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,23,21,-3.309246364685336e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,24,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,25,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,26,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,27,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,28,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,29,22,-8.576299895548868e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,30,23,-1.4170152806568534e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,31,23,-1.4170152806568534e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_dispatch_active_power,generator,32,23,-1.4170152806568534e-10,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_wind_active_power,wind_farm,W3,3,-5.0124724117433116e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,fixed_wind_active_power,wind_farm,W14,14,1.266398153752014e-11,p_balance_eq,Coefficient from constrained Ipopt P-balance multiplier.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,1,1,4.474052347285727e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,2,2,4.217998877894091e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,3,3,-8.487252716540924e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,4,4,3.374605684757656e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,5,5,4.549300868310789e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,6,6,-5.967272607171157e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,7,7,2.400501912774515e-10,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,8,8,2.2419803890687977e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,9,9,2.026127965285668e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,10,10,2.5649752318064874e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,11,11,1.1314938404587402e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,12,12,9.252538130849142e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,13,13,-1.0334929992473156e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,14,14,1.8783802808067166e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,15,15,-6.689419541541839e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,16,16,-7.071468013607592e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,17,17,-9.465867773033237e-13,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,18,18,2.2518827768933125e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,19,19,-6.108584758985176e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,20,20,-1.182085424272696e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,21,21,-3.452930987327388e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,22,22,-8.622189940929736e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,23,23,-1.4908530532088525e-11,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.
+case_b_ac_uc_benders,21,17,reactive_balance_sensitivity,bus,24,24,-7.048003643223307e-12,q_balance_eq,Diagnostic coefficient; no reactive master variable yet.

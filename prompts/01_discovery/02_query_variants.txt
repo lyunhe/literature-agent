@@ -1,0 +1,18 @@
+﻿# Prompt: 生成搜索查询变体
+# 模型: 默认模型 (LLM_MODEL)
+# 角色: user
+# 输入: user_query(研究主题), glossary_text(领域术语表), num_variations(变体数量)
+
+Given this research query: "{user_query}"
+
+Domain terminology reference:
+{glossary_text}
+
+Generate {num_variations} different search query variations in English that:
+1. Use different combinations of technical terms from the glossary
+2. Include specific methods or technical sub-topics when relevant
+3. Focus on the core problem and adjacent research terminology
+4. Are suitable for academic paper search
+
+Return ONLY a JSON array of strings, no explanation.
+

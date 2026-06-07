@@ -1,0 +1,32 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": 6.43954213968465e-10,
+  "runtime_sec": 8.573459791019559,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 18,
+    "hour": 17,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 8.56357516697608,
+    "objective": 6.43954213968465e-10,
+    "max_p_residual_mw": 1.7630509319133125e-07,
+    "max_q_residual_mvar": 2.1324431287439438e-07,
+    "sum_p_slack_mw": 0.00023975626381601725,
+    "sum_q_slack_mvar": 0.00023975251042781707,
+    "max_line_slack_mva": 0.025675628271702406,
+    "max_ac_line_loading_percent": 97.49525294707503,
+    "n_variables": 233,
+    "n_constraints": 113,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_18_hour_17_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_18_hour_17_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_18_hour_17_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_coupled_active/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_18_hour_17_nlp_summary.json"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

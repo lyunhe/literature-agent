@@ -1,0 +1,4 @@
+cut_id,case_id,scenario_id,hour,cut_type,lhs,sense,rhs_constant,eta_variable,subproblem_objective_phi,xbar_dot_beta,term_count,status,algebra
+BC-002-0001,case_b_ac_uc_benders,26,17,optimality_proxy,eta_ac_s26_t17,>=,130090.77072791391,eta_ac_s26_t17,130090.04634816357,-0.7243797503475677,34,generated_not_added_to_master,eta_ac_s26_t17 >= 130090.770728 + sum(beta_i * x_i)
+BC-002-0002,case_b_ac_uc_benders,26,24,optimality_proxy,eta_ac_s26_t24,>=,6.397337511235153e-08,eta_ac_s26_t24,6.438779006744002e-10,-6.332949721167713e-08,34,generated_not_added_to_master,eta_ac_s26_t24 >= 6.39733751124e-08 + sum(beta_i * x_i)
+BC-002-0003,case_b_ac_uc_benders,21,17,optimality_proxy,eta_ac_s21_t17,>=,-9.352097334307926e-09,eta_ac_s21_t17,6.439848025787644e-10,9.99608213688669e-09,34,generated_not_added_to_master,eta_ac_s21_t17 >= -9.35209733431e-09 + sum(beta_i * x_i)

@@ -1,0 +1,73 @@
+{
+  "constraints": [
+    "First-stage/day-ahead master problem is mixed-integer linear.",
+    "Second-stage/real-time recourse is decomposed into one continuous nonlinear AC subproblem per wind scenario.",
+    "Original extensive-form problem is mixed-integer nonlinear and generally intractable.",
+    "Wind power production is the only modeled uncertainty.",
+    "Wind uncertainty is represented by a finite scenario set.",
+    "Use AC network constraints in recourse, including voltage magnitudes, voltage angles, active/reactive line flows, and apparent line-flow limits.",
+    "Include unit commitment and dispatch decisions with startup costs in the scheduling stage.",
+    "Include real-time reserve deployment, reactive generation, wind spillage, and involuntary active load shedding by scenario.",
+    "Include generator active/reactive capacity limits, reserve deployment limits, ramp-up/ramp-down limits, transmission-line capacity limits, and voltage-related AC feasibility constraints.",
+    "Scheduled wind power upper bound equals expected wind production.",
+    "Apply a heuristic temporal decomposition by relaxing inter-temporal ramping constraints of generating units."
+  ],
+  "implementation_notes": [
+    "Formulate as a two-stage stochastic AC unit commitment: first stage = day-ahead market; second stage = real-time operation.",
+    "Implement Benders decomposition with MILP master and nonlinear continuous scenario subproblems.",
+    "Generate Benders cuts from scenario subproblem solutions and iteratively add them to the master.",
+    "Use one subproblem per wind-power scenario; subproblems can be solved independently.",
+    "All variables and constants are expressed in per-unit in the paper.",
+    "Mathematical definitions of AC line-flow functions are in Appendix A, not present in supplied evidence.",
+    "Case study is based on the IEEE one-area Reliability Test System (RTS).",
+    "Expected implementation requires both MILP and nonlinear programming solvers."
+  ],
+  "objective": "Minimize expected operating cost for network-constrained stochastic AC unit commitment, including day-ahead commitment/dispatch/startup costs and real-time scenario-dependent recourse penalties/costs such as load shedding and wind spillage.",
+  "parameters": [
+    "Wind scenario probabilities: not specified in supplied evidence.",
+    "Wind power realization for each wind farm, time period, and scenario.",
+    "Expected/schedulable wind production upper bound for each wind farm and time period.",
+    "Load demands by load and time period.",
+    "Generator minimum/maximum active power limits.",
+    "Generator minimum/maximum reactive power limits or reactive capacity.",
+    "Maximum up-reserve and down-reserve deployable by generator.",
+    "Generator ramp-up and ramp-down rates.",
+    "Initial active power output, initial reserve deployment, and initial commitment status for each unit.",
+    "Startup-cost data for each unit/time period.",
+    "Transmission-line capacity limits.",
+    "Transmission-line reactance, admittance magnitude, and admittance angle.",
+    "Value of lost load/load-shed penalty for each load.",
+    "Network topology: nodes, adjacent nodes, and mappings of loads, generators, and wind farms to nodes."
+  ],
+  "sets": [
+    "Time periods.",
+    "Generating units.",
+    "Loads.",
+    "Wind farms.",
+    "Wind power scenarios.",
+    "Network nodes.",
+    "Adjacent-node pairs / transmission lines.",
+    "Node-specific subsets of generators, loads, and wind farms."
+  ],
+  "uncertainty": [
+    "Only wind power production is uncertain.",
+    "Uncertainty is modeled through a suitable finite set of scenarios.",
+    "Second-stage variables are indexed by wind scenario.",
+    "Load uncertainty is not modeled in supplied evidence.",
+    "Scenario generation method and probabilities are not specified in supplied evidence."
+  ],
+  "variables": [
+    "First-stage binary unit commitment status by unit and time.",
+    "First-stage startup cost by unit and time.",
+    "First-stage scheduled active power for each unit and time.",
+    "First-stage scheduled wind power for each wind farm and time.",
+    "First-stage scheduled voltage angle by node and time.",
+    "Second-stage involuntary active load shedding by load, time, and scenario.",
+    "Second-stage reactive power output by unit, time, and scenario.",
+    "Second-stage reserve deployed by unit, time, and scenario.",
+    "Second-stage wind power spillage by wind farm, time, and scenario.",
+    "Second-stage voltage magnitude by node, time, and scenario.",
+    "Second-stage voltage angle by node, time, and scenario.",
+    "Auxiliary Benders/master approximation variables for scenario recourse costs, if implementing decomposition."
+  ]
+}

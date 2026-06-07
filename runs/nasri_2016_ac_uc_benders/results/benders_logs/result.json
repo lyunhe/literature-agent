@@ -1,0 +1,103 @@
+{
+  "status": "benders_screening_complete",
+  "objective": 639922.3560276568,
+  "runtime_sec": 49.42468679184094,
+  "metadata": {
+    "case": "case_b_ac_uc_benders_screening",
+    "description": "One-pass Benders-style workflow: DC-UC master solve plus AC subproblem screening for all scenario-hours.",
+    "target_convergence_tolerance_percent": 0.3,
+    "paper_reference": "Original Case B uses Benders cuts from AC NLP sensitivities and reports convergence in 25 iterations.",
+    "master_result": {
+      "case": "case_a_dc_uc_synthetic_extensive_form",
+      "description": "Solver-backed DC-UC MILP over 40 synthetic wind scenarios and 24 hours.",
+      "solver": "HiGHS via highspy",
+      "model_status": "kOptimal",
+      "solve_runtime_sec": 27.957626916002482,
+      "variables": 80256,
+      "constraints": 159168,
+      "scenarios": 40,
+      "hours": 24,
+      "generators": 32,
+      "buses": 24,
+      "lines": 38,
+      "outputs": {
+        "commitment": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/commitment.csv",
+        "dispatch": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/dispatch.csv",
+        "wind": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/wind_usage.csv",
+        "load_shedding": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/load_shedding.csv",
+        "line_flows": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/line_flows.csv",
+        "bus_angles": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/bus_angles.csv",
+        "scenario_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/scenario_summary.csv",
+        "hour_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/hour_summary.csv",
+        "experiment_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/case_a_dc_uc/experiment_summary.md"
+      },
+      "limitations": [
+        "Synthetic calibrated wind scenarios are used instead of original Fig. 3 trajectories.",
+        "This stage includes unit commitment, startup, generator limits, DC nodal balance, line limits, wind curtailment, and load shedding.",
+        "Minimum up/down time, ramping chronology, reserve constraints, and AC feasibility cuts are not yet implemented."
+      ]
+    },
+    "case_b_ac_screening": {
+      "case": "case_b_ac_uc_benders",
+      "description": "AC subproblem screening using fixed DC-UC dispatch and lossless AC flow equations; not an NLP optimum.",
+      "scenario_filter": null,
+      "hour_filter": null,
+      "subproblems_evaluated": 960,
+      "screened_feasible_count": 0,
+      "screened_violation_count": 960,
+      "max_ac_line_loading_percent": 99.9519006817432,
+      "max_reactive_violation_mvar": 516.7975444158053,
+      "outputs": {
+        "subproblem_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_b_ac_uc_benders_subproblem_summary.csv",
+        "line_eval": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_b_ac_uc_benders_line_eval.csv",
+        "reactive_eval": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_b_ac_uc_benders_reactive_eval.csv"
+      },
+      "limitations": [
+        "No AC NLP optimization, no dual multipliers, and no exact Benders cuts yet.",
+        "Voltage magnitudes are fixed at 1.0 p.u. for screening.",
+        "Branch resistance, charging, transformer taps, and shunts are not yet reconstructed in the AC evaluator."
+      ]
+    },
+    "case_c_ac_screening": {
+      "case": "case_c_ac_uc_relaxed_voltage",
+      "description": "AC subproblem screening using fixed DC-UC dispatch and lossless AC flow equations; not an NLP optimum.",
+      "scenario_filter": null,
+      "hour_filter": null,
+      "subproblems_evaluated": 960,
+      "screened_feasible_count": 0,
+      "screened_violation_count": 960,
+      "max_ac_line_loading_percent": 99.9519006817432,
+      "max_reactive_violation_mvar": 516.7975444158053,
+      "outputs": {
+        "subproblem_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_c_ac_uc_relaxed_voltage_subproblem_summary.csv",
+        "line_eval": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_c_ac_uc_relaxed_voltage_line_eval.csv",
+        "reactive_eval": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_subproblem/case_c_ac_uc_relaxed_voltage_reactive_eval.csv"
+      },
+      "limitations": [
+        "No AC NLP optimization, no dual multipliers, and no exact Benders cuts yet.",
+        "Voltage magnitudes are fixed at 1.0 p.u. for screening.",
+        "Branch resistance, charging, transformer taps, and shunts are not yet reconstructed in the AC evaluator."
+      ]
+    },
+    "iteration_log": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_logs/iteration_log.csv",
+    "cut_outputs": {
+      "cut_pool": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_cut_pool.csv",
+      "cut_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_cut_summary.csv",
+      "cut_spec": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/benders_cut_spec.md"
+    },
+    "paper_style_results": {
+      "table_v_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/paper_style_results/table_v_summary.csv",
+      "table_vi_commitment": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/paper_style_results/table_vi_commitment.csv",
+      "fig4_generation_schedule": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/paper_style_results/fig4_generation_schedule.csv",
+      "fig5_benders_convergence": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/paper_style_results/fig5_benders_convergence.csv",
+      "benders_cut_pool": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_cut_pool.csv",
+      "benders_cut_summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_cuts/case_b_cut_summary.csv",
+      "paper_style_report": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/paper_style_results/paper_style_report.md"
+    },
+    "limitations": [
+      "This is not yet iterative AC-Benders because AC NLP dual multipliers are unavailable.",
+      "Cuts are represented as required feasibility-screening counts, not appended to a second master solve.",
+      "Use Ipopt/CONOPT-compatible NLP backend before claiming reproduction of Fig. 5 convergence."
+    ]
+  }
+}

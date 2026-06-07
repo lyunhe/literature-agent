@@ -1,0 +1,3 @@
+iteration,master_problem,objective,lower_bound,cuts_available,cuts_added,eta_variables,status,runtime_sec,notes
+1,dc_uc_master_no_ac_cuts,639922.3560276568,639922.3560276568,0,0,0,solved,58.956195999868214,"Initial master solve, corresponding to first Benders master iteration."
+2,dc_uc_master_with_ac_benders_cuts,639922.3560277787,639922.3560277787,3,3,3,solved,58.84091137512587,Master re-solve after adding generated Benders-form cuts.

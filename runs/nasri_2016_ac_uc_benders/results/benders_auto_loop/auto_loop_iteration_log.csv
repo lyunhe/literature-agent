@@ -1,0 +1,3 @@
+iteration,lower_bound,upper_bound_proxy,relative_gap_percent,master_status,master_objective,cuts_active_in_master,eta_variables,new_cuts_generated,cumulative_cuts,selected_subproblems,successful_nlp_subproblems,max_nlp_objective,max_screening_reactive_violation_mvar,notes
+1,639922.3560276568,639922.3560306494,4.676467844325111e-10,solved,639922.3560276568,0,0,3,3,3,3,2.992576320842097e-06,516.7975444158053,"Paper-style loop: solve master, solve selected AC NLP subproblems, generate cuts."
+2,639922.3560277787,770012.4023759423,16.894539094014466,solved,639922.3560277787,3,3,3,6,3,2,130090.04634816357,516.7975444158055,"Paper-style loop: solve master, solve selected AC NLP subproblems, generate cuts."

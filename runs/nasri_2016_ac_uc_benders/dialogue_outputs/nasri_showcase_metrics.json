@@ -1,0 +1,17 @@
+{
+  "target_id": "nasri_2016_ac_uc_benders",
+  "title": "Network-Constrained AC Unit Commitment Under Uncertainty: A Benders' Decomposition Approach",
+  "dialogue_rounds": 4,
+  "complete_data_files": 11,
+  "optional_empty_files_before_dialogue": 2,
+  "candidate_files_generated": 2,
+  "repair_patch_generated": true,
+  "figures_available": 8,
+  "comparison_metrics": 5,
+  "generated_files": [
+    "dialogue_outputs/nasri_candidate_reserves.csv",
+    "dialogue_outputs/nasri_candidate_uncertainty_bounds.csv",
+    "dialogue_outputs/nasri_function_repair_patch.py",
+    "dialogue_outputs/nasri_effect_improvement_summary.md"
+  ]
+}

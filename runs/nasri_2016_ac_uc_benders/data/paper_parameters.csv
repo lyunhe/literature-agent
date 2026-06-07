@@ -1,0 +1,8 @@
+parameter,value,unit,source,status
+base_mva,100.0,MW per p.u.,Nasri 2016 Section IV-A,available
+load_shed_value,10000.0,USD per p.u.,Nasri 2016 Section IV-A,available
+case_b_voltage_min,0.9,p.u.,Nasri 2016 Section IV-B,available
+case_b_voltage_max,1.1,p.u.,Nasri 2016 Section IV-B,available
+case_c_voltage_min,0.5,p.u.,Nasri 2016 Section IV-B,available
+case_c_voltage_max,1.5,p.u.,Nasri 2016 Section IV-B,available
+benders_tolerance,0.3,percent of objective,Nasri 2016 Section IV-A,available

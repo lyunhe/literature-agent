@@ -1,0 +1,36 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": -0.0017031650969465085,
+  "runtime_sec": 14.396062250016257,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 26,
+    "hour": 17,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 13.879796209046617,
+    "objective": -0.0017031650969465085,
+    "max_p_residual_mw": 2.9463879485547295e-05,
+    "max_q_residual_mvar": 1.4575374507330707e-07,
+    "sum_p_slack_mw": 0.0024967934535587615,
+    "sum_q_slack_mvar": 0.002399518397617316,
+    "max_line_slack_mva": 0.08394649691198244,
+    "max_ac_line_loading_percent": 98.14452712225395,
+    "sum_load_shed_mw": 0.0,
+    "sum_wind_spillage_mw": 0.0006930927505391059,
+    "sum_reserve_up_mw": 1.4711249693453091e-06,
+    "sum_reserve_down_mw": 0.0,
+    "n_variables": 309,
+    "n_constraints": 113,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem_full_recourse_test_v2/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem_full_recourse_test_v2/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem_full_recourse_test_v2/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/ac_nlp_subproblem_full_recourse_test_v2/case_b_ac_uc_benders_cyipopt_constrained_scenario_26_hour_17_nlp_summary.json"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

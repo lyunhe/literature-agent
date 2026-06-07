@@ -1,0 +1,20 @@
+{
+  "paper": "Network-Constrained AC Unit Commitment Under Uncertainty: A Benders' Decomposition Approach",
+  "assumptions": [
+    {
+      "id": "A1",
+      "status": "open",
+      "text": "Start from a public IEEE 118-bus base case until the exact modified case is traced."
+    },
+    {
+      "id": "A2",
+      "status": "open",
+      "text": "Use documented wind farm locations if author/cited data cannot be found."
+    },
+    {
+      "id": "A3",
+      "status": "open",
+      "text": "Use +/-20% wind and +/-3% load uncertainty once the forecast profiles are reconstructed."
+    }
+  ]
+}

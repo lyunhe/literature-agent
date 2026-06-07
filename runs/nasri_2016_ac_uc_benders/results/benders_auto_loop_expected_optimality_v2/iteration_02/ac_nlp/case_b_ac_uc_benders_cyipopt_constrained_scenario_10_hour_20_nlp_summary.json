@@ -1,0 +1,32 @@
+{
+  "status": "ac_constrained_nlp_solved",
+  "objective": 6.487648092112995e-10,
+  "runtime_sec": 14.237947083078325,
+  "metadata": {
+    "case": "case_b_ac_uc_benders",
+    "scenario_id": 10,
+    "hour": 20,
+    "solver": "cyipopt.Problem",
+    "backend": "cyipopt_constrained",
+    "success": true,
+    "status_code": 0,
+    "message": "Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).",
+    "solve_runtime_sec": 14.219137584092095,
+    "objective": 6.487648092112995e-10,
+    "max_p_residual_mw": 5.812256688386697e-06,
+    "max_q_residual_mvar": 4.152435806770334e-09,
+    "sum_p_slack_mw": 0.0002413964357038596,
+    "sum_q_slack_mvar": 0.0002397346976830872,
+    "max_line_slack_mva": 0.027506396840817758,
+    "max_ac_line_loading_percent": 99.99999667945148,
+    "n_variables": 235,
+    "n_constraints": 114,
+    "outputs": {
+      "solution": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_expected_optimality_v2/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_10_hour_20_nlp_solution.csv",
+      "constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_expected_optimality_v2/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_10_hour_20_nlp_constraints.csv",
+      "multipliers": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_expected_optimality_v2/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_10_hour_20_nlp_multipliers.csv",
+      "summary": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_expected_optimality_v2/iteration_02/ac_nlp/case_b_ac_uc_benders_cyipopt_constrained_scenario_10_hour_20_nlp_summary.json"
+    },
+    "cut_multiplier_note": "Rows with constraint_type fixed_master_* are explicit master-coupling equalities. Their benders_coefficient column is the current direct source for cut terms."
+  }
+}

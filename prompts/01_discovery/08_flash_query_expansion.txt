@@ -1,0 +1,30 @@
+﻿# Prompt: Flash academic query expansion
+# Model: LLM_FLASH_MODEL
+# Input: topic, max_queries
+# Output: JSON array of English search queries
+
+Convert the research topic below into concise English academic search queries for literature retrieval.
+
+Topic:
+{topic}
+
+Requirements:
+1. Return ONLY a valid JSON array of strings.
+2. Generate at most {max_queries} queries.
+3. Every query must be in English.
+4. Prefer phrases that are likely to appear in paper titles, abstracts, and keywords.
+5. Cover common synonyms, abbreviations, and method/object variants when they are academically standard.
+6. Keep each query short, usually 3-8 words.
+7. For a compound topic, every query must preserve the required AND relationship between the main concepts. Do not split the topic into independent subtopics.
+   - Example: for "energy storage participation in electricity markets", every query should include both an energy-storage concept and an electricity-market concept.
+   - Good: "battery storage electricity market bidding", "energy storage ancillary services market".
+   - Bad: "energy storage deployment", "electricity market design".
+8. Do not include explanations, Markdown, numbering, Boolean operators, or Chinese text.
+
+Example output:
+[
+  "wind farm power forecasting",
+  "short-term wind power prediction",
+  "probabilistic wind power forecasting"
+]
+

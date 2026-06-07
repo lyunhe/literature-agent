@@ -1,0 +1,403 @@
+{
+  "schema_version": "three_stage_literature_review.v1",
+  "generated_at": "2026-05-23T00:00:00+08:00",
+  "topic": "储能参与电力市场报价方式",
+  "corpus": {
+    "paper_total": 100,
+    "year_range": "2015-2025",
+    "direction_total": 4,
+    "source_note": "当前为 UI 原型示例数据，后续可由 pipeline 统一写入同结构 JSON。",
+    "summary": "这批文献主要围绕储能在现货市场、辅助服务市场、容量补偿与新能源协同场景中的报价策略展开。早期研究偏向规则梳理与确定性优化，近年逐步转向不确定性建模、多市场联合出清、收益风险权衡以及聚合商/VPP 参与机制。",
+    "commonality": "多数研究都把储能视为兼具能量搬移和灵活性供给能力的市场主体，核心目标是在价格波动、约束条件和不确定性之间形成可执行的报价策略。",
+    "differences": "不同方向的差异主要体现在交易品种、时间尺度、收益来源和风险建模方式上：现货市场关注价差套利，辅助服务关注灵活性补偿，容量市场关注长期充裕性，新能源协同关注波动平滑与联合收益。",
+    "gap": "现有研究对真实市场规则、跨品种联合结算、储能退化成本内生化、主体策略交互以及可解释 AI 报价仍有进一步拓展空间。",
+    "keywords": [
+      "储能报价",
+      "现货市场",
+      "辅助服务",
+      "容量补偿",
+      "新能源消纳",
+      "随机优化",
+      "强化学习",
+      "虚拟电厂"
+    ],
+    "methods": [
+      "随机优化",
+      "鲁棒优化",
+      "双层规划",
+      "博弈论",
+      "强化学习",
+      "仿真分析"
+    ],
+    "timeline": [
+      {
+        "period": "2015-2017",
+        "theme": "市场机制与储能套利模型",
+        "description": "重点讨论电价波动下的充放电调度和基本收益测算。"
+      },
+      {
+        "period": "2018-2020",
+        "theme": "现货市场与辅助服务联合收益",
+        "description": "研究储能同时参与能量市场、调频和备用服务的报价策略。"
+      },
+      {
+        "period": "2021-2023",
+        "theme": "新能源不确定性与多市场联合出清",
+        "description": "将风光预测误差、电池退化和风险偏好纳入模型。"
+      },
+      {
+        "period": "2024-2025",
+        "theme": "虚拟电厂、聚合商与智能报价",
+        "description": "探索数据驱动策略、主体协同和跨区域交易规则。"
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "联合出清是提高储能综合收益的常见路径。",
+        "papers": ["P01", "P05", "P08"]
+      },
+      {
+        "claim": "新能源不确定性正在推动报价模型从确定性优化转向随机与鲁棒方法。",
+        "papers": ["P02", "P06", "P10"]
+      },
+      {
+        "claim": "电池退化成本是否被准确建模会显著影响报价结果。",
+        "papers": ["P03", "P07", "P11"]
+      }
+    ]
+  },
+  "directions": [
+    {
+      "id": "D1",
+      "name": "现货市场报价与价差套利",
+      "name_en": "Spot Market Bidding and Arbitrage",
+      "paper_count": 28,
+      "heat": 91,
+      "core_question": "储能如何根据日前、日内与实时电价信号制定充放电报价。",
+      "summary": "该方向关注储能在现货市场中的能量搬移价值，核心是将价格预测、SOC 约束、退化成本和风险偏好整合为报价策略。",
+      "keywords": ["日前市场", "实时市场", "价差套利", "价格预测", "SOC"],
+      "commonality": "均关注低价充电、高价放电的收益捕获，并强调 SOC 和功率约束对报价可行性的影响。",
+      "differences": "差异主要来自价格预测方法、是否考虑退化成本、是否采用滚动优化以及是否引入风险度量。",
+      "gap": "真实市场中的偏差考核、报价曲线规则和多周期结算机制仍需更细建模。",
+      "methods_distribution": [
+        {"method": "随机优化", "count": 9},
+        {"method": "强化学习", "count": 7},
+        {"method": "滚动优化", "count": 6},
+        {"method": "价格预测", "count": 6}
+      ],
+      "knowledge_card": {
+        "concepts": ["能量套利", "日前-实时联动", "SOC 安全边界"],
+        "trend": "从静态价差套利转向考虑多时段风险和实时修正的动态报价。",
+        "representative_conclusion": "加入退化成本与风险约束后，策略收益可能下降，但报价稳定性和可执行性提升。"
+      },
+      "papers": [
+        {
+          "id": "P01",
+          "title": "Risk-aware bidding strategy for battery storage in day-ahead electricity markets",
+          "title_cn": "面向日前电力市场的储能风险感知报价策略",
+          "authors": "Li et al.",
+          "year": 2021,
+          "venue": "Applied Energy",
+          "citations": 86,
+          "keywords": ["风险约束", "日前市场", "电池储能"],
+          "research_problem": "如何在价格不确定性下平衡储能套利收益与亏损风险。",
+          "method": "构建含 CVaR 风险项的随机优化报价模型。",
+          "scenario": "IEEE 节点系统与历史日前价格。",
+          "conclusion": "风险约束能够降低极端价格误差造成的亏损，并保持较高平均收益。",
+          "innovation": "将收益风险偏好显式嵌入储能报价目标函数。",
+          "limitation": "未充分考虑实时市场偏差考核和退化成本。",
+          "background": "储能参与日前市场时，价格预测误差会放大套利策略的不确定性。",
+          "method_flow": ["价格场景生成", "SOC 约束建模", "CVaR 风险计算", "日前报价曲线输出", "收益回测"],
+          "related_papers": ["P02", "P03"]
+        },
+        {
+          "id": "P02",
+          "title": "Deep reinforcement learning for real-time battery bidding",
+          "title_cn": "基于深度强化学习的储能实时市场报价",
+          "authors": "Chen and Wang",
+          "year": 2023,
+          "venue": "IEEE Transactions on Smart Grid",
+          "citations": 64,
+          "keywords": ["强化学习", "实时市场", "滚动报价"],
+          "research_problem": "储能如何在实时价格快速变化时自适应调整报价。",
+          "method": "使用 DQN 学习价格状态、SOC 状态与报价动作之间的策略映射。",
+          "scenario": "区域实时市场价格序列。",
+          "conclusion": "学习策略在高波动价格场景下优于固定阈值报价。",
+          "innovation": "把实时市场报价建模为连续交互决策问题。",
+          "limitation": "模型可解释性不足，对市场规则变化较敏感。",
+          "background": "实时市场价格波动频繁，传统优化模型难以快速更新。",
+          "method_flow": ["状态定义", "动作离散化", "奖励函数设计", "策略训练", "在线报价"],
+          "related_papers": ["P01", "P04"]
+        },
+        {
+          "id": "P03",
+          "title": "Battery degradation cost embedded arbitrage bidding",
+          "title_cn": "嵌入电池退化成本的储能套利报价模型",
+          "authors": "Zhang et al.",
+          "year": 2024,
+          "venue": "Energy Economics",
+          "citations": 31,
+          "keywords": ["退化成本", "循环寿命", "价差套利"],
+          "research_problem": "忽略电池退化成本是否会高估储能报价收益。",
+          "method": "将循环深度相关退化函数嵌入混合整数优化模型。",
+          "scenario": "省级现货市场结算数据。",
+          "conclusion": "退化成本会抑制高频浅利差交易，使报价更保守。",
+          "innovation": "把电池寿命损耗与市场报价收益统一计算。",
+          "limitation": "退化参数依赖实验假设，缺少长期运行校准。",
+          "background": "储能频繁充放电会带来寿命损耗，影响真实收益。",
+          "method_flow": ["退化函数拟合", "套利模型构建", "报价约束求解", "寿命收益评估"],
+          "related_papers": ["P01", "P07"]
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "name": "辅助服务市场与灵活性补偿",
+      "name_en": "Ancillary Service Markets and Flexibility Compensation",
+      "paper_count": 24,
+      "heat": 88,
+      "core_question": "储能如何在调频、备用、爬坡等辅助服务中报价并获得灵活性补偿。",
+      "summary": "该方向强调储能响应速度和灵活调节价值，常与能量市场联合出清，讨论容量报价、性能因子和机会成本补偿。",
+      "keywords": ["调频", "备用", "爬坡", "机会成本", "联合出清"],
+      "commonality": "普遍认为储能适合提供快速响应型辅助服务，但必须补偿能量机会成本和性能差异。",
+      "differences": "不同文献在服务品种、性能评分、成本分摊和结算价格设计上差异明显。",
+      "gap": "多品种辅助服务联合定价、跨区交易和储能聚合参与机制仍缺少统一框架。",
+      "methods_distribution": [
+        {"method": "联合出清优化", "count": 10},
+        {"method": "博弈论", "count": 5},
+        {"method": "仿真分析", "count": 5},
+        {"method": "成本分摊", "count": 4}
+      ],
+      "knowledge_card": {
+        "concepts": ["调频里程", "备用容量", "性能因子", "机会成本"],
+        "trend": "从单一服务定价走向能量-调频-备用联合报价。",
+        "representative_conclusion": "考虑性能因子的补偿机制可以更准确反映储能快速响应价值。"
+      },
+      "papers": [
+        {
+          "id": "P04",
+          "title": "Performance-based pricing for battery frequency regulation",
+          "title_cn": "面向电池调频服务的性能定价机制",
+          "authors": "Sun et al.",
+          "year": 2020,
+          "venue": "Electric Power Systems Research",
+          "citations": 92,
+          "keywords": ["调频", "性能因子", "补偿机制"],
+          "research_problem": "如何使调频补偿反映储能响应速度和调节精度。",
+          "method": "构建性能因子加权的调频容量与里程支付模型。",
+          "scenario": "调频市场仿真算例。",
+          "conclusion": "性能支付提高了高质量调频资源的参与积极性。",
+          "innovation": "把响应速度、跟踪误差和可用率合成为补偿权重。",
+          "limitation": "缺少真实调频信号下的大规模验证。",
+          "background": "传统容量支付难以体现储能相对常规机组的快速响应优势。",
+          "method_flow": ["调频信号输入", "性能指标计算", "补偿价格修正", "市场收益评估"],
+          "related_papers": ["P05", "P06"]
+        },
+        {
+          "id": "P05",
+          "title": "Co-optimized energy and reserve bidding for storage",
+          "title_cn": "储能参与能量与备用联合市场的协同报价",
+          "authors": "Garcia et al.",
+          "year": 2022,
+          "venue": "Energy",
+          "citations": 58,
+          "keywords": ["备用市场", "联合出清", "机会成本"],
+          "research_problem": "储能在能量市场和备用市场之间如何分配容量。",
+          "method": "建立能量-备用双市场联合优化报价模型。",
+          "scenario": "含风电的区域电网。",
+          "conclusion": "联合报价比单市场报价获得更高总收益并降低系统备用成本。",
+          "innovation": "显式描述储能容量在能量与备用服务之间的机会成本。",
+          "limitation": "未考虑多类备用产品的差异化性能要求。",
+          "background": "储能同一容量不能同时无限制地用于能量套利和备用承诺。",
+          "method_flow": ["容量分配", "机会成本估计", "联合出清", "收益分解"],
+          "related_papers": ["P01", "P04"]
+        },
+        {
+          "id": "P06",
+          "title": "Ramp service procurement with storage under renewable uncertainty",
+          "title_cn": "新能源不确定性下含储能爬坡服务采购模型",
+          "authors": "Huang et al.",
+          "year": 2024,
+          "venue": "International Journal of Electrical Power & Energy Systems",
+          "citations": 27,
+          "keywords": ["爬坡服务", "新能源不确定性", "鲁棒优化"],
+          "research_problem": "高比例新能源场景下如何采购储能爬坡服务。",
+          "method": "采用鲁棒优化刻画新能源预测误差边界。",
+          "scenario": "高风光渗透率电力系统。",
+          "conclusion": "储能爬坡服务能够降低弃风弃光和备用不足概率。",
+          "innovation": "把爬坡需求不确定性与储能报价约束耦合建模。",
+          "limitation": "鲁棒边界选择对结果影响较大。",
+          "background": "新能源出力波动提高了系统短时爬坡需求。",
+          "method_flow": ["预测误差集合", "爬坡需求估计", "鲁棒出清", "服务价格计算"],
+          "related_papers": ["P05", "P10"]
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "name": "容量市场与长期充裕性补偿",
+      "name_en": "Capacity Markets and Resource Adequacy",
+      "paper_count": 18,
+      "heat": 73,
+      "core_question": "储能容量价值如何评估，并如何通过容量市场形成长期补偿。",
+      "summary": "该方向讨论储能在保障系统长期充裕性中的贡献，关注有效容量、容量信用、履约风险和容量价格。",
+      "keywords": ["容量信用", "资源充裕性", "有效容量", "容量补偿"],
+      "commonality": "均强调储能的容量价值受持续放电时长、峰荷相关性和可用率影响。",
+      "differences": "差异体现在容量信用评估指标、履约惩罚机制以及与现货收益叠加方式。",
+      "gap": "短时储能在极端天气和长时缺电事件中的容量贡献仍难以稳定量化。",
+      "methods_distribution": [
+        {"method": "可靠性评估", "count": 7},
+        {"method": "概率模拟", "count": 5},
+        {"method": "收益叠加模型", "count": 4},
+        {"method": "政策比较", "count": 2}
+      ],
+      "knowledge_card": {
+        "concepts": ["容量信用", "ELCC", "履约惩罚", "容量租赁"],
+        "trend": "从单一额定容量补偿转向基于可靠性贡献的差异化补偿。",
+        "representative_conclusion": "储能容量价值随渗透率增加呈递减趋势，需要动态容量信用机制。"
+      },
+      "papers": [
+        {
+          "id": "P07",
+          "title": "Capacity credit assessment for battery energy storage",
+          "title_cn": "电池储能容量信用评估方法",
+          "authors": "Miller et al.",
+          "year": 2019,
+          "venue": "IEEE Power Systems",
+          "citations": 104,
+          "keywords": ["容量信用", "ELCC", "可靠性"],
+          "research_problem": "如何量化储能对系统可靠性的边际贡献。",
+          "method": "采用 ELCC 方法计算不同持续时长储能的容量信用。",
+          "scenario": "峰荷型区域电网。",
+          "conclusion": "短时储能在低渗透率下容量信用较高，但随规模扩大递减。",
+          "innovation": "将持续放电时间和负荷峰值分布纳入容量信用评估。",
+          "limitation": "未考虑储能参与其他市场后的可用性变化。",
+          "background": "容量市场需要明确储能可替代常规容量的程度。",
+          "method_flow": ["负荷概率建模", "可靠性指标计算", "ELCC 估计", "容量信用输出"],
+          "related_papers": ["P08", "P03"]
+        },
+        {
+          "id": "P08",
+          "title": "Stacked revenue model for storage in energy and capacity markets",
+          "title_cn": "储能参与能量与容量市场的叠加收益模型",
+          "authors": "Liu et al.",
+          "year": 2022,
+          "venue": "Journal of Energy Storage",
+          "citations": 49,
+          "keywords": ["收益叠加", "容量市场", "履约风险"],
+          "research_problem": "储能如何在容量承诺与短期套利之间权衡。",
+          "method": "建立含履约惩罚的多市场收益最大化模型。",
+          "scenario": "容量市场和现货市场联动场景。",
+          "conclusion": "容量收入可改善储能投资回收，但会限制部分套利空间。",
+          "innovation": "同时刻画容量履约风险与现货市场机会收益。",
+          "limitation": "容量价格外生给定，未模拟竞价均衡。",
+          "background": "单纯现货套利收益不稳定，容量补偿可提供长期收入来源。",
+          "method_flow": ["容量承诺决策", "现货收益模拟", "履约约束检查", "总收益评估"],
+          "related_papers": ["P01", "P07"]
+        },
+        {
+          "id": "P09",
+          "title": "Long-duration storage adequacy value in capacity mechanisms",
+          "title_cn": "容量机制中长时储能的充裕性价值",
+          "authors": "Roberts et al.",
+          "year": 2025,
+          "venue": "Nature Energy",
+          "citations": 12,
+          "keywords": ["长时储能", "极端天气", "容量机制"],
+          "research_problem": "长时储能在极端缺电事件中的容量价值如何体现。",
+          "method": "基于多年天气和负荷序列开展概率可靠性模拟。",
+          "scenario": "高新能源系统与极端天气压力测试。",
+          "conclusion": "长时储能在连续低风低光事件中具备更高边际容量价值。",
+          "innovation": "将极端天气持续性纳入容量市场价值评估。",
+          "limitation": "数据需求较高，难以迁移到数据不足地区。",
+          "background": "高新能源系统的可靠性风险从短时峰荷转向持续性缺电事件。",
+          "method_flow": ["天气序列采样", "净负荷计算", "可靠性模拟", "容量价值估计"],
+          "related_papers": ["P07", "P10"]
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "name": "新能源协同与虚拟电厂聚合报价",
+      "name_en": "Renewable Coordination and VPP Aggregated Bidding",
+      "paper_count": 30,
+      "heat": 96,
+      "core_question": "储能如何与风光、新能源场站或虚拟电厂协同报价。",
+      "summary": "该方向关注储能作为波动平滑和组合优化工具，帮助新能源主体降低偏差考核、提高市场收益并参与多品种交易。",
+      "keywords": ["新能源消纳", "虚拟电厂", "聚合商", "偏差考核", "联合报价"],
+      "commonality": "普遍将储能作为新能源不确定性的缓冲资源，强调联合报价优于单独报价。",
+      "differences": "差异主要在聚合主体类型、预测误差处理、收益分配机制和通信控制假设。",
+      "gap": "储能-新能源-负荷多主体之间的收益分配、合约设计和可解释智能报价仍需深入。",
+      "methods_distribution": [
+        {"method": "双层规划", "count": 8},
+        {"method": "随机优化", "count": 8},
+        {"method": "强化学习", "count": 7},
+        {"method": "合作博弈", "count": 7}
+      ],
+      "knowledge_card": {
+        "concepts": ["虚拟电厂", "聚合报价", "偏差考核", "收益分配"],
+        "trend": "从单场站风储/光储协同转向聚合商管理多资源的组合报价。",
+        "representative_conclusion": "联合报价可以降低新能源偏差风险，但收益分配机制决定参与稳定性。"
+      },
+      "papers": [
+        {
+          "id": "P10",
+          "title": "Joint bidding of wind-storage virtual power plants under uncertainty",
+          "title_cn": "不确定性下风储虚拟电厂联合报价策略",
+          "authors": "Wang et al.",
+          "year": 2021,
+          "venue": "Renewable Energy",
+          "citations": 118,
+          "keywords": ["风储协同", "虚拟电厂", "随机优化"],
+          "research_problem": "风储虚拟电厂如何在预测误差下形成联合报价。",
+          "method": "构建基于场景树的两阶段随机优化模型。",
+          "scenario": "风电场与电池储能组合。",
+          "conclusion": "储能可显著降低风电偏差考核并提高联合收益。",
+          "innovation": "将偏差考核和储能调节能力共同纳入 VPP 报价。",
+          "limitation": "未讨论内部收益分配和多主体激励。",
+          "background": "风电出力不确定性会导致市场偏差罚金。",
+          "method_flow": ["风电场景生成", "联合报价决策", "实时偏差修正", "收益核算"],
+          "related_papers": ["P06", "P11"]
+        },
+        {
+          "id": "P11",
+          "title": "Profit allocation for renewable-storage aggregators",
+          "title_cn": "新能源-储能聚合商收益分配机制",
+          "authors": "Zhao et al.",
+          "year": 2023,
+          "venue": "Energy Policy",
+          "citations": 45,
+          "keywords": ["聚合商", "收益分配", "合作博弈"],
+          "research_problem": "联合报价收益如何在新能源和储能主体之间公平分配。",
+          "method": "使用 Shapley 值和核仁方法比较收益分配结果。",
+          "scenario": "光伏、储能和可调负荷聚合组合。",
+          "conclusion": "公平分配机制提高了主体参与稳定性和联盟收益。",
+          "innovation": "把合作博弈分配规则嵌入聚合报价后评估。",
+          "limitation": "对主体策略性报价行为考虑不足。",
+          "background": "联合报价虽提高总收益，但可能引发内部利益冲突。",
+          "method_flow": ["联盟收益计算", "边际贡献评估", "分配规则求解", "稳定性检验"],
+          "related_papers": ["P10", "P12"]
+        },
+        {
+          "id": "P12",
+          "title": "Explainable AI bidding for renewable-storage aggregations",
+          "title_cn": "面向新能源储能聚合体的可解释 AI 报价",
+          "authors": "Kim et al.",
+          "year": 2025,
+          "venue": "Applied Energy",
+          "citations": 9,
+          "keywords": ["可解释 AI", "聚合报价", "虚拟电厂"],
+          "research_problem": "AI 报价策略如何在保持收益的同时具备可解释性。",
+          "method": "结合梯度提升树、规则提取和滚动回测生成报价建议。",
+          "scenario": "含光伏、储能和柔性负荷的虚拟电厂。",
+          "conclusion": "可解释特征贡献有助于调度员理解报价动作，并保持接近黑箱模型的收益。",
+          "innovation": "将可解释性约束纳入数据驱动报价工作流。",
+          "limitation": "样本外极端价格场景下仍需人工校核。",
+          "background": "黑箱 AI 报价难以满足市场主体审计和风险控制需求。",
+          "method_flow": ["特征构建", "AI 预测", "规则解释", "报价生成", "人工校核"],
+          "related_papers": ["P02", "P11"]
+        }
+      ]
+    }
+  ]
+}

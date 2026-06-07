@@ -1,0 +1,3 @@
+wind_id,bus_id,p_nom_mw,profile_source,notes
+W3,3,285.0,Nasri 2016 Section IV-A / Fig. 3,Installed capacity 2.85 p.u.; exact 40 scenario traces still need digitization.
+W14,14,296.0,Nasri 2016 Section IV-A / Fig. 3,Installed capacity 2.96 p.u.; exact 40 scenario traces still need digitization.

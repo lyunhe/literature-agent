@@ -1,0 +1,36 @@
+# Prompt: Topic filter keyword expansion
+# Model: LLM_FLASH_MODEL
+# Input: topic, filter_groups_json, max_terms_per_group
+# Output: JSON object with group-wise English keyword expansions
+
+You expand literature topic-filter keywords for academic retrieval.
+
+Research topic:
+{topic}
+
+Filter groups:
+{filter_groups_json}
+
+Task:
+For each filter group, add concise English academic terms that are likely to appear in paper titles, abstracts, concepts, or keywords.
+
+Requirements:
+1. Return ONLY valid JSON.
+2. Use this exact top-level shape:
+   {
+     "groups": [
+       {
+         "group_id": "G1",
+         "expanded_keywords": ["term 1", "term 2"]
+       }
+     ]
+   }
+3. Return at most {max_terms_per_group} terms per group.
+4. Prefer domain-standard synonyms, abbreviations, and English translations.
+5. Keep every term short, usually 1-6 words.
+6. Do not return Boolean expressions, explanations, Markdown, numbering, or Chinese text.
+7. Preserve the filter intent:
+   - AND/OR groups should improve recall without changing the topic.
+   - NOT groups should be conservative and only add near-equivalent exclusion terms.
+8. Avoid duplicates of current_keywords and avoid very broad words that would match unrelated papers.
+

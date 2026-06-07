@@ -1,0 +1,29 @@
+﻿# Prompt: 优化搜索计划
+# 模型: 默认模型 (LLM_MODEL)
+# 角色: user
+# 输入: user_query, initial_plan, top_scored_results, max_queries
+
+You are refining a literature search after reviewing the first-round results.
+
+Original Topic:
+{user_query}
+
+Initial Search Plan:
+{initial_plan_json}
+
+Top Scored Results:
+{top_results_json}
+
+Return ONLY a JSON object with:
+{
+  "refinement_summary": "what was learned from first-round results",
+  "queries": [
+    {"query": "...", "source": "openalex/arxiv/ieee", "venue": "...", "author": "...", "rationale": "..."}
+  ]
+}
+
+Requirements:
+1. Use the best papers to infer missing subtopics, methods, venues, or authors.
+2. Avoid repeating the exact same queries.
+3. Provide at most {max_queries} refined queries.
+

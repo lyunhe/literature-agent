@@ -1,0 +1,2 @@
+iteration,case_id,candidate_cuts,added_cuts,largest_violation_metric,mean_violation_metric,cut_status,blocking_item
+1,case_b_ac_uc_benders,960,0,516.7975444158053,417.1452136453419,proxy_candidates_only,Need AC NLP dual multipliers and explicit fixed-master constraints.

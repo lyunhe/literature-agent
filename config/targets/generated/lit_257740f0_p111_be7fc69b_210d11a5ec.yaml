@@ -1,0 +1,13 @@
+id: "lit_257740f0_p111_be7fc69b_210d11a5ec"
+title: "Integrated risk measurement and control for stochastic energy trading of a wind storage system in electricity markets"
+authors:
+  - "Dongliang Xiao；Haoyong Chen；Wei‐Jun Cai；Chun Wei；Zhendong Zhao"
+year: "2023"
+venue: "Protection and Control of Modern Power Systems"
+doi: "10.1186/s41601-023-00329-3"
+role: "literature_agent_selected_paper"
+source_pdf: "output/20260527_2252_储能参与电力市场/01_discovery/pdfs/Integrated_risk_measurement_and_control_for_stochastic_energy_trading_of_a_wind_storage_sy.pdf"
+run_dir: "runs/lit_257740f0_p111_be7fc69b_210d11a5ec"
+notes:
+  - "Generated from literature showcase run 20260527_2252_储能参与电力市场, direction D1, paper P111_be7fc69b."
+  - "Created for file-level reproducibility audit and toolchain handoff."

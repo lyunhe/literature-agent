@@ -1,0 +1,22 @@
+{
+  "preferred_solvers": [
+    "gurobi",
+    "cplex",
+    "highs"
+  ],
+  "mip_gap": 0.001,
+  "time_limit_sec": 7200,
+  "ac_nlp_solver": "scipy_slsqp",
+  "available_ac_nlp_solvers": [
+    "scipy_slsqp",
+    "cyipopt",
+    "cyipopt_constrained"
+  ],
+  "ac_nlp_maxiter": 400,
+  "threads": null,
+  "feasibility_tolerance": null,
+  "notes": [
+    "Original paper used AMPL/CPLEX and C++/Coin-OR Bcp for specialized subproblem variants.",
+    "Record all deviations from the paper solver stack."
+  ]
+}

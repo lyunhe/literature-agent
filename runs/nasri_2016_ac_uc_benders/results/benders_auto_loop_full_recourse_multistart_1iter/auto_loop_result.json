@@ -1,0 +1,14 @@
+{
+  "status": "auto_loop_complete",
+  "stop_reason": "tolerance_reached",
+  "runtime_sec": 256.6626774580218,
+  "iterations": 1,
+  "tolerance_percent": 0.3,
+  "cuts_per_iteration": 3,
+  "cumulative_cuts": 3,
+  "unique_cut_subproblems": 3,
+  "failed_subproblems_seen": 0,
+  "iteration_log": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart_1iter/auto_loop_iteration_log.csv",
+  "cumulative_cut_constraints": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart_1iter/cumulative_cuts/benders_cut_constraints.csv",
+  "cumulative_cut_terms": "/Users/yunhe/paper-reconstruct/runs/nasri_2016_ac_uc_benders/results/benders_auto_loop_full_recourse_multistart_1iter/cumulative_cuts/benders_cut_terms.csv"
+}

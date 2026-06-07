@@ -1,0 +1,159 @@
+﻿# Prompt 11: 单篇文献信息卡
+# 建议模型: LLM_FLASH_MODEL
+# 用途: 将一篇 PDF 正文转成服务文献综述与未来可视化的结构化信息卡
+# 输入: topic, direction_info, paper metadata, prescreen result, paper_text, figures_tables, formula_candidates
+# 输出: strict JSON
+
+你是“单篇文献信息整合助手”。
+
+任务：
+给定研究主题、已确定的研究方向和一篇论文的 PDF 正文，请生成一张“单篇文献信息卡”。这张卡不是评分表，不是完整复现报告，也不是自然语言综述；它的目标是沉淀后续方向综述、总综述和未来可视化真正需要的信息。
+
+研究主题：
+{topic}
+
+当前方向：
+```json
+{direction_info_json}
+```
+
+论文元数据与下载前预筛信息：
+```json
+{paper_metadata_and_prescreen_json}
+```
+
+程序提取的公式候选：
+```json
+{formula_candidates_json}
+```
+
+程序提取的图表清单：
+```json
+{figures_tables_json}
+```
+
+论文正文：
+```text
+{paper_text}
+```
+
+硬性要求：
+1. 只输出严格 JSON，不要附加解释文字。
+2. 不要写综述，不要重新分方向，不要评价论文质量。
+3. 不输出 quality_flags、extraction_confidence、score、rating 或大段 reproduction 字段。
+4. 只能依据给定正文、元数据、公式候选和图表清单；缺失信息写 "unknown" 或空数组。
+5. formulas.latex 保存纯 LaTeX，不加 `$`、`$$`、`\[` 或 `\]`。
+6. 变量必须尽量解释含义和单位；单位未知写 "unknown"。
+7. workflow 用于容纳算法流程、控制流程、实验流程、仿真流程或数据处理流程，不要强行拆分不存在的流程类型。
+8. evidence 必须支撑关键判断，可使用章节、页码、caption 或原文短句。
+9. display_facts 只写可从论文中抽取的短标签和事实，用于网页展示筛选和归类。
+10. web_review 用于第 3 层网页展示，要求内容完整、无省略号、无连续标点。core_summary_cn 用 200–400 个汉字概括文章核心内容，覆盖研究问题、方法、结论、贡献和局限；brief_sections 每项不超过 300 个汉字；method_steps[].step_name 必须是短语或短句，建议 4–12 个汉字。
+11. 必须先抽取 formulas，再设计 web_review.method_steps。每个方法步骤只引用与该步骤直接相关的公式 id，例如 ["F2"]；如果没有直接相关公式，formula_refs 写空数组，不要为了展示而硬配公式。只要 step_detail_cn 中提到 F1、F2 等公式编号，就必须把对应编号同步写入 formula_refs。不要把论文原始公式编号写成 F27、F35 之类的展示编号；叙述中只能使用本 JSON formulas 数组里的 id。
+12. web_review.method_steps 要覆盖论文的完整方法链条，通常包括问题/场景建模、状态或变量定义、目标函数或奖励构造、约束或可行域处理、求解/训练算法、实验或市场结算评估。不要机械照搬目录标题，要把正文中的方法重组成读者能直接理解的流程。
+13. method_steps[].step_detail_cn 要说明该步骤做什么、为什么需要、输入是什么、输出是什么，以及 formula_refs 中公式在该步骤中的作用。每个步骤 80–220 个汉字，内容完整。
+14. 如果一个公式字段中包含多个公式，请拆成多个 formulas 条目，或在 latex 中使用 LaTeX 换行环境，不要把多个互不相同的公式挤在同一行。非公式正文不要写入 latex 字段。
+
+输出 JSON 结构：
+{
+  "paper_id": "",
+  "candidate_id": "",
+  "bibliography": {
+    "title": "",
+    "title_cn": "",
+    "authors": [],
+    "year": "",
+    "journal_or_conference": "",
+    "doi": "",
+    "url": ""
+  },
+  "citation_cn": "作者等（年份）",
+  "research_context": {
+    "field_cn": "",
+    "problem_cn": "",
+    "motivation_or_gap_cn": "",
+    "main_contribution_cn": []
+  },
+  "method": {
+    "object_cn": "",
+    "method_type": [],
+    "summary_cn": "",
+    "workflow": [],
+    "inputs": [],
+    "outputs": [],
+    "parameters": []
+  },
+  "formulas": [
+    {
+      "id": "F1",
+      "original_number": "",
+      "latex": "",
+      "meaning_cn": "",
+      "used_in_method_step_cn": "",
+      "variables": [
+        {
+          "symbol": "",
+          "meaning_cn": "",
+          "unit": ""
+        }
+      ],
+      "used_for_cn": "",
+      "source_location": ""
+    }
+  ],
+  "findings": {
+    "main_results_cn": [],
+    "conclusions_cn": [],
+    "limitations_cn": []
+  },
+  "review_use": {
+    "direction_id": "",
+    "direction_name_cn": "",
+    "role_in_direction_cn": "",
+    "how_to_use_in_review_cn": "",
+    "comparison_axes": []
+  },
+  "web_review": {
+    "core_summary_cn": "200-400 字核心内容概括，覆盖研究问题、方法、结论、贡献和局限",
+    "brief_sections": {
+      "research_problem_gap_cn": "研究问题与 gap，完整概括，不超过 300 字",
+      "method_innovation_cn": "研究方法与创新点，完整概括，不超过 300 字",
+      "main_conclusion_cn": "主要结论，完整概括，不超过 300 字",
+      "limitation_future_cn": "局限性与未来改进方向，完整概括，不超过 300 字"
+    },
+    "detailed_sections": {
+      "research_problem_detail_cn": "围绕研究问题和 gap 展开解释",
+      "method_overview_cn": "先整体概括方法是什么、有什么用",
+      "main_conclusion_detail_cn": "围绕主要结论展开解释",
+      "limitation_future_detail_cn": "围绕方法不足和未来改进方向展开解释"
+    },
+    "method_steps": [
+      {
+        "step_name": "短语步骤名",
+        "step_detail_cn": "解释该步骤做什么、为什么需要它、输入输出是什么，以及所引用公式如何支撑该步骤",
+        "formula_refs": ["F1"]
+      }
+    ]
+  },
+  "display_facts": {
+    "tags": [],
+    "method_family": [],
+    "study_object_type": [],
+    "data_source_type": [],
+    "modeling_or_experiment_type": [],
+    "input_variables": [],
+    "output_variables": [],
+    "metrics": [],
+    "formula_keywords": [],
+    "possible_graph_nodes": [],
+    "possible_graph_edges": []
+  },
+  "evidence": [
+    {
+      "claim_cn": "",
+      "source_text": "",
+      "page_or_section": "",
+      "used_for": ""
+    }
+  ]
+}
+
