@@ -25,7 +25,17 @@ from analysis_pipeline.stages.discovery.direction_workspace import (
     load_direction_dirs,
 )
 from analysis_pipeline.stages.discovery import search_arxiv, search_ieee, search_openalex
-from analysis_pipeline.stages.discovery.paper_table import build_paper_table, get_flash_model, save_paper_table
+from analysis_pipeline.stages.discovery.candidate_links import (
+    arxiv_id_from_url,
+    arxiv_pdf_url,
+    pdf_candidate_urls,
+)
+from analysis_pipeline.stages.discovery.paper_table import (
+    build_paper_table,
+    get_flash_model,
+    save_paper_table,
+    update_paper_table_download_status,
+)
 from analysis_pipeline.stages.discovery.prescreen import (
     build_screening_state,
     load_screening_state,
@@ -669,57 +679,87 @@ def search_literature(
     return list(all_results.values())
 
 
-def arxiv_id_from_url(url: str) -> str:
-    match = re.search(r"arxiv\.org/(?:abs|pdf)/([^?#/]+)", url or "", flags=re.I)
-    if not match:
-        return ""
-    return match.group(1).removesuffix(".pdf")
+def _merge_paper_download_fields(base: dict[str, Any], overlay: dict[str, Any]) -> dict[str, Any]:
+    merged = dict(base)
+    for key in ("_pdf_path", "pdf_path", "download_status"):
+        if overlay.get(key):
+            merged[key] = overlay[key]
+    return merged
 
 
-def arxiv_pdf_url(arxiv_id: str) -> str:
-    safe_id = str(arxiv_id).strip().removeprefix("arXiv:").removesuffix(".pdf")
-    return f"https://arxiv.org/pdf/{safe_id}.pdf" if safe_id else ""
+def _merge_download_status_into_ranked(
+    ranked: list[dict[str, Any]],
+    status_papers: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    by_id = {str(p.get("candidate_id")): p for p in status_papers if p.get("candidate_id")}
+    return [
+        _merge_paper_download_fields(paper, by_id.get(str(paper.get("candidate_id")), {}))
+        for paper in ranked
+    ]
 
 
-def _append_unique_url(urls: list[str], url: Any) -> None:
-    value = str(url or "").strip()
-    if value and value not in urls:
-        urls.append(value)
+def _early_rank_and_table(
+    topic: str,
+    accepted: list[dict[str, Any]],
+    output_dir: Path,
+    topic_filter: TopicFilter | None,
+    selected_directions: list[str] | None,
+    journal_levels_path: Path | None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    state = build_screening_state(
+        topic,
+        accepted,
+        journal_levels_path,
+        input_mode="search_metadata",
+    )
+    save_prescreen_state(state, output_dir)
+    ranked = score_and_rank_candidates(
+        topic=topic,
+        state=state,
+        selected_directions=selected_directions,
+        journal_levels_path=journal_levels_path,
+    )
+    save_json(output_dir / "scored_candidates.json", ranked)
+    save_paper_table(build_paper_table(ranked, topic_filter), output_dir)
+    return ranked, state
 
 
-def _openalex_nested_urls(paper: dict[str, Any]) -> list[str]:
-    urls: list[str] = []
-    open_access = paper.get("open_access") or {}
-    if isinstance(open_access, dict):
-        _append_unique_url(urls, open_access.get("oa_url"))
-    for location in [
-        paper.get("primary_location") or {},
-        paper.get("best_oa_location") or {},
-        *(paper.get("locations") or []),
-    ]:
-        if not isinstance(location, dict):
-            continue
-        _append_unique_url(urls, location.get("pdf_url"))
-        _append_unique_url(urls, location.get("landing_page_url"))
-    return urls
+def _post_table_download_and_refresh(
+    ranked: list[dict[str, Any]],
+    output_dir: Path,
+    topic_filter: TopicFilter | None,
+    max_papers: int | None,
+) -> tuple[list[Path], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Download every row in paper_table, then rewrite CSV/JSON with download status."""
+    if not ranked:
+        save_paper_table([], output_dir)
+        save_json(output_dir / "selected_candidates.json", [])
+        save_json(output_dir / "selected_pdfs.json", [])
+        return [], [], []
 
+    print(f"[download] paper_table 已就绪，按表内 {len(ranked)} 篇顺序尝试下载...")
+    download_pool = [dict(paper) for paper in ranked]
+    pdf_dir = ensure_dir(output_dir / "pdfs")
+    download_papers(
+        download_pool,
+        max_papers=None,
+        output_dir=pdf_dir,
+        fallback_to_existing=True,
+    )
+    final_ranked = _merge_download_status_into_ranked(ranked, download_pool)
+    update_paper_table_download_status(output_dir, download_pool)
 
-def pdf_candidate_urls(paper: dict[str, Any]) -> list[str]:
-    urls: list[str] = []
-    arxiv_id = str(paper.get("arxiv_id") or "").strip()
-    if not arxiv_id:
-        arxiv_id = arxiv_id_from_url(str(paper.get("url") or paper.get("oa_url") or ""))
-    if arxiv_id:
-        _append_unique_url(urls, arxiv_pdf_url(arxiv_id))
-    for key in ("pdf_url", "oa_url"):
-        _append_unique_url(urls, paper.get(key))
-    for value in paper.get("pdf_urls") or []:
-        _append_unique_url(urls, value)
-    for value in paper.get("landing_page_urls") or []:
-        _append_unique_url(urls, value)
-    for value in _openalex_nested_urls(paper):
-        _append_unique_url(urls, value)
-    return urls
+    selected_candidates = [canonical_candidate(paper) for paper in download_pool if paper.get("_pdf_path")]
+    selected_pdfs = [Path(str(paper["_pdf_path"])).resolve() for paper in download_pool if paper.get("_pdf_path")]
+    if max_papers is not None:
+        selected_candidates = selected_candidates[:max_papers]
+        selected_pdfs = selected_pdfs[:max_papers]
+    save_json(output_dir / "selected_candidates.json", selected_candidates)
+    save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
+
+    ok_count = sum(1 for paper in download_pool if paper.get("_pdf_path"))
+    print(f"[download] paper_table 下载状态已更新：{ok_count}/{len(ranked)} 成功")
+    return selected_pdfs, selected_candidates, final_ranked
 
 
 def _status_reason(resp: requests.Response) -> str:
@@ -1274,6 +1314,7 @@ def search_and_download(
     *,
     ai_prescreen: bool = True,
     screen_only: bool = False,
+    table_only: bool = False,
     screening_state_path: Path | None = None,
     selected_directions: list[str] | None = None,
     journal_levels_path: Path | None = None,
@@ -1300,20 +1341,13 @@ def search_and_download(
             journal_levels_path=journal_levels_path,
         )
         save_json(output_dir / "scored_candidates.json", ranked)
-        download_candidates = selected_for_download(ranked, len(ranked) if max_papers is not None else None)
-        selected_pdfs = download_papers(download_candidates, max_papers=max_papers, output_dir=output_dir / "pdfs", fallback_to_existing=False)
-        selected_candidates = [paper for paper in download_candidates if paper.get("_pdf_path")]
-        if max_papers is not None:
-            selected_candidates = selected_candidates[:max_papers]
-        save_json(output_dir / "selected_candidates.json", selected_candidates)
-        save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
-
-        downloaded_names: set[str] = set()
-        for paper in selected_candidates:
-            if paper.get("_pdf_path"):
-                downloaded_names.add(Path(str(paper["_pdf_path"])).name)
-        rows = build_paper_table(ranked, downloaded_names, topic_filter)
-        save_paper_table(rows, output_dir)
+        save_paper_table(build_paper_table(ranked, topic_filter), output_dir)
+        selected_pdfs, _, _ = _post_table_download_and_refresh(
+            ranked,
+            output_dir,
+            topic_filter,
+            max_papers,
+        )
         return search_results, selected_pdfs
 
     search_results = with_candidate_ids([
@@ -1329,7 +1363,6 @@ def search_and_download(
     save_json(output_dir / "search_results.json", search_results)
     save_json(output_dir / "raw_candidates.json", search_results)
 
-    # Topic filter: between search and download
     accepted = search_results
     if topic_filter is not None:
         accepted, rejected = topic_filter.filter_papers(search_results)
@@ -1362,6 +1395,40 @@ def search_and_download(
         )
     accepted = required_accepted
 
+    early_ranked: list[dict[str, Any]] = []
+    early_state: dict[str, Any] = {}
+    if ai_prescreen and accepted:
+        early_ranked, early_state = _early_rank_and_table(
+            topic,
+            accepted,
+            output_dir,
+            topic_filter,
+            selected_directions,
+            journal_levels_path,
+        )
+        if screen_only:
+            save_screening_state(early_state, output_dir)
+            save_json(output_dir / "selected_pdfs.json", [])
+            return search_results, []
+        if table_only:
+            write_discovery_summary(
+                output_dir,
+                {
+                    "topic": topic,
+                    "input_mode": "online",
+                    "raw_count": len(search_results),
+                    "downloadable_count": len(accepted),
+                    "selected_count": 0,
+                    "max_papers": max_papers,
+                    "max_candidates": max_candidates,
+                    "note": "Table-only mode: ranking and paper_table exported; PDF verification skipped.",
+                    "directions": early_state.get("directions", []),
+                },
+            )
+            return search_results, []
+    elif accepted:
+        save_paper_table(build_paper_table(accepted, topic_filter), output_dir)
+
     if require_pdf:
         downloadable_candidates, skipped_candidates = build_downloadable_pool(
             topic=topic,
@@ -1379,91 +1446,13 @@ def search_and_download(
             )
 
         if ai_prescreen:
-            state_candidates = downloadable_candidates
-            if screen_only:
-                state = build_screening_state(topic, state_candidates, journal_levels_path) if state_candidates else {
-                    "topic": topic,
-                    "input_mode": "online",
-                    "papers": [],
-                    "directions": [],
-                    "assignments": [],
-                    "relevance_scores": [],
-                }
-                save_screening_state(state, output_dir)
-                save_json(output_dir / "selected_pdfs.json", [])
-                return search_results, []
-
-            prescreen_pool = downloadable_candidates
-            ranked_pool: list[dict[str, Any]] = []
-            state: dict[str, Any] = {
-                "topic": topic,
-                "input_mode": "online_prescreen",
-                "papers": [],
-                "directions": [],
-                "assignments": [],
-                "relevance_scores": [],
-            }
-            if prescreen_pool:
-                print(f"[prescreen] scoring verified downloadable candidates before download: {len(prescreen_pool)}")
-                state = build_screening_state(topic, prescreen_pool, journal_levels_path, input_mode="online_prescreen")
-                if not state_has_assigned_papers(state):
-                    print("[prescreen warning] AI/rule screening produced no assigned papers; using single-direction fallback for downloadable PDFs.")
-                    state = build_virtual_single_direction_state(topic, prescreen_pool)
-                save_prescreen_state(state, output_dir)
-                try:
-                    ranked_pool = score_and_rank_candidates(
-                        topic=topic,
-                        state=state,
-                        selected_directions=selected_directions,
-                        journal_levels_path=journal_levels_path,
-                    )
-                except RuntimeError:
-                    state = build_virtual_single_direction_state(topic, prescreen_pool)
-                    save_prescreen_state(state, output_dir)
-                    ranked_pool = score_and_rank_candidates(
-                        topic=topic,
-                        state=state,
-                        selected_directions=None,
-                        journal_levels_path=journal_levels_path,
-                    )
-            ranked_downloadable = []
-            for paper in ranked_pool:
-                source = next(
-                    (item for item in downloadable_candidates if str(item.get("candidate_id")) == str(paper.get("candidate_id"))),
-                    None,
-                )
-                if source:
-                    merged = dict(source)
-                    merged.update(paper)
-                    ranked_downloadable.append(merged)
-            if ranked_downloadable:
-                download_candidates = selected_for_download(ranked_downloadable, len(ranked_downloadable))
-                ranked_ids = {str(item.get("candidate_id")) for item in download_candidates}
-                download_candidates.extend(
-                    item for item in downloadable_candidates
-                    if str(item.get("candidate_id")) not in ranked_ids
-                )
-            else:
-                download_candidates = list(downloadable_candidates)
-            selected_pdfs = download_papers(
-                download_candidates,
-                max_papers=max_papers,
-                output_dir=output_dir / "pdfs",
-                fallback_to_existing=False,
+            save_json(output_dir / "prescreen_scored_candidates.json", early_ranked)
+            selected_pdfs, selected_candidates, _ = _post_table_download_and_refresh(
+                early_ranked,
+                output_dir,
+                topic_filter,
+                max_papers,
             )
-            selected_candidates = [canonical_candidate(paper) for paper in download_candidates if paper.get("_pdf_path")]
-            if max_papers is not None:
-                selected_candidates = selected_candidates[:max_papers]
-
-            ranked = ranked_pool
-            save_json(output_dir / "prescreen_scored_candidates.json", ranked_pool)
-            save_json(output_dir / "scored_candidates.json", ranked)
-            save_json(output_dir / "selected_candidates.json", selected_candidates)
-            save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
-
-            downloaded_names = {Path(str(item["_pdf_path"])).name for item in selected_candidates if item.get("_pdf_path")}
-            rows = build_paper_table(ranked or selected_candidates, downloaded_names, topic_filter) if selected_candidates else []
-            save_paper_table(rows, output_dir)
             if compare_sources:
                 write_source_comparison(output_dir, search_results, downloadable_candidates, skipped_candidates, selected_candidates)
             write_discovery_summary(
@@ -1481,64 +1470,25 @@ def search_and_download(
                         if max_candidates is not None and len(downloadable_candidates) < max_candidates
                         else ""
                     ),
-                    "directions": state.get("directions", []),
+                    "directions": early_state.get("directions", []),
                 },
             )
             return search_results, selected_pdfs
 
-    if ai_prescreen:
-        if max_papers is not None:
-            prescreen_limit = min(len(accepted), max(80, max_papers * 20))
-            prescreen_limit = min(prescreen_limit, 120)
-            prescreen_candidates = accepted[:prescreen_limit]
-            print(f"[预筛] 下载目标 {max_papers} 篇，优先对前 {len(prescreen_candidates)} 篇高相关候选进行大模型方向分类。")
-        else:
-            prescreen_candidates = accepted
-        state = build_screening_state(topic, prescreen_candidates, journal_levels_path, input_mode="online_prescreen")
-        save_prescreen_state(state, output_dir)
-        print(f"[预筛] 已生成候选方向：{output_dir / 'prescreen_candidate_directions.json'}")
-        if screen_only:
-            save_screening_state(state, output_dir)
-            save_json(output_dir / "selected_pdfs.json", [])
-            return search_results, []
-
-        ranked = score_and_rank_candidates(
-            topic=topic,
-            state=state,
-            selected_directions=selected_directions,
-            journal_levels_path=journal_levels_path,
+    if ai_prescreen and early_ranked:
+        selected_pdfs, _, _ = _post_table_download_and_refresh(
+            early_ranked,
+            output_dir,
+            topic_filter,
+            max_papers,
         )
-        save_json(output_dir / "scored_candidates.json", ranked)
-        download_candidates = selected_for_download(ranked, len(ranked) if max_papers is not None else None)
-        selected_pdfs = download_papers(download_candidates, max_papers=max_papers, output_dir=output_dir / "pdfs", fallback_to_existing=False)
-        selected_candidates = [paper for paper in download_candidates if paper.get("_pdf_path")]
-        if max_papers is not None:
-            selected_candidates = selected_candidates[:max_papers]
-        save_json(output_dir / "selected_candidates.json", selected_candidates)
-        save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
-
-        downloaded_names: set[str] = set()
-        for paper in selected_candidates:
-            if paper.get("_pdf_path"):
-                downloaded_names.add(Path(str(paper["_pdf_path"])).name)
-        if ranked:
-            rows = build_paper_table(ranked, downloaded_names, topic_filter)
-            save_paper_table(rows, output_dir)
         return search_results, selected_pdfs
 
     selected_pdfs = download_papers(accepted, max_papers, output_dir=output_dir / "pdfs")
     save_json(output_dir / "selected_pdfs.json", [str(path) for path in selected_pdfs])
 
-    # Build downloaded PDF names for table matching
-    downloaded_names: set[str] = set()
-    for paper in accepted:
-        if paper.get("_pdf_path"):
-            downloaded_names.add(Path(str(paper["_pdf_path"])).name)
-
-    # Generate paper summary table
     if accepted:
-        rows = build_paper_table(accepted, downloaded_names, topic_filter)
-        save_paper_table(rows, output_dir)
+        save_paper_table(build_paper_table(accepted, topic_filter), output_dir)
 
     return search_results, selected_pdfs
 
@@ -1584,9 +1534,8 @@ def run_discovery(ctx: Any) -> None:
             save_json(ctx.discovery_dir / "selected_candidates.json", selected_candidates)
             pdfs = [Path(str(item.get("_pdf_path"))).resolve() for item in selected_candidates if item.get("_pdf_path")]
             save_json(ctx.discovery_dir / "selected_pdfs.json", [str(path) for path in pdfs])
-            downloaded_names = {path.name for path in pdfs}
-            rows = build_paper_table(ranked, downloaded_names, build_topic_filter(args))
-            save_paper_table(rows, ctx.discovery_dir)
+            final_ranked = _merge_download_status_into_ranked(ranked, selected_candidates)
+            save_paper_table(build_paper_table(final_ranked, build_topic_filter(args)), ctx.discovery_dir)
             write_discovery_summary(
                 ctx.discovery_dir,
                 {
@@ -1614,6 +1563,7 @@ def run_discovery(ctx: Any) -> None:
             topic_filter=build_topic_filter(args),
             ai_prescreen=True,
             screen_only=args.screen_only,
+            table_only=args.table_only,
             screening_state_path=args.screening_state,
             selected_directions=selected_direction_ids(args.selected_directions),
             journal_levels_path=args.journal_levels,
@@ -1631,6 +1581,13 @@ def run_discovery(ctx: Any) -> None:
         ctx.report["screening_state"] = str((ctx.discovery_dir / "screening_state.json").resolve())
         ctx.save_report()
         print(f"\n下载前方向筛选完成：{ctx.discovery_dir / 'screening_state.json'}")
+        return
+    if args.table_only:
+        ctx.report["status"] = "table_completed"
+        ctx.report["completed_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        ctx.report["paper_table"] = str((ctx.discovery_dir / "paper_table.csv").resolve())
+        ctx.save_report()
+        print(f"\n文献汇总表已生成：{ctx.discovery_dir / 'paper_table.csv'}")
         return
     if not selected_pdfs:
         raise RuntimeError("没有可处理的 PDF。请检查检索结果、网络连接，或先放入 PDF 到 input_pdfs。")
@@ -1690,12 +1647,8 @@ def run_discovery(ctx: Any) -> None:
         journal_levels_path=args.journal_levels,
     )
     save_json(ctx.discovery_dir / "scored_candidates.json", ranked)
-    downloaded_names = {
-        Path(str(item.get("_pdf_path") or item.get("pdf_path"))).name
-        for item in selected_candidates
-        if item.get("_pdf_path") or item.get("pdf_path")
-    }
-    save_paper_table(build_paper_table(ranked or selected_candidates, downloaded_names, build_topic_filter(args)), ctx.discovery_dir)
+    final_ranked = _merge_download_status_into_ranked(ranked or selected_candidates, selected_candidates)
+    save_paper_table(build_paper_table(final_ranked, build_topic_filter(args)), ctx.discovery_dir)
     ctx.save_report()
 
     if args.extract_figures_tables:

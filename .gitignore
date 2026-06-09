@@ -7,3 +7,7 @@ __pycache__/
 .DS_Store
 *.log
 literature_showcase/showcase_server.*.log
+
+# Generated pipeline runs and local PDF inputs (keep repo code-focused)
+output/
+input_pdfs/

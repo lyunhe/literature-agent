@@ -657,7 +657,20 @@ def run_card_meta(run: RunRef) -> dict[str, Any]:
     if not isinstance(quality, dict):
         quality = {}
     directions = review.get("directions") if isinstance(review.get("directions"), list) else []
-    paper_count = sum(len(direction.get("papers") or []) for direction in directions if isinstance(direction, dict))
+    corpus = review.get("corpus") if isinstance(review.get("corpus"), dict) else {}
+    paper_count = int(corpus.get("paper_total") or 0)
+    if not paper_count:
+        paper_ids: set[str] = set()
+        for direction in directions:
+            if not isinstance(direction, dict):
+                continue
+            for paper in direction.get("papers") or []:
+                if not isinstance(paper, dict):
+                    continue
+                paper_id = paper.get("id") or paper.get("paper_id") or paper.get("candidate_id")
+                if paper_id:
+                    paper_ids.add(str(paper_id))
+        paper_count = len(paper_ids)
     if not paper_count:
         papers = report.get("papers") if isinstance(report.get("papers"), list) else []
         paper_count = len(papers)

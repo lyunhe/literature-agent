@@ -125,9 +125,10 @@ $env:LITERATURE_SHOWCASE_PORT = "8060"
   -> LLM 扩展英文检索 query
   -> 内置词表 + LLM 扩展 AND/OR/NOT 过滤关键词
   -> 主题过滤与复合主题概念过滤
-  -> 可下载候选验证
-  -> LLM/规则相关性排序
-  -> PDF 下载或本地 PDF 归档
+  -> LLM/规则相关性排序（全部 accepted 候选）
+  -> 生成增强版 paper_table.csv（含中文摘要、DOI/PDF 链接）
+  -> 可选：可下载候选 PDF 验证（--max-candidates）
+  -> 可选：PDF 下载（--max-papers）
   -> PDF 正文提取
   -> LLM/PDF 正文最终方向分类
   -> 可选图表截取
@@ -144,9 +145,11 @@ showcase_export
   -> Flask 页面读取 output/<run_id>/ 展示三层综述
 ```
 
+在线 discovery 的典型顺序为：**检索 → 过滤 → 排序 → 生成 paper_table.csv → 按表内顺序下载 → 更新 paper_table 中的下载状态**；随后可选进行 PDF 验证统计、正文提取与综述。使用 `--table-only` 时会在首次生成 `paper_table.csv` 后停止，便于先人工检查再下载。
+
 ### 阶段说明
 
-- **Discovery**：负责检索、去重、关键词扩展、主题过滤、PDF 下载/复制、正文提取、最终方向分类、图表截取和方向工作区构建。在线模式会先在可下载候选池中进行相关性排序，再选择最终下载论文。
+- **Discovery**：负责检索、去重、关键词扩展、主题过滤、相关性排序、增强版 `paper_table` 导出、PDF 下载/复制、正文提取、最终方向分类、图表截取和方向工作区构建。在线模式下会对**全部通过主题过滤的 accepted 文献**排序并写入表格；`--max-papers` / `--max-candidates` 仅影响表格之后的 PDF 验证与下载阶段。
 - **Reviews**：负责生成单篇论文卡片、方向综述和总体综述。单篇卡片会抽取研究问题、方法、公式、变量、结论、局限和网页展示字段。
 - **Showcase Export**：负责把流水线产物整理为网页统一数据接口，并生成质量报告。
 - **网页工作台**：读取 `three_stage_review.json`，按照“总主题层 -> 方向层 -> 单篇论文层”展示结果，同时提供论文复现入口。
@@ -235,6 +238,22 @@ showcase_export
   --overwrite
 ```
 
+### 只生成文献汇总表（不验证/下载 PDF）
+
+适合先快速查看全部 filtered 文献的中文标题、摘要概括和 PDF/DOI 链接。此模式下 `--max-papers` / `--max-candidates` **不限制** `paper_table.csv` 行数，仅写入 `input_mode.json` 供后续完整运行参考。
+
+```powershell
+.\.venv\Scripts\python.exe analysis_pipeline\unified_literature_pipeline.py `
+  --input-mode online `
+  --topic "储能参与电力市场" `
+  --sources openalex,arxiv `
+  --max-results 20 `
+  --max-papers 10 `
+  --run-parts discovery `
+  --table-only `
+  --overwrite
+```
+
 ### 复用已有 discovery 继续生成 reviews
 
 ```powershell
@@ -255,10 +274,10 @@ showcase_export
 | `--input-mode` | `None` | `online` 在线检索下载；`local` 从 `--pdf-dir` 读取本地 PDF。 |
 | `--sources` | `openalex,arxiv` | 在线检索源，支持 `openalex`、`arxiv`、`ieee`。 |
 | `--max-results` | `5` | 每个查询词在每个来源返回的候选上限。 |
-| `--max-papers` | `1` | 最终进入分析的 PDF 数量上限。 |
+| `--max-papers` | `1` | 最终进入分析的 PDF 数量上限；**不限制** `paper_table.csv` 行数。 |
 | `--year-from` / `--year-to` | `None` | 在线检索的年份范围。 |
 | `--candidate-multiplier` | `2` | 在线模式下，候选池目标数为 `max_papers * candidate_multiplier`。 |
-| `--max-candidates` | `None` | 在线模式下验证可下载 PDF 的最大候选数。 |
+| `--max-candidates` | `None` | 在线模式下验证可下载 PDF 的最大候选数；**不限制** `paper_table.csv` 行数。 |
 | `--require-pdf` | `true` | 在线模式是否只保留已验证可直接下载的 PDF。 |
 | `--compare-sources` | 关闭 | 输出不同检索源的候选、可下载和入选统计。 |
 | `--all-papers` | 关闭 | 处理全部可用或已下载 PDF，常用于本地 PDF 目录。 |
@@ -272,6 +291,7 @@ showcase_export
 | `--reviews-dir` | `None` | 复用已有 `02_reviews` 目录。 |
 | `--extract-figures-tables` | 关闭 | 在 discovery 阶段截取 PDF 图表并生成 manifest。 |
 | `--screen-only` | 关闭 | 只运行到方向预筛，便于人工检查方向划分。 |
+| `--table-only` | 关闭 | 检索、过滤、排序并导出 `paper_table.csv` 后停止；跳过 PDF 验证与下载。 |
 | `--screening-state` | `None` | 复用已有 `screening_state.json`。 |
 | `--selected-directions` | 空字符串 | 只保留指定方向，例如 `D1,D3`。 |
 | `--journal-levels` | `journal_levels.csv` | 期刊等级 CSV，用于辅助排序。 |
@@ -334,7 +354,7 @@ output/<run_id>/
 - `three_stage_review.json`：网页主数据接口，包含 corpus、directions、papers、methods_distribution、evidence、visual_assets 等字段。
 - `quality_report.json`：质量检查报告，检查论文数量、方向数量、D1/D2、公式字段、方法步骤公式引用等。疑似无关论文只作为人工复核提示，不影响整体质量状态。
 - `filter_keyword_expansion.json`：LLM 对过滤关键词的扩展记录，便于追踪为什么某些英文术语参与过滤。
-- `01_discovery/paper_table.csv`：候选与入选论文表，适合人工检查标题、来源、下载状态和相关性。
+- `01_discovery/paper_table.csv`：全部 accepted 候选的汇总表，含中文标题、中文摘要概括、期刊、DOI/PDF 链接、排序分数和下载状态，适合人工检查与手动下载。
 - `01_discovery/figures_tables/`：PDF 图表截取结果，第三层页面会按 caption 自动挑选关键图表辅助讲解。
 - `time_records/timing_summary.csv`：各阶段耗时汇总。
 - `unified_run_report.json`：整次运行的状态、阶段日志、失败原因和输出路径。

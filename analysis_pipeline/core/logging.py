@@ -21,7 +21,11 @@ class TeeWriter:
 
     def write(self, data: str) -> int:
         for writer in self.writers:
-            writer.write(data)
+            try:
+                writer.write(data)
+            except UnicodeEncodeError:
+                encoding = getattr(writer, "encoding", None) or "utf-8"
+                writer.write(data.encode(encoding, errors="replace").decode(encoding))
             writer.flush()
         return len(data)
 

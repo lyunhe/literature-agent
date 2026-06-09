@@ -255,17 +255,81 @@ def _build_corpus_overview_detail(
     return "\n\n".join(unique)
 
 
+def _direction_prefix(folder_name: str) -> str:
+    return folder_name.split("_", 1)[0]
+
+
+def _preferred_direction_folder_names(run_dir: Path) -> set[str]:
+    preferred: set[str] = set()
+    report = _load_json(run_dir / "unified_run_report.json", {})
+    if isinstance(report, dict):
+        for item in _as_list(report.get("directions")):
+            if not isinstance(item, dict):
+                continue
+            outputs = item.get("outputs") if isinstance(item.get("outputs"), dict) else {}
+            for key in ("assigned_papers", "direction_review_md", "direction_review_summary", "paper_cards_dir"):
+                path_text = outputs.get(key)
+                if path_text:
+                    preferred.add(Path(str(path_text)).parent.name)
+                    break
+    if preferred:
+        return preferred
+    payload = _load_json(run_dir / "01_discovery" / "direction_workspace_manifest.json", [])
+    if isinstance(payload, list):
+        for item in payload:
+            try:
+                preferred.add(Path(str(item)).name)
+            except (TypeError, ValueError):
+                continue
+    return preferred
+
+
+def _pick_direction_dir(candidate: Path, existing: Path | None, preferred_names: set[str], prefer_review: bool) -> Path:
+    if existing is None:
+        return candidate
+    if preferred_names:
+        candidate_preferred = candidate.name in preferred_names
+        existing_preferred = existing.name in preferred_names
+        if candidate_preferred and not existing_preferred:
+            return candidate
+        if existing_preferred and not candidate_preferred:
+            return existing
+    if prefer_review:
+        return candidate
+    return existing
+
+
 def _direction_dirs(run_dir: Path) -> list[Path]:
     review_root = run_dir / "02_reviews" / "directions"
     discovery_root = run_dir / "01_discovery" / "directions"
-    names: dict[str, Path] = {}
+    preferred_names = _preferred_direction_folder_names(run_dir)
+    by_prefix: dict[str, Path] = {}
     for root in [discovery_root, review_root]:
         if not root.exists():
             continue
         for path in root.iterdir():
-            if path.is_dir():
-                names[path.name] = path
-    return [names[name] for name in sorted(names)]
+            if not path.is_dir():
+                continue
+            prefix = _direction_prefix(path.name)
+            by_prefix[prefix] = _pick_direction_dir(
+                path,
+                by_prefix.get(prefix),
+                preferred_names,
+                prefer_review=root == review_root,
+            )
+    return [by_prefix[name] for name in sorted(by_prefix)]
+
+
+def _unique_paper_ids(directions: list[dict[str, Any]]) -> set[str]:
+    paper_ids: set[str] = set()
+    for direction in directions:
+        for paper in _as_list(direction.get("papers")):
+            if not isinstance(paper, dict):
+                continue
+            paper_id = _first_text(paper.get("id"), paper.get("paper_id"), paper.get("candidate_id"))
+            if paper_id:
+                paper_ids.add(str(paper_id))
+    return paper_ids
 
 
 def _matching_direction_dir(root: Path, folder_name: str) -> Path:
@@ -1035,7 +1099,8 @@ def build_three_stage_review(run_dir: str | Path) -> dict[str, Any]:
     cross_ids = {str(item.get("direction_id")) for item in cross_blocks if item.get("direction_id")}
     use_cross_plot = bool(cross_plot) and len(directions) > 1 and not (cross_ids - actual_direction_ids)
     years = [paper.get("year") for direction in directions for paper in direction.get("papers", [])]
-    paper_total = sum(int(direction.get("paper_count") or 0) for direction in directions)
+    paper_ids = _unique_paper_ids(directions)
+    paper_total = len(paper_ids) if paper_ids else sum(int(direction.get("paper_count") or 0) for direction in directions)
     methods = _unique_texts(_as_list(corpus_summary.get("cross_direction_method_families")), limit=12)
     gaps = _unique_texts(
         _as_list(corpus_summary.get("cross_direction_gaps_cn"))

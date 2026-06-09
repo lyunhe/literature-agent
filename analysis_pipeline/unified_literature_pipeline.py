@@ -58,6 +58,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reviews-dir", type=Path, default=None, help="Existing 02_reviews directory.")
     parser.add_argument("--extract-figures-tables", action="store_true", help="Extract PDF figures/tables during discovery.")
     parser.add_argument("--screen-only", action="store_true", help="Stop after direction prescreening.")
+    parser.add_argument("--table-only", action="store_true", help="Stop after search, filter, rank, and paper_table export; skip PDF verification and download.")
     parser.add_argument("--screening-state", type=Path, default=None, help="Reuse an existing screening_state.json.")
     parser.add_argument("--selected-directions", default="", help="Comma-separated direction IDs to keep, e.g. D1,D3.")
     parser.add_argument("--journal-levels", type=Path, default=PROJECT_ROOT / "journal_levels.csv", help="Journal level CSV.")
@@ -81,7 +82,7 @@ def main() -> None:
     try:
         if ctx.should_run("discovery"):
             run_discovery(ctx)
-            if args.screen_only:
+            if args.screen_only or args.table_only:
                 return
         else:
             ctx.direction_dirs = load_discovery_direction_dirs(ctx)

@@ -23,6 +23,7 @@ PROMPT_REGISTRY = {
         "11": "01_discovery/11_download_relevance_score.txt",
         "12": "01_discovery/12_single_title_translation.txt",
         "13": "01_discovery/13_filter_keyword_expansion.txt",
+        "14": "01_discovery/14_batch_abstract_summary_cn.txt",
     },
     "reviews": {
         "01": "02_reviews/01_single_paper_lit_card.txt",
@@ -54,6 +55,7 @@ PROMPT_ALIASES = {
     "download_relevance_score": ("discovery", "11"),
     "single_title_translation": ("discovery", "12"),
     "filter_keyword_expansion": ("discovery", "13"),
+    "batch_abstract_summary_cn": ("discovery", "14"),
     "single_paper_lit_card": ("reviews", "01"),
     "enriched_single_by_direction": ("reviews", "01"),
     "direction_literature_review": ("reviews", "02"),
@@ -147,6 +149,7 @@ def assert_prompt_placeholders_resolved(prompt: str) -> None:
             "{top_results_json}",
             "{filter_groups_json}",
             "{max_terms_per_group}",
+            "{abstract_list}",
         ]
         if token in prompt
     ]

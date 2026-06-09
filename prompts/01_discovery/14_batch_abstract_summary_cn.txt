@@ -1,0 +1,14 @@
+# Prompt: Batch abstract summary in Chinese
+# Model: LLM_FLASH_MODEL
+# Input: abstract_list
+# Output: JSON array of Chinese abstract summaries
+
+Summarize the following academic paper abstracts in concise Chinese.
+
+Return ONLY a valid JSON array of strings.
+The array length and order must exactly match the input abstract order.
+Each summary should be 2-4 sentences capturing the main problem, method, and contribution.
+Do not add explanations, Markdown, numbering, or extra fields.
+
+Abstracts:
+{abstract_list}

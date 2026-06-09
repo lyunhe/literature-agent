@@ -1,5 +1,6 @@
 import argparse
 import csv
+import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass, field
@@ -89,10 +90,18 @@ def ensure_dir(path: Path) -> Path:
     return path
 
 
-def safe_stem(name: str) -> str:
+def safe_stem(name: str, max_len: int = 48, parent: Path | None = None) -> str:
     cleaned = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in name.strip())
     cleaned = "_".join(part for part in cleaned.split("_") if part)
-    return cleaned or "pdf"
+    cleaned = cleaned or "pdf"
+    if parent is not None:
+        # Keep nested figure/table paths under Windows MAX_PATH (~260).
+        budget = 250 - len(str(parent.resolve()))
+        max_len = min(max_len, max(24, budget))
+    if len(cleaned) <= max_len:
+        return cleaned
+    digest = hashlib.sha1(cleaned.encode("utf-8")).hexdigest()[:8]
+    return f"{cleaned[: max_len - 9]}_{digest}"
 
 
 def normalize_text(text: str) -> str:
@@ -952,7 +961,7 @@ def extract_from_pdf(
     max_area_ratio: float,
     detect_vector_figures: bool,
 ) -> Path:
-    pdf_name = safe_stem(pdf_path.stem)
+    pdf_name = safe_stem(pdf_path.stem, parent=output_root)
     pdf_output_dir = ensure_dir(output_root / pdf_name)
     figures_dir = ensure_dir(pdf_output_dir / "figures")
     tables_dir = ensure_dir(pdf_output_dir / "tables")
